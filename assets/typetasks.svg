@@ -1,0 +1,97 @@
+<svg width="900" height="350" viewBox="0 0 900 350" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <title>TypeTasks — Flow, Focus &amp; High-Performance Workspace</title>
+  <defs>
+    <linearGradient id="ttBg" x1="20" y1="15" x2="880" y2="335" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#091414"/>
+      <stop offset="0.5" stop-color="#060C0D"/>
+      <stop offset="1" stop-color="#030607"/>
+    </linearGradient>
+    <linearGradient id="ttAccent" x1="0" y1="0" x2="800" y2="0" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#10B981"/>
+      <stop offset="0.5" stop-color="#06B6D4"/>
+      <stop offset="1" stop-color="#3B82F6"/>
+    </linearGradient>
+    <filter id="ttGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="4" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <pattern id="ttGrid" width="24" height="24" patternUnits="userSpaceOnUse">
+      <path d="M 24 0 L 0 0 0 24" fill="none" stroke="#FFFFFF" stroke-opacity="0.02" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <style>
+    .ttPulse { animation: ttP 2.4s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+    @keyframes ttP { 0%,100% { opacity: 0.6; transform: scale(0.9); } 50% { opacity: 1; transform: scale(1.15); } }
+    @media (prefers-reduced-motion: reduce) { .ttPulse { animation: none !important; } }
+  </style>
+
+  <!-- Container -->
+  <rect x="2" y="2" width="896" height="346" rx="24" fill="url(#ttBg)" stroke="#162E2A" stroke-width="2"/>
+  <rect x="2" y="2" width="896" height="346" rx="24" fill="url(#ttGrid)"/>
+
+  <!-- Top Badges -->
+  <rect x="42" y="32" width="200" height="30" rx="15" fill="#0C241E" stroke="#059669" stroke-width="1.2"/>
+  <circle class="ttPulse" cx="59" cy="47" r="4.5" fill="#10B981" filter="url(#ttGlow)"/>
+  <text x="73" y="52" fill="#6EE7B7" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="800" letter-spacing="1.5">FLOW WORKSPACE</text>
+
+  <!-- Live Deployment Link Pill -->
+  <rect x="670" y="30" width="186" height="32" rx="16" fill="#061E23" stroke="#0891B2" stroke-width="1.2"/>
+  <circle class="ttPulse" cx="688" cy="46" r="4" fill="#06B6D4"/>
+  <text x="702" y="51" fill="#67E8F9" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="800" letter-spacing="1">LIVE ON VERCEL ↗</text>
+
+  <!-- Title & Description -->
+  <g transform="translate(42, 78)">
+    <text x="0" y="44" fill="#F8FAFC" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="38" font-weight="900" letter-spacing="-0.5">TypeTasks</text>
+    <text x="0" y="74" fill="#34D399" font-family="'JetBrains Mono', monospace" font-size="14.5" font-weight="800" letter-spacing="1.5">CALM · LOCAL-FIRST · KEYBOARD-DRIVEN FOCUS ENGINE</text>
+    
+    <text x="0" y="106" fill="#94A3B8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="14.5" font-weight="500">
+      <tspan x="0" dy="0">Ultra-fast keyboard-first task workspace built on a custom typed task engine.</tspan>
+      <tspan x="0" dy="22">Engineered for zero-distraction deep flow, instant friction-free capture, and rapid execution.</tspan>
+    </text>
+
+    <!-- Key Shortcuts & UI Pill Indicators -->
+    <g transform="translate(0, 154)">
+      <rect x="0" y="0" width="140" height="34" rx="10" fill="#0E211D" stroke="#059669"/>
+      <text x="14" y="21" fill="#A7F3D0" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="800">⌘K Command Hub</text>
+
+      <rect x="150" y="0" width="130" height="34" rx="10" fill="#0A2227" stroke="#0891B2"/>
+      <text x="14" y="21" fill="#A5F3FC" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="800" transform="translate(150,0)">J/K Flow Nav</text>
+
+      <rect x="290" y="0" width="135" height="34" rx="10" fill="#0C1B33" stroke="#2563EB"/>
+      <text x="14" y="21" fill="#BFDBFE" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="800" transform="translate(290,0)">Space Toggle</text>
+
+      <rect x="435" y="0" width="150" height="34" rx="10" fill="#1C182E" stroke="#7C3AED"/>
+      <text x="14" y="21" fill="#DDD6FE" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="800" transform="translate(435,0)">⚡ 0ms UI Latency</text>
+    </g>
+  </g>
+
+  <!-- Right Visual: Mini Keyboard-First Card -->
+  <g transform="translate(640, 96)">
+    <rect x="0" y="0" width="216" height="180" rx="14" fill="#04090A" stroke="#162E2A" stroke-width="1.5"/>
+    <rect x="0" y="0" width="216" height="26" rx="14" fill="#0A1817"/>
+    <rect x="0" y="14" width="216" height="12" fill="#0A1817"/>
+    <text x="12" y="17" fill="#64748B" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="700">ENGINE: TYPETASKS_V1</text>
+    <circle cx="202" cy="13" r="3.5" fill="#10B981"/>
+
+    <g transform="translate(12, 42)" font-family="'JetBrains Mono', monospace" font-size="11">
+      <text y="0" fill="#34D399">✔ [1] System VFS Core</text>
+      <text y="20" fill="#67E8F9">❯ [2] Deep Flow Mode <tspan fill="#F59E0B">●</tspan></text>
+      <text y="40" fill="#64748B">  [3] Offline SQLite sync</text>
+      <text y="60" fill="#64748B">  [4] Keyboard shortcuts</text>
+      
+      <line x1="0" y1="76" x2="192" y2="76" stroke="#162E2A" stroke-width="1"/>
+      <text y="94" fill="#94A3B8" font-size="9.5">TYPED STATE: SYNCHRONIZED</text>
+      <text y="110" fill="#10B981" font-size="9.5">> typetask-nine.vercel.app</text>
+    </g>
+  </g>
+
+  <!-- Bottom Line -->
+  <line x1="42" y1="310" x2="856" y2="310" stroke="#162E2A" stroke-width="1"/>
+  <text x="42" y="331" fill="#64748B" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="700">
+    STACK: <tspan fill="#34D399">TypeScript</tspan> · <tspan fill="#67E8F9">React + Vite</tspan> · <tspan fill="#38BDF8">Tailwind CSS</tspan> · <tspan fill="#A7F3D0">Local-First Storage</tspan>
+  </text>
+  <text x="856" y="331" text-anchor="end" fill="#34D399" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="800">
+    GITHUB.COM/TACE-X/TYPETASKS →
+  </text>
+</svg>

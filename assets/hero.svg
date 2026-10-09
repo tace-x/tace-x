@@ -1,22 +1,27 @@
 <svg width="1000" height="520" viewBox="0 0 1000 520" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <title>DEV IMMANUEL MELBIN — Software, AI and Automation</title>
-  <desc>An animated developer profile hero showing Immanuel Melbin's focus on software, AI, automation and real-world digital products.</desc>
+  <title>IMMANUEL MELBIN (@tace-x) — Systems, AI &amp; Product Engineering</title>
+  <desc>Developer profile hero for Immanuel Melbin (@tace-x), building native systems, AI platforms, and high-performance digital products.</desc>
   <defs>
     <linearGradient id="panel" x1="40" y1="20" x2="960" y2="500" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#0D1117"/>
-      <stop offset="0.55" stop-color="#070B10"/>
-      <stop offset="1" stop-color="#05070A"/>
+      <stop stop-color="#0B0F17"/>
+      <stop offset="0.45" stop-color="#070A0F"/>
+      <stop offset="1" stop-color="#030508"/>
     </linearGradient>
     <linearGradient id="line" x1="55" y1="0" x2="945" y2="0" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#22C55E" stop-opacity="0"/>
-      <stop offset="0.24" stop-color="#22C55E"/>
-      <stop offset="0.68" stop-color="#38BDF8"/>
-      <stop offset="1" stop-color="#6366F1" stop-opacity="0"/>
+      <stop stop-color="#10B981" stop-opacity="0"/>
+      <stop offset="0.2" stop-color="#10B981"/>
+      <stop offset="0.5" stop-color="#06B6D4"/>
+      <stop offset="0.8" stop-color="#6366F1"/>
+      <stop offset="1" stop-color="#8B5CF6" stop-opacity="0"/>
     </linearGradient>
-    <radialGradient id="orb" cx="0" cy="0" r="1" gradientTransform="translate(786 231) rotate(90) scale(177)" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#38BDF8" stop-opacity="0.18"/>
-      <stop offset="0.48" stop-color="#22C55E" stop-opacity="0.06"/>
-      <stop offset="1" stop-color="#05070A" stop-opacity="0"/>
+    <linearGradient id="accentGlow" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#06B6D4"/>
+      <stop offset="1" stop-color="#10B981"/>
+    </linearGradient>
+    <radialGradient id="orb" cx="0" cy="0" r="1" gradientTransform="translate(786 231) rotate(90) scale(185)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#06B6D4" stop-opacity="0.22"/>
+      <stop offset="0.5" stop-color="#10B981" stop-opacity="0.08"/>
+      <stop offset="1" stop-color="#030508" stop-opacity="0"/>
     </radialGradient>
     <filter id="softGlow" x="-100%" y="-100%" width="300%" height="300%">
       <feGaussianBlur stdDeviation="5" result="blur"/>
@@ -26,7 +31,7 @@
       <feGaussianBlur stdDeviation="22"/>
     </filter>
     <pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
-      <path d="M 32 0 L 0 0 0 32" fill="none" stroke="#FFFFFF" stroke-opacity="0.025" stroke-width="1"/>
+      <path d="M 32 0 L 0 0 0 32" fill="none" stroke="#FFFFFF" stroke-opacity="0.03" stroke-width="1"/>
     </pattern>
     <clipPath id="panelClip"><rect x="2" y="2" width="996" height="516" rx="32"/></clipPath>
   </defs>
@@ -57,55 +62,67 @@
     }
   </style>
 
-  <rect x="2" y="2" width="996" height="516" rx="32" fill="url(#panel)" stroke="#30363D" stroke-width="2"/>
+  <!-- Frame Background -->
+  <rect x="2" y="2" width="996" height="516" rx="32" fill="url(#panel)" stroke="#222B38" stroke-width="2"/>
   <g clip-path="url(#panelClip)">
     <rect x="2" y="2" width="996" height="516" fill="url(#grid)"/>
     <circle cx="786" cy="231" r="210" fill="url(#orb)"/>
-    <circle cx="850" cy="128" r="94" fill="#6366F1" fill-opacity="0.05" filter="url(#bigGlow)"/>
-    <rect class="scanner" x="0" y="62" width="210" height="320" fill="url(#line)" opacity="0.2"/>
+    <circle cx="850" cy="128" r="94" fill="#6366F1" fill-opacity="0.06" filter="url(#bigGlow)"/>
+    <rect class="scanner" x="0" y="62" width="210" height="320" fill="url(#line)" opacity="0.22"/>
   </g>
 
-  <circle cx="56" cy="48" r="5" fill="#22C55E" filter="url(#softGlow)"/>
-  <text x="72" y="54" fill="#8B949E" font-family="monospace" font-size="16" font-weight="600" letter-spacing="2">IMMANUEL.DEV / BUILD MODE</text>
-  <rect x="806" y="30" width="138" height="34" rx="17" fill="#0F2418" stroke="#238636"/>
-  <circle class="pulse" cx="826" cy="47" r="5" fill="#22C55E"/>
-  <text x="840" y="52" fill="#A7F3D0" font-family="monospace" font-size="13" font-weight="700" letter-spacing="1.5">BUILDING</text>
-  <path d="M56 82H944" stroke="url(#line)" stroke-width="2"/>
+  <!-- Top Bar -->
+  <circle cx="56" cy="48" r="5" fill="#10B981" filter="url(#softGlow)"/>
+  <text x="72" y="54" fill="#94A3B8" font-family="'JetBrains Mono', 'Fira Code', monospace" font-size="14" font-weight="700" letter-spacing="2">TACE-X // ARCHITECT CONSOLE</text>
+  
+  <rect x="770" y="32" width="174" height="32" rx="16" fill="#0A2218" stroke="#059669" stroke-width="1.2"/>
+  <circle class="pulse" cx="788" cy="48" r="5" fill="#10B981"/>
+  <text x="802" y="53" fill="#6EE7B7" font-family="'JetBrains Mono', 'Fira Code', monospace" font-size="12" font-weight="800" letter-spacing="1.5">LIVE &amp; SHIPPING</text>
+  <path d="M56 82H944" stroke="url(#line)" stroke-width="1.5"/>
 
-  <text x="56" y="139" fill="#22C55E" font-family="monospace" font-size="18" font-weight="700" letter-spacing="4">DEV</text>
-  <text x="52" y="211" fill="#F0F6FC" font-family="sans-serif" font-size="65" font-weight="800">IMMANUEL</text>
-  <text x="52" y="277" fill="#F0F6FC" font-family="sans-serif" font-size="65" font-weight="800">MELBIN</text>
-  <text x="56" y="319" fill="#38BDF8" font-family="monospace" font-size="19" font-weight="700" letter-spacing="2.4">SOFTWARE  •  AI  •  AUTOMATION</text>
-  <text x="56" y="356" fill="#B7C0CC" font-family="sans-serif" font-size="20" font-weight="500">Building systems and digital products for real-world workflows.</text>
+  <!-- Identity Block -->
+  <text x="56" y="132" fill="#10B981" font-family="'JetBrains Mono', monospace" font-size="15" font-weight="800" letter-spacing="4">SYSTEMS  •  AI  •  PRODUCT</text>
+  <text x="52" y="202" fill="#F8FAFC" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="62" font-weight="900" letter-spacing="-1">IMMANUEL</text>
+  <text x="52" y="266" fill="#F8FAFC" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="62" font-weight="900" letter-spacing="-1">MELBIN</text>
+  <text x="56" y="306" fill="#38BDF8" font-family="'JetBrains Mono', monospace" font-size="17" font-weight="700" letter-spacing="2">RUST  •  TYPESCRIPT  •  AI REASONING  •  PTY</text>
+  <text x="56" y="344" fill="#94A3B8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="500">Low-level terminal cockpits, high-stakes decision AI, and ultra-responsive workspaces.</text>
 
-  <g opacity="0.94">
-    <circle cx="803" cy="218" r="72" fill="#090E14" stroke="#38BDF8" stroke-opacity="0.32"/>
-    <circle cx="803" cy="218" r="49" fill="#0C131A" stroke="#22C55E" stroke-opacity="0.28" stroke-dasharray="4 7"/>
-    <path class="dash" d="M803 146C871 146 905 184 905 218C905 272 861 309 803 309" stroke="#38BDF8" stroke-opacity="0.55" stroke-width="2"/>
-    <path class="dash" d="M803 290C735 290 701 252 701 218C701 164 745 127 803 127" stroke="#22C55E" stroke-opacity="0.48" stroke-width="2"/>
-    <circle cx="803" cy="218" r="25" fill="#101A22" stroke="#58A6FF"/>
-    <text x="803" y="224" text-anchor="middle" fill="#E6EDF3" font-family="monospace" font-size="15" font-weight="800">BUILD</text>
-    <circle class="pulse pulse-b" cx="803" cy="127" r="6" fill="#38BDF8" filter="url(#softGlow)"/>
-    <circle class="pulse pulse-c" cx="905" cy="218" r="6" fill="#6366F1" filter="url(#softGlow)"/>
-    <circle class="pulse" cx="803" cy="309" r="6" fill="#22C55E" filter="url(#softGlow)"/>
-    <circle class="pulse pulse-b" cx="701" cy="218" r="6" fill="#38BDF8" filter="url(#softGlow)"/>
-    <text x="803" y="109" text-anchor="middle" fill="#8B949E" font-family="monospace" font-size="11" font-weight="700">AI</text>
-    <text x="928" y="222" fill="#8B949E" font-family="monospace" font-size="11" font-weight="700">API</text>
-    <text x="803" y="336" text-anchor="middle" fill="#8B949E" font-family="monospace" font-size="11" font-weight="700">DATA</text>
-    <text x="670" y="222" text-anchor="end" fill="#8B949E" font-family="monospace" font-size="11" font-weight="700">UI</text>
+  <!-- Interactive Telemetry Radar -->
+  <g opacity="0.96">
+    <circle cx="803" cy="222" r="76" fill="#070D14" stroke="#0284C7" stroke-opacity="0.35"/>
+    <circle cx="803" cy="222" r="52" fill="#081018" stroke="#10B981" stroke-opacity="0.32" stroke-dasharray="4 7"/>
+    <path class="dash" d="M803 146C871 146 905 184 905 222C905 276 861 313 803 313" stroke="#38BDF8" stroke-opacity="0.65" stroke-width="2"/>
+    <path class="dash" d="M803 298C735 298 701 260 701 222C701 168 745 131 803 131" stroke="#10B981" stroke-opacity="0.55" stroke-width="2"/>
+    <circle cx="803" cy="222" r="26" fill="#0C1929" stroke="#38BDF8" stroke-width="1.5"/>
+    <text x="803" y="228" text-anchor="middle" fill="#E2E8F0" font-family="'JetBrains Mono', monospace" font-size="13" font-weight="800">EXEC</text>
+    
+    <!-- Satellites -->
+    <circle class="pulse pulse-b" cx="803" cy="131" r="6" fill="#38BDF8" filter="url(#softGlow)"/>
+    <circle class="pulse pulse-c" cx="905" cy="222" r="6" fill="#818CF8" filter="url(#softGlow)"/>
+    <circle class="pulse" cx="803" cy="313" r="6" fill="#10B981" filter="url(#softGlow)"/>
+    <circle class="pulse pulse-b" cx="701" cy="222" r="6" fill="#F59E0B" filter="url(#softGlow)"/>
+    
+    <text x="803" y="113" text-anchor="middle" fill="#94A3B8" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="800">RUST</text>
+    <text x="926" y="226" fill="#94A3B8" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="800">AI / NIM</text>
+    <text x="803" y="339" text-anchor="middle" fill="#94A3B8" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="800">WEB / TS</text>
+    <text x="672" y="226" text-anchor="end" fill="#94A3B8" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="800">PTY / CLI</text>
   </g>
 
-  <rect x="56" y="393" width="888" height="72" rx="16" fill="#0A1016" stroke="#212A35"/>
-  <rect x="56" y="393" width="5" height="72" rx="2.5" fill="url(#line)"/>
-  <text x="82" y="436" fill="#22C55E" font-family="monospace" font-size="23" font-weight="800">›</text>
-  <g fill="#DDE6F0" font-family="monospace" font-size="22" font-weight="600">
-    <text class="statement s1" x="110" y="436" opacity="1">Building software for real workflows.</text>
-    <text class="statement s2" x="110" y="436" opacity="0">Engineering intelligent automation.</text>
-    <text class="statement s3" x="110" y="436" opacity="0">Exploring AI-powered product systems.</text>
-    <text class="statement s4" x="110" y="436" opacity="0">Currently building KALVI CHAT.</text>
-    <text class="statement s5" x="110" y="436" opacity="0">Turning ideas into working products.</text>
+  <!-- Live Console Stream Ticker -->
+  <rect x="56" y="386" width="888" height="74" rx="16" fill="#080E17" stroke="#1E293B" stroke-width="1.5"/>
+  <rect x="56" y="386" width="5" height="74" rx="2.5" fill="url(#line)"/>
+  <text x="80" y="430" fill="#10B981" font-family="'JetBrains Mono', monospace" font-size="22" font-weight="900">›</text>
+  <g fill="#E2E8F0" font-family="'JetBrains Mono', monospace" font-size="19" font-weight="600">
+    <text class="statement s1" x="108" y="430" opacity="1">Crafting TerminalVision: Native Rust file cockpit &amp; live PTY.</text>
+    <text class="statement s2" x="108" y="430" opacity="0">Architecting Project Alpha: High-stakes AI decision intelligence.</text>
+    <text class="statement s3" x="108" y="430" opacity="0">Shipping TypeTasks: Keyboard-first high-performance workspace.</text>
+    <text class="statement s4" x="108" y="430" opacity="0">Engineering NO CAP: Social rumour verification desk + Gemma 4.</text>
+    <text class="statement s5" x="108" y="430" opacity="0">Architecting local-first, zero-bloat developer tools.</text>
   </g>
-  <text x="918" y="437" text-anchor="end" fill="#586574" font-family="monospace" font-size="12" font-weight="700" letter-spacing="1.5">01 / PRODUCT ENGINEERING</text>
-  <path d="M56 489H944" stroke="#21262D"/>
-  <text x="56" y="505" fill="#586574" font-family="monospace" font-size="11" font-weight="600" letter-spacing="1.4">THINK → DESIGN → BUILD → TEST → SHIP → IMPROVE</text>
+  <text x="918" y="430" text-anchor="end" fill="#475569" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="800" letter-spacing="1.5">FEED: LIVE</text>
+  
+  <!-- Telemetry Baseline -->
+  <path d="M56 484H944" stroke="#1E293B"/>
+  <text x="56" y="502" fill="#64748B" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="700" letter-spacing="1.5">ENGINEERING ETHOS: SHIP HONEST CODE  •  RESPECT THE THREAD  •  ELIMINATE LATENCY</text>
+  <text x="944" y="502" text-anchor="end" fill="#10B981" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="800" letter-spacing="1">GITHUB.COM/TACE-X</text>
 </svg>

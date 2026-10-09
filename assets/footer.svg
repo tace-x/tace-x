@@ -1,18 +1,30 @@
 <svg width="900" height="140" viewBox="0 0 900 140" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <title>DEV IMMANUEL MELBIN — build what matters</title>
-  <desc>A subtle animated footer for the developer profile.</desc>
+  <title>IMMANUEL MELBIN (@tace-x) — Build What Matters</title>
   <defs>
-    <linearGradient id="bg" x1="20" y1="12" x2="880" y2="128" gradientUnits="userSpaceOnUse"><stop stop-color="#0D1117"/><stop offset="1" stop-color="#05070A"/></linearGradient>
-    <linearGradient id="line" x1="54" y1="0" x2="846" y2="0" gradientUnits="userSpaceOnUse"><stop stop-color="#22C55E" stop-opacity="0"/><stop offset="0.3" stop-color="#22C55E"/><stop offset="0.68" stop-color="#38BDF8"/><stop offset="1" stop-color="#6366F1" stop-opacity="0"/></linearGradient>
+    <linearGradient id="bg" x1="20" y1="12" x2="880" y2="128" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0B0F17"/><stop offset="1" stop-color="#04060A"/>
+    </linearGradient>
+    <linearGradient id="line" x1="54" y1="0" x2="846" y2="0" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#10B981" stop-opacity="0"/>
+      <stop offset="0.25" stop-color="#10B981"/>
+      <stop offset="0.5" stop-color="#38BDF8"/>
+      <stop offset="0.75" stop-color="#818CF8"/>
+      <stop offset="1" stop-color="#C084FC" stop-opacity="0"/>
+    </linearGradient>
+    <filter id="glow" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
   </defs>
   <style>
-    .dash{stroke-dasharray:8 12;animation:flow 8s linear infinite}.dot{animation:pulse 2.8s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
-    @keyframes flow{to{stroke-dashoffset:-160}}@keyframes pulse{0%,100%{transform:scale(.75);opacity:.55}50%{transform:scale(1.25);opacity:1}}
-    @media(prefers-reduced-motion:reduce){.dash,.dot{animation:none!important}}
+    .dash { stroke-dasharray: 8 12; animation: flow 8s linear infinite; }
+    .dot { animation: pulse 2.6s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+    @keyframes flow { to { stroke-dashoffset: -160; } }
+    @keyframes pulse { 0%,100% { transform: scale(.75); opacity: .55; } 50% { transform: scale(1.25); opacity: 1; } }
+    @media (prefers-reduced-motion: reduce) { .dash, .dot { animation: none !important; } }
   </style>
-  <rect x="1" y="1" width="898" height="138" rx="25" fill="url(#bg)" stroke="#30363D" stroke-width="2"/>
+  <rect x="1" y="1" width="898" height="138" rx="25" fill="url(#bg)" stroke="#1E293B" stroke-width="2"/>
   <path class="dash" d="M54 32H846" stroke="url(#line)" stroke-width="2"/>
-  <circle class="dot" cx="450" cy="32" r="5" fill="#38BDF8"/>
-  <text x="450" y="81" text-anchor="middle" fill="#F0F6FC" font-family="sans-serif" font-size="28" font-weight="800" letter-spacing="1.5">BUILD WHAT MATTERS.</text>
-  <text x="450" y="111" text-anchor="middle" fill="#738091" font-family="monospace" font-size="12" font-weight="700" letter-spacing="1.6">DEV IMMANUEL MELBIN  /  JINMELKUNNATH-ALT</text>
+  <circle class="dot" cx="450" cy="32" r="5" fill="#38BDF8" filter="url(#glow)"/>
+  <text x="450" y="80" text-anchor="middle" fill="#F8FAFC" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="28" font-weight="900" letter-spacing="2">BUILD WHAT MATTERS.</text>
+  <text x="450" y="110" text-anchor="middle" fill="#64748B" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="700" letter-spacing="2">IMMANUEL MELBIN  //  GITHUB.COM/TACE-X</text>
 </svg>

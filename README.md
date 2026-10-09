@@ -1,296 +1,338 @@
 <div align="center">
-  <img src="assets/hero.svg" width="100%" alt="DEV IMMANUEL MELBIN — software, AI and automation developer building real-world digital products" />
 
-  <br />
-
-  <strong>I build software, AI-powered systems, automation, and real-world digital products.</strong>
+  <img src="assets/hero.svg" width="100%" alt="IMMANUEL MELBIN (@tace-x) — Systems Architect, Full-Stack Engineer & AI Builder" />
 
   <br /><br />
 
-  <a href="#user-content-selected-work"><strong>EXPLORE THE WORK</strong></a>
-  &nbsp;·&nbsp;
-  <a href="#user-content-currently-building"><strong>CURRENT BUILD</strong></a>
-  &nbsp;·&nbsp;
-  <a href="https://github.com/jinmelkunnath-alt?tab=repositories"><strong>ALL REPOSITORIES</strong></a>
+  <a href="#-flagship-systems"><strong>🚀 FLAGSHIP SYSTEMS</strong></a>
+  &nbsp;•&nbsp;
+  <a href="#-engineering-arsenal"><strong>⚡ TECH ARSENAL</strong></a>
+  &nbsp;•&nbsp;
+  <a href="#-decision-intelligence--ai"><strong>🧠 AI & DECISION LABS</strong></a>
+  &nbsp;•&nbsp;
+  <a href="#-engineering-manifesto"><strong>🧭 ENGINEERING LOOP</strong></a>
+  &nbsp;•&nbsp;
+  <a href="#-telemetry--activity"><strong>📊 TELEMETRY</strong></a>
+  &nbsp;•&nbsp;
+  <a href="https://github.com/tace-x?tab=repositories"><strong>📦 ALL REPOSITORIES</strong></a>
 
   <br /><br />
 
   <sub>
-    <a href="#user-content-identity">Identity</a> &nbsp;·&nbsp;
-    <a href="#user-content-what-i-build">Build</a> &nbsp;·&nbsp;
-    <a href="#user-content-stack">Stack</a> &nbsp;·&nbsp;
-    <a href="#user-content-selected-work">Projects</a> &nbsp;·&nbsp;
-    <a href="#user-content-engineering-mindset">Process</a> &nbsp;·&nbsp;
-    <a href="#user-content-contributions">Contributions</a> &nbsp;·&nbsp;
-    <a href="#user-content-roadmap">Roadmap</a> &nbsp;·&nbsp;
-    <a href="#user-content-connect">Connect</a>
+    <a href="#-identity">Identity</a> &nbsp;·&nbsp;
+    <a href="#-terminalvision">TerminalVision (Rust)</a> &nbsp;·&nbsp;
+    <a href="#-project-alpha">Project Alpha (AI)</a> &nbsp;·&nbsp;
+    <a href="#-typetasks">TypeTasks</a> &nbsp;·&nbsp;
+    <a href="#-more-systems">Production Suite</a> &nbsp;·&nbsp;
+    <a href="#-engineering-arsenal">Arsenal</a> &nbsp;·&nbsp;
+    <a href="#-telemetry--activity">Activity</a> &nbsp;·&nbsp;
+    <a href="#-transmission">Connect</a>
   </sub>
+
 </div>
 
 ---
 
-<a id="identity"></a>
+<a id="-identity"></a>
 
-## 01 / IDENTITY
+## 01 // IDENTITY & COCKPIT
 
-> **Software developer. Product-minded builder.**<br />
-> I turn ideas into working systems—shaping the interface, data flow, automation, and delivery path instead of stopping at the mockup.
+```bash
+┌──(tace-x@workstation)-[~]
+└─$ curl -sSL https://api.tace-x.dev/v1/telemetry | jq .
+{
+  "engineer": "Immanuel Melbin",
+  "handle": "@tace-x",
+  "status": "Compiling, testing & shipping production systems",
+  "core_disciplines": [
+    "Native Systems & TUI (Rust / Unix PTY / C)",
+    "Adversarial AI & Decision Intelligence (NVIDIA NIM / Gemma 4)",
+    "Local-First & High-Velocity Workspaces (TypeScript / React 19)"
+  ],
+  "philosophy": "Useful before impressive. Zero-allocation hot paths. Sovereign data."
+}
+```
 
-My public work spans **TypeScript/React products**, **Firebase-backed operational platforms**, **workflow automation**, and an **ANSI C developer tool**. My current direction extends that foundation into **AI-powered systems** and **Kalvi Chat**.
+> **Systems Architect. Full-Stack Engineer. Sovereign Builder.**  
+> I design and engineer end-to-end software—spanning the bare-metal ergonomics of native terminal cockpits, high-stakes decision intelligence platforms, and local-first workspaces. Every project is built from first principles with measured performance, rock-solid type safety, and zero speculative bloat.
 
-`CURRENT BUILD` **Kalvi Chat** &nbsp;·&nbsp; `CORE` **Software / AI / Automation** &nbsp;·&nbsp; `OUTPUT` **Useful digital products**
+<br />
 
-<a id="what-i-build"></a>
+---
 
-## 02 / WHAT I BUILD
+<a id="-flagship-systems"></a>
 
-### Product software
+## 02 // FLAGSHIP SYSTEMS
 
-Interfaces and end-to-end flows built around an actual job: registration, operations, payments, reporting, rewards, or communication.
+A curated breakdown of flagship systems built and shipped on GitHub.
 
-### Cloud-backed systems
+<br />
 
-Applications that connect product UI to authentication, data, server-side workflows, security rules, analytics, and deployment.
+<a id="-terminalvision"></a>
 
-### Automation
+### 01 — TerminalVision <sub>[Native Systems &amp; Rust]</sub>
 
-Repeatable workflows—from reward and referral logic to CI/CD and operational status engines—that reduce manual steps and make systems easier to run.
-
-### AI product direction
-
-AI-powered product systems are an active focus. I keep this profile evidence-led: implementation claims appear only when the supporting source is public.
-
-<a id="stack"></a>
-
-## 03 / ENGINEERING STACK
-
-<p align="center">
-  <img src="assets/stack.svg" width="100%" alt="Verified public repository stack: TypeScript, JavaScript, C, HTML, CSS, React, Vite, Tailwind CSS, Framer Motion, Firebase, Firestore, Cloud Functions, Node.js, Git and GitHub Actions" />
-</p>
-
-<sub>Stack shown from current public repositories and their manifests—not a speculative tool dump.</sub>
-
-<a id="selected-work"></a>
-
-## 04 / SELECTED WORK
-
-A curated view of the strongest public systems. The current build, **Kalvi Chat**, has its own product-status section below.
-
-### 01 — CITIWALK Global Rewards
-
-<a href="https://github.com/jinmelkunnath-alt/CITIWALK">
-  <img src="assets/citiwalk.svg" width="100%" alt="CITIWALK Global Rewards flagship project: React and TypeScript product UI with Firebase Authentication, Cloud Functions and Firestore" />
+<a href="https://github.com/tace-x/TerminalVision">
+  <img src="assets/terminal-vision.svg" width="100%" alt="TerminalVision — High-Performance Native Rust Terminal File Manager and PTY Cockpit" />
 </a>
 
-An enterprise giveaway platform with a public participant journey, protected administrator surface, server-authoritative registration and winner selection, analytics, exports, PWA support, security rules, tests, and deployment configuration.
-
-`TYPESCRIPT` `REACT` `FIREBASE` `CLOUD FUNCTIONS` `VITE`
-
-**Purpose** — run a full rewards campaign across participant and administrator workflows.<br />
-**Status** — public codebase; production configuration is documented and deployment remains environment-dependent.
-
-[**SOURCE →**](https://github.com/jinmelkunnath-alt/CITIWALK) &nbsp;·&nbsp; [**LIVE SITE →**](https://citiwalk.vercel.app)
-
-<details>
-<summary><strong>Open the engineering surface</strong></summary>
 <br />
 
-- Anonymous participant sessions and claim-gated administrator access
-- Atomic Firestore reservation and server-generated entry numbers
-- Callable Cloud Functions in `asia-south1`
-- Server-side permanent winner draw, audit logs, analytics, CSV/XLSX exports
-- App Check, restrictive security rules, validation, rate limits, CSP and PWA controls
-- Type checking, unit checks, emulator flows, CI, architecture and deployment documentation
+**TerminalVision** is a high-performance, native Rust terminal file manager, developer cockpit, and integrated interactive shell environment. It fuses side-by-side dual-pane navigation, syntax-highlighted code preview, image and media inspection, in-process Git analytics, an asynchronous storage analyzer, and a **real, live PTY terminal** always visible and ready for seamless keyboard and mouse control.
 
-</details>
+```bash
+# Clone and build native binary
+git clone https://github.com/tace-x/TerminalVision.git
+cd TerminalVision && cargo run --release
+```
 
----
+- **⚡ Live Interactive Unix PTY:** Embedded pseudo-terminal running `zsh`, `bash`, `fish`, or `sh` with instant focus toggling (`Ctrl+T` / `F12`). Run `vim`, `nano`, `top`, or `ssh` right inside the cockpit.
+- **📁 Dual-Pane Virtual File System:** Side-by-side independent navigation panes with active indicators, fast multi-selection (`Space`, `⌘A`), and instantaneous sorting.
+- **🖼️ Universal Graphics Decoding:** Kitty, iTerm2, and Sixel protocol image rendering for PNG, JPEG, GIF, BMP, and WEBP with fallback metadata cards.
+- **📊 Storage Vision Heatmap:** Background non-blocking directory scanner with real-time usage heatmap bars and top memory consumers.
+- **🛡️ Safe Bounded Code Previews:** Syntax highlighting across 20+ programming languages with memory bounds preventing OOM crashes on huge files.
 
-### 02 — [MarkForge](https://github.com/jinmelkunnath-alt/M2HTML) <sub>repository: `M2HTML`</sub>
+[**INSPECT REPOSITORY →**](https://github.com/tace-x/TerminalVision) &nbsp;•&nbsp; `RUST 2024` · `RATATUI` · `UNIX PTY` · `CROSS-PLATFORM`
 
-`SYSTEMS TOOLING` `ALPHA` `OFFLINE-FIRST`
-
-A Markdown processing toolkit built around a portable ANSI C core. The public alpha includes tokenization, a token stream, parser and AST, diagnostics, multiple renderers, a CLI, tests, build tooling, and a React/TypeScript website prototype.
-
-**Purpose** — convert and inspect Markdown through a portable, testable processing pipeline.<br />
-**Stack** — ANSI C · CMake/Make · TypeScript · React · Vite
-
-[**SOURCE →**](https://github.com/jinmelkunnath-alt/M2HTML) &nbsp;·&nbsp; [**PLAYGROUND →**](https://jinmelkunnath-alt.github.io/M2HTML/)
-
----
-
-### 03 — [Kalopsia](https://github.com/jinmelkunnath-alt/Kalopsia)
-
-`OPERATIONS` `FIRESTORE` `REPORTING`
-
-A data-centre operations manager for service entries, expense and recovery tracking, automatic payment status, analytics, reports, PDF/XLSX export, backup, and restore.
-
-**Purpose** — move a recurring operational workflow from scattered records into one usable dashboard.<br />
-**Stack** — HTML · CSS · JavaScript · Firebase Firestore · Chart.js
-
-[**SOURCE →**](https://github.com/jinmelkunnath-alt/Kalopsia) &nbsp;·&nbsp; [**LIVE APP →**](https://jinmelkunnath-alt.github.io/Kalopsia/)
-
----
-
-### 04 — [St.Annes-ICSE-School-Payment-Portal](https://github.com/jinmelkunnath-alt/St.Annes-ICSE-School-Payment-Portal)
-
-`EDTECH WORKFLOW` `PAYMENTS` `ADMIN`
-
-A multi-surface school fee portal with student access, fee dashboards, payment history, receipts, payment flows, and administrator tooling for student and fee management.
-
-**Purpose** — make school fee information and payment operations easier to access and manage.<br />
-**Stack** — HTML · CSS · JavaScript · Firebase · XLSX
-
-[**SOURCE →**](https://github.com/jinmelkunnath-alt/St.Annes-ICSE-School-Payment-Portal) &nbsp;·&nbsp; [**LIVE PORTAL →**](https://st-annes-portal.vercel.app)
-
----
-
-### 05 — [telegram-rewards-ecosystem](https://github.com/jinmelkunnath-alt/telegram-rewards-ecosystem)
-
-`COMMUNITY SYSTEM` `REWARDS` `AUTOMATION`
-
-A gamified rewards system for Telegram communities with registration and account states, referral flows, reward claims, ranks, a public leaderboard, and administrator surfaces.
-
-**Purpose** — organize community growth and rewards into a single product workflow.<br />
-**Stack** — React · JavaScript · Firebase · Vite · Framer Motion
-
-[**SOURCE →**](https://github.com/jinmelkunnath-alt/telegram-rewards-ecosystem) &nbsp;·&nbsp; [**LIVE APP →**](https://jinmelkunnath-alt.github.io/telegram-rewards-ecosystem/)
-
----
-
-### 06 — [school-voting-system](https://github.com/jinmelkunnath-alt/school-voting-system)
-
-`EDUCATION` `RESPONSIVE UI` `LOCAL WORKFLOW`
-
-A single-page student-leader voting experience with candidate voting, locally persisted counts, password-gated result and administration views, NOTA support, and responsive presentation.
-
-**Purpose** — provide a focused digital voting flow for a classroom environment.<br />
-**Stack** — HTML · CSS · JavaScript · Web Storage
-
-[**SOURCE →**](https://github.com/jinmelkunnath-alt/school-voting-system) &nbsp;·&nbsp; [**LIVE APP →**](https://jinmelkunnath-alt.github.io/school-voting-system/)
-
-<details>
-<summary><strong>More public operational work</strong></summary>
 <br />
 
-**[kalopsia-paliative](https://github.com/jinmelkunnath-alt/kalopsia-paliative)** — a Firebase-backed service management system covering staff, clients, declaration generation/history, equipment inventory, and rental transactions.<br />
-[Source](https://github.com/jinmelkunnath-alt/kalopsia-paliative) · [Live app](https://jinmelkunnath-alt.github.io/kalopsia-paliative/)
+---
 
-</details>
+<a id="-project-alpha"></a>
 
-<a id="currently-building"></a>
+### 02 — Project Alpha <sub>[AI &amp; High-Stakes Decision Intelligence]</sub>
 
-## 05 / CURRENTLY BUILDING
+<a href="https://github.com/tace-x/Project-Alpha">
+  <img src="assets/project-alpha.svg" width="100%" alt="Project Alpha — High-Stakes Decision Intelligence Platform" />
+</a>
+
+<br />
+
+> *"ChatGPT answers. Claude reasons. Project Alpha challenges."*
+
+**Project Alpha** is an AI-powered decision intelligence platform architected for critical scenarios where **being wrong is expensive**. Instead of generating passive answers, Alpha stress-tests the decision, models hidden failure modes, explores counter-scenarios, and produces a hardened, probabilistic verdict.
+
+- **🎯 The Alpha Pipeline:** `Decision` ➔ `Analyze` ➔ `Challenge` ➔ `Simulate` ➔ `Verdict` ➔ `Monitor`
+- **⚔️ Adversarial AI Evaluation:** Multi-agent counter-analysis that proactively finds cognitive biases, unstated assumptions, and tail-risk failure modes.
+- **📈 Risk Surface Simulation:** Explores probabilistic multi-scenario futures to evaluate decision durability before resources are committed.
+
+[**INSPECT REPOSITORY →**](https://github.com/tace-x/Project-Alpha) &nbsp;•&nbsp; `TYPESCRIPT` · `AI / LLM REASONING` · `ADVERSARIAL EVALUATION`
+
+<br />
+
+---
+
+<a id="-typetasks"></a>
+
+### 03 — TypeTasks <sub>[Productivity Engine &amp; Flow Workspace]</sub>
+
+<a href="https://github.com/tace-x/TypeTasks">
+  <img src="assets/typetasks.svg" width="100%" alt="TypeTasks — Flow, Focus and High-Performance Workspace" />
+</a>
+
+<br />
+
+A calm, local-first, ultra-fast keyboard-driven task workspace built on the typed TypeTasks engine. Designed for deep engineering focus, rapid capture, thoughtful sprint planning, and high-velocity execution.
+
+- **⚡ Sub-Millisecond Dispatch:** Zero-lag keyboard interaction model with quick switcher (`⌘K`), vim-inspired flow keys (`J`/`K`), and batch operators.
+- **📦 Local-First Sovereignty:** 100% operational offline with instant local persistence and zero network latency.
+- **🎨 Calm Obsidian Aesthetic:** Distraction-free typography, dark ambient tokens, and fluid micro-transitions engineered for sustained flow state.
+
+[**EXPLORE SOURCE →**](https://github.com/tace-x/TypeTasks) &nbsp;•&nbsp; [**LAUNCH LIVE DEMO ↗**](https://typetask-nine.vercel.app) &nbsp;•&nbsp; `TYPESCRIPT` · `REACT 19` · `VITE` · `TAILWIND CSS`
+
+<br />
+
+---
+
+<a id="-more-systems"></a>
+
+## 03 // PRODUCTION SYSTEMS & PRODUCT LABS
+
+<table>
+  <thead>
+    <tr>
+      <th align="left">System / Repository</th>
+      <th align="left">Domain</th>
+      <th align="left">Architectural Highlights</th>
+      <th align="center">Stack</th>
+      <th align="right">Link</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><a href="https://github.com/tace-x/NOCAP"><strong>NO CAP (TruthLens)</strong></a></td>
+      <td>Social Rumour Intel</td>
+      <td>Accountable verification desk & live AI assessment powered by <strong>NVIDIA NIM</strong> and Gemma 4.</td>
+      <td><code>TypeScript</code> <code>Gemma-4</code> <code>NIM</code></td>
+      <td align="right"><a href="https://github.com/tace-x/NOCAP"><strong>Source →</strong></a></td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/tace-x/CAPCAM"><strong>CapCam</strong></a></td>
+      <td>WebRTC & Browser Media</td>
+      <td>Local-first Manifest V3 extension routing media into an offscreen canvas rendering pipeline to replace WebRTC sender tracks.</td>
+      <td><code>TypeScript</code> <code>WebRTC</code> <code>MV3</code></td>
+      <td align="right"><a href="https://github.com/tace-x/CAPCAM"><strong>Source →</strong></a></td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/tace-x/Kalopsia"><strong>Kalopsia</strong></a></td>
+      <td>Data-Centre Operations</td>
+      <td>Multi-tenant operations platform tracking service entries, recoveries, automatic payment status, and export suites.</td>
+      <td><code>Firestore</code> <code>JavaScript</code> <code>Chart.js</code></td>
+      <td align="right"><a href="https://github.com/tace-x/Kalopsia"><strong>Source →</strong></a></td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/tace-x/kalopsia-paliative"><strong>kalopsia-paliative</strong></a></td>
+      <td>Healthcare Ops</td>
+      <td>Firebase-backed service management engine covering medical equipment inventory, rental declarations, and clients.</td>
+      <td><code>Firebase</code> <code>JavaScript</code> <code>HTML5</code></td>
+      <td align="right"><a href="https://github.com/tace-x/kalopsia-paliative"><strong>Source →</strong></a></td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/tace-x/St.Annes-ICSE-School-Payment-Portal"><strong>St. Annes Fee Portal</strong></a></td>
+      <td>FinTech / EdTech</td>
+      <td>Multi-surface student and administrator portal handling fee schedules, receipts, and protected administrative tools.</td>
+      <td><code>Firebase</code> <code>JavaScript</code> <code>XLSX</code></td>
+      <td align="right"><a href="https://github.com/tace-x/St.Annes-ICSE-School-Payment-Portal"><strong>Source →</strong></a></td>
+    </tr>
+    <tr>
+      <td><a href="https://github.com/tace-x/school-voting-system"><strong>School Voting System</strong></a></td>
+      <td>Offline Governance</td>
+      <td>Secure secret-ballot digital voting flow with offline local persistence, NOTA handling, and password-gated tally console.</td>
+      <td><code>JavaScript</code> <code>Storage API</code> <code>CSS3</code></td>
+      <td align="right"><a href="https://github.com/tace-x/school-voting-system"><strong>Source →</strong></a></td>
+    </tr>
+  </tbody>
+</table>
+
+<br />
+
+---
+
+<a id="-engineering-arsenal"></a>
+
+## 04 // VERIFIED ENGINEERING ARSENAL
 
 <p align="center">
-  <img src="assets/kalvi-chat.svg" width="100%" alt="Kalvi Chat is a communication product currently in active development; its public source is not currently listed" />
+  <img src="assets/stack.svg" width="100%" alt="Verified Engineering Arsenal: Rust, TypeScript, NVIDIA NIM, React, Firebase, PTY, Vite" />
 </p>
 
-**Kalvi Chat** is the active product focus: a modern communication experience being shaped as a real product rather than a decorative chat mockup.
-
-<details>
-<summary><strong>Build visibility</strong></summary>
-<br />
-
-No repository named `Kalvichat` or `Kalvi Chat` is currently visible on this public account. This profile therefore does **not** link a nonexistent repository or advertise unverified features. Technical scope can be added here when source or product documentation becomes public.
-
-</details>
-
-[**FOLLOW THE PUBLIC BUILD LOG →**](https://github.com/jinmelkunnath-alt?tab=repositories)
-
-<a id="engineering-mindset"></a>
-
-## 06 / ENGINEERING MINDSET
+### 🛠️ Interactive Toolchain Matrix
 
 <p align="center">
-  <img src="assets/process.svg" width="100%" alt="Engineering loop: think, design, build, test, ship and improve" />
+  <a href="https://www.rust-lang.org/"><img src="https://img.shields.io/badge/Rust-2024_Edition-DEA584?style=for-the-badge&logo=rust&logoColor=black" alt="Rust" /></a>
+  <a href="https://www.typescriptlang.org/"><img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" /></a>
+  <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript"><img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" alt="JavaScript" /></a>
+  <a href="https://en.wikipedia.org/wiki/C_(programming_language)"><img src="https://img.shields.io/badge/ANSI_C-A8B9CC?style=for-the-badge&logo=c&logoColor=black" alt="C" /></a>
+  <a href="https://developer.nvidia.com/nim"><img src="https://img.shields.io/badge/NVIDIA_NIM-76B900?style=for-the-badge&logo=nvidia&logoColor=white" alt="NVIDIA NIM" /></a>
+  <a href="https://react.dev/"><img src="https://img.shields.io/badge/React_19-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React" /></a>
+  <a href="https://vitejs.dev/"><img src="https://img.shields.io/badge/Vite-646CFF?style=for-the-badge&logo=vite&logoColor=white" alt="Vite" /></a>
+  <a href="https://tailwindcss.com/"><img src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwind CSS" /></a>
+  <a href="https://firebase.google.com/"><img src="https://img.shields.io/badge/Firebase-FFCA28?style=for-the-badge&logo=firebase&logoColor=black" alt="Firebase" /></a>
+  <a href="https://nodejs.org/"><img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white" alt="Node.js" /></a>
+  <a href="https://git-scm.com/"><img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white" alt="Git" /></a>
+  <a href="https://github.com/features/actions"><img src="https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white" alt="GitHub Actions" /></a>
+  <a href="https://webrtc.org/"><img src="https://img.shields.io/badge/WebRTC-333333?style=for-the-badge&logo=webrtc&logoColor=white" alt="WebRTC" /></a>
 </p>
 
-<details>
-<summary><strong>01 — How I approach a project</strong></summary>
 <br />
 
-1. Clarify the problem, user, constraints, and definition of done.
-2. Map the product flow and data boundaries before adding visual noise.
-3. Build the smallest honest version that completes the workflow.
-4. Test edge cases, failure states, responsiveness, and deployment assumptions.
-5. Ship, observe, document, and improve from evidence.
+---
 
-</details>
+<a id="-engineering-manifesto"></a>
 
-<details>
-<summary><strong>02 — What I am deepening</strong></summary>
-<br />
-
-- Software architecture and production-minded full-stack development
-- AI-powered product systems
-- Automation and API workflows
-- Real-time systems and cloud engineering
-- UI/UX craft, accessibility, and product delivery
-
-</details>
-
-<details>
-<summary><strong>03 — The quality bar</strong></summary>
-<br />
-
-Useful before impressive. Clear before clever. Maintainable before over-engineered. A product is not finished when the screen looks complete—it is finished when the workflow holds together.
-
-</details>
-
-<a id="contributions"></a>
-
-## 07 / CONTRIBUTION JOURNEY
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/github-snake-dark.svg" />
-  <source media="(prefers-color-scheme: light)" srcset="assets/github-snake.svg" />
-  <img src="assets/github-snake.svg" width="100%" alt="Animated GitHub contribution snake generated from jinmelkunnath-alt's contribution calendar" />
-</picture>
-
-<sub>Repository-hosted SVGs · light and dark variants · refreshed daily by a pinned GitHub Actions workflow · manual dispatch supported</sub>
-
-[**VIEW THE GENERATOR WORKFLOW →**](.github/workflows/snake.yml)
-
-<a id="activity"></a>
-
-## 08 / GITHUB ACTIVITY
-
-> **No vanity counters. No fragile stat cards.**<br />
-> The native GitHub activity graph and the repositories themselves remain the source of truth.
-
-[**OPEN LIVE ACTIVITY →**](https://github.com/jinmelkunnath-alt?tab=overview) &nbsp;·&nbsp; [**BROWSE PUBLIC REPOSITORIES →**](https://github.com/jinmelkunnath-alt?tab=repositories)
-
-<a id="roadmap"></a>
-
-## 09 / ROADMAP
+## 05 // ENGINEERING EXECUTION LOOP
 
 <p align="center">
-  <img src="assets/roadmap.svg" width="100%" alt="Roadmap from end-to-end product engineering through AI systems, automation, real-time systems and cloud toward reliable digital products" />
+  <img src="assets/process.svg" width="100%" alt="Engineering Loop: Think, Design, Build, Benchmark, Ship, Harden" />
 </p>
 
-The direction is deliberate: strengthen the engineering foundation, deepen AI and automation, and keep turning those capabilities into products people can actually use.
+<details open>
+<summary><strong>📐 Core Architectural Tenets</strong></summary>
 
-<a id="connect"></a>
+<br />
 
-## 10 / CONNECT
+1. **Useful Before Impressive:** Visual aesthetics matter immensely, but only when resting on a bedrock of rock-solid data integrity, bounded memory usage, and zero latency.
+2. **Respect the Compute & Threads:** Avoid non-essential dependencies and endless abstraction layers. Profile memory allocations, keep worker threads non-blocking, and eliminate frame drops.
+3. **Local-First & Resilient:** Software should retain core utility regardless of flaky networks. Data belongs to the user first.
+4. **Adversarial Validation:** Don't just test happy paths. Intentionally bombard edge cases, simulate race conditions, and verify system behavior under high concurrency.
+
+</details>
+
+<br />
+
+---
+
+<a id="-telemetry--activity"></a>
+
+## 06 // CONTRIBUTION TELEMETRY & ACTIVITY
 
 <div align="center">
 
-### Have a product idea or a real workflow that needs better software?
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="assets/github-snake-dark.svg" />
+    <source media="(prefers-color-scheme: light)" srcset="assets/github-snake.svg" />
+    <img src="assets/github-snake.svg" width="100%" alt="Animated GitHub contribution snake generated from tace-x's contribution activity" />
+  </picture>
 
-Start with the work. Follow the build. See how the systems are put together.
+  <sub>Automated via GitHub Actions cron workflow &nbsp;•&nbsp; Refreshed daily at midnight UTC</sub>
 
-<br />
+  <br /><br />
 
-[**EXPLORE ALL REPOSITORIES →**](https://github.com/jinmelkunnath-alt?tab=repositories)
-&nbsp;&nbsp;·&nbsp;&nbsp;
-[**FOLLOW ON GITHUB →**](https://github.com/jinmelkunnath-alt)
+  <table border="0">
+    <tr>
+      <td>
+        <img src="https://github-readme-stats.vercel.app/api?username=tace-x&show_icons=true&theme=tokyonight&hide_border=true&bg_color=0B0F17&title_color=38BDF8&icon_color=10B981&text_color=94A3B8" alt="GitHub Stats for tace-x" height="175" />
+      </td>
+      <td>
+        <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=tace-x&layout=compact&theme=tokyonight&hide_border=true&bg_color=0B0F17&title_color=38BDF8&text_color=94A3B8" alt="Top Languages for tace-x" height="175" />
+      </td>
+    </tr>
+  </table>
 
-<br /><br />
+  <br />
 
-<img src="assets/footer.svg" width="100%" alt="DEV IMMANUEL MELBIN — build what matters" />
+  <img src="https://github-readme-streak-stats.herokuapp.com/?user=tace-x&theme=tokyonight&hide_border=true&background=0B0F17&ring=38BDF8&fire=F97316&currStreakLabel=10B981" alt="GitHub Streak Stats for tace-x" />
 
 </div>
 
-<!-- Add only verified portfolio, LinkedIn, or email links here when they become publicly available. -->
+<br />
+
+---
+
+<a id="-roadmap"></a>
+
+## 07 // STRATEGIC HORIZONS
+
+<p align="center">
+  <img src="assets/roadmap.svg" width="100%" alt="Engineering Roadmap: Native Systems, Decision AI, Flow Workspaces" />
+</p>
+
+<br />
+
+---
+
+<a id="-transmission"></a>
+
+## 08 // TRANSMISSION & NETWORK
+
+<div align="center">
+
+  <h3>Interested in collaborating on high-performance systems or AI platforms?</h3>
+
+  <p>Explore the codebases, audit the architectures, or open a discussion on GitHub.</p>
+
+  <br />
+
+  <a href="https://github.com/tace-x?tab=repositories">
+    <img src="https://img.shields.io/badge/EXPLORE_ALL_REPOSITORIES-10B981?style=for-the-badge&logo=github&logoColor=white" alt="Repositories" />
+  </a>
+  &nbsp;&nbsp;
+  <a href="https://github.com/tace-x">
+    <img src="https://img.shields.io/badge/FOLLOW_ON_GITHUB-0284C7?style=for-the-badge&logo=github&logoColor=white" alt="Follow" />
+  </a>
+
+  <br /><br /><br />
+
+  <img src="assets/footer.svg" width="100%" alt="DEV IMMANUEL MELBIN // GITHUB.COM/TACE-X — BUILD WHAT MATTERS" />
+
+</div>

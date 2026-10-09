@@ -1,0 +1,114 @@
+<svg width="900" height="360" viewBox="0 0 900 360" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <title>Project Alpha — High-Stakes Decision Intelligence</title>
+  <defs>
+    <linearGradient id="alphaBg" x1="20" y1="15" x2="880" y2="345" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#110B1E"/>
+      <stop offset="0.5" stop-color="#090614"/>
+      <stop offset="1" stop-color="#04030A"/>
+    </linearGradient>
+    <linearGradient id="alphaRail" x1="0" y1="0" x2="800" y2="0" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#8B5CF6"/>
+      <stop offset="0.33" stop-color="#EC4899"/>
+      <stop offset="0.66" stop-color="#06B6D4"/>
+      <stop offset="1" stop-color="#10B981"/>
+    </linearGradient>
+    <radialGradient id="alphaHalo" cx="0" cy="0" r="1" gradientTransform="translate(720 180) rotate(90) scale(180)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#8B5CF6" stop-opacity="0.22"/>
+      <stop offset="0.6" stop-color="#EC4899" stop-opacity="0.08"/>
+      <stop offset="1" stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="alphaGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="4" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <pattern id="alphaGrid" width="28" height="28" patternUnits="userSpaceOnUse">
+      <path d="M 28 0 L 0 0 0 28" fill="none" stroke="#FFFFFF" stroke-opacity="0.02" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <style>
+    .alphaFlow { stroke-dasharray: 6 8; animation: aFlow 6s linear infinite; }
+    .alphaPulse { animation: aP 2.6s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+    @keyframes aFlow { to { stroke-dashoffset: -112; } }
+    @keyframes aP { 0%,100% { opacity: 0.6; transform: scale(0.9); } 50% { opacity: 1; transform: scale(1.15); } }
+    @media (prefers-reduced-motion: reduce) { .alphaFlow, .alphaPulse { animation: none !important; } }
+  </style>
+
+  <!-- Container -->
+  <rect x="2" y="2" width="896" height="356" rx="24" fill="url(#alphaBg)" stroke="#261B40" stroke-width="2"/>
+  <rect x="2" y="2" width="896" height="356" rx="24" fill="url(#alphaGrid)"/>
+  <circle cx="720" cy="180" r="180" fill="url(#alphaHalo)"/>
+
+  <!-- Top Badges -->
+  <rect x="42" y="32" width="220" height="30" rx="15" fill="#1C1032" stroke="#7C3AED" stroke-width="1.2"/>
+  <circle class="alphaPulse" cx="59" cy="47" r="4.5" fill="#A855F7" filter="url(#alphaGlow)"/>
+  <text x="73" y="52" fill="#D8B4FE" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="800" letter-spacing="1.5">AI DECISION INTELLIGENCE</text>
+
+  <text x="856" y="52" text-anchor="end" fill="#7C3AED" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="800" letter-spacing="1.5">WHERE BEING WRONG IS EXPENSIVE</text>
+
+  <!-- Title & Philosophy -->
+  <text x="42" y="116" fill="#F8FAFC" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="40" font-weight="900" letter-spacing="-0.5">Project Alpha</text>
+  <text x="44" y="146" fill="#C084FC" font-family="'JetBrains Mono', monospace" font-size="15" font-weight="700">“ChatGPT answers. Claude reasons. Project Alpha challenges.”</text>
+  
+  <text x="44" y="180" fill="#94A3B8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="14.5" font-weight="500">
+    <tspan x="44" dy="0">High-stakes AI decision platform analyzing factors, stress-testing assumptions,</tspan>
+    <tspan x="44" dy="22">exploring counterfactual edge cases, and generating hardened actionable verdicts.</tspan>
+  </text>
+
+  <!-- The Alpha Reasoning Pipeline Rail -->
+  <g transform="translate(44, 230)">
+    <path class="alphaFlow" d="M10 26H800" stroke="url(#alphaRail)" stroke-width="3"/>
+    
+    <!-- Nodes: Decision -> Analyze -> Challenge -> Simulate -> Verdict -> Monitor -->
+    <!-- Node 1: DECISION -->
+    <g transform="translate(10, 26)">
+      <circle cx="0" cy="0" r="10" fill="#110B1E" stroke="#8B5CF6" stroke-width="3"/>
+      <circle class="alphaPulse" cx="0" cy="0" r="4" fill="#C084FC"/>
+      <text y="32" text-anchor="middle" fill="#E2E8F0" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="800">DECISION</text>
+    </g>
+
+    <!-- Node 2: ANALYZE -->
+    <g transform="translate(168, 26)">
+      <circle cx="0" cy="0" r="10" fill="#110B1E" stroke="#A855F7" stroke-width="3"/>
+      <circle cx="0" cy="0" r="4" fill="#E879F9"/>
+      <text y="32" text-anchor="middle" fill="#E2E8F0" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="800">ANALYZE</text>
+    </g>
+
+    <!-- Node 3: CHALLENGE -->
+    <g transform="translate(326, 26)">
+      <circle cx="0" cy="0" r="12" fill="#240D2A" stroke="#EC4899" stroke-width="3"/>
+      <circle class="alphaPulse" cx="0" cy="0" r="5" fill="#F43F5E"/>
+      <text y="32" text-anchor="middle" fill="#F43F5E" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="900">CHALLENGE</text>
+    </g>
+
+    <!-- Node 4: SIMULATE -->
+    <g transform="translate(484, 26)">
+      <circle cx="0" cy="0" r="10" fill="#110B1E" stroke="#06B6D4" stroke-width="3"/>
+      <circle cx="0" cy="0" r="4" fill="#38BDF8"/>
+      <text y="32" text-anchor="middle" fill="#E2E8F0" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="800">SIMULATE</text>
+    </g>
+
+    <!-- Node 5: VERDICT -->
+    <g transform="translate(642, 26)">
+      <circle cx="0" cy="0" r="10" fill="#110B1E" stroke="#10B981" stroke-width="3"/>
+      <circle class="alphaPulse" cx="0" cy="0" r="4" fill="#34D399"/>
+      <text y="32" text-anchor="middle" fill="#34D399" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="800">VERDICT</text>
+    </g>
+
+    <!-- Node 6: MONITOR -->
+    <g transform="translate(800, 26)">
+      <circle cx="0" cy="0" r="10" fill="#110B1E" stroke="#38BDF8" stroke-width="3"/>
+      <circle cx="0" cy="0" r="4" fill="#7DD3FC"/>
+      <text y="32" text-anchor="middle" fill="#E2E8F0" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="800">MONITOR</text>
+    </g>
+  </g>
+
+  <!-- Bottom Details -->
+  <line x1="42" y1="316" x2="856" y2="316" stroke="#261B40" stroke-width="1"/>
+  <text x="42" y="338" fill="#64748B" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="700">
+    STACK: <tspan fill="#C084FC">TypeScript</tspan> · <tspan fill="#F43F5E">Multi-Agent Adversarial Challenge</tspan> · <tspan fill="#38BDF8">Risk Surface Simulation</tspan>
+  </text>
+  <text x="856" y="338" text-anchor="end" fill="#C084FC" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="800">
+    GITHUB.COM/TACE-X/PROJECT-ALPHA →
+  </text>
+</svg>

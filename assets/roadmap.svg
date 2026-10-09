@@ -1,46 +1,64 @@
 <svg width="900" height="450" viewBox="0 0 900 450" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <title>Engineering roadmap for software, AI, automation and cloud systems</title>
-  <desc>A visual roadmap showing current product engineering work, areas being deepened, and a direction toward reliable digital products.</desc>
+  <title>Engineering Roadmap &amp; Research Horizons — Immanuel Melbin (@tace-x)</title>
   <defs>
-    <linearGradient id="bg" x1="22" y1="18" x2="878" y2="432" gradientUnits="userSpaceOnUse"><stop stop-color="#0D1117"/><stop offset="1" stop-color="#070A0E"/></linearGradient>
-    <linearGradient id="path" x1="90" y1="0" x2="810" y2="0" gradientUnits="userSpaceOnUse"><stop stop-color="#22C55E"/><stop offset="0.5" stop-color="#38BDF8"/><stop offset="1" stop-color="#6366F1"/></linearGradient>
-    <filter id="glow" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-    <pattern id="grid" width="28" height="28" patternUnits="userSpaceOnUse"><path d="M28 0H0V28" stroke="#FFFFFF" stroke-opacity="0.018"/></pattern>
+    <linearGradient id="bg" x1="22" y1="18" x2="878" y2="432" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0B0F17"/><stop offset="1" stop-color="#05080E"/>
+    </linearGradient>
+    <linearGradient id="path" x1="90" y1="0" x2="810" y2="0" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#10B981"/><stop offset="0.5" stop-color="#06B6D4"/><stop offset="1" stop-color="#8B5CF6"/>
+    </linearGradient>
+    <filter id="glow" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <pattern id="grid" width="28" height="28" patternUnits="userSpaceOnUse">
+      <path d="M28 0H0V28" stroke="#FFFFFF" stroke-opacity="0.018"/>
+    </pattern>
   </defs>
   <style>
-    .path { stroke-dasharray:8 10; animation:flow 7s linear infinite; }
-    .pulse { animation:pulse 2.8s ease-in-out infinite; transform-box:fill-box; transform-origin:center; }
-    @keyframes flow { to { stroke-dashoffset:-144 } }
-    @keyframes pulse { 0%,100%{transform:scale(.8);opacity:.55} 50%{transform:scale(1.2);opacity:1} }
-    @media (prefers-reduced-motion:reduce){.path,.pulse{animation:none!important}}
+    .path { stroke-dasharray: 8 10; animation: flow 7s linear infinite; }
+    .pulse { animation: pulse 2.8s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+    @keyframes flow { to { stroke-dashoffset: -144; } }
+    @keyframes pulse { 0%,100% { transform: scale(.8); opacity: .55; } 50% { transform: scale(1.2); opacity: 1; } }
+    @media (prefers-reduced-motion: reduce) { .path, .pulse { animation: none !important; } }
   </style>
-  <rect x="1" y="1" width="898" height="448" rx="28" fill="url(#bg)" stroke="#30363D" stroke-width="2"/>
+
+  <rect x="1" y="1" width="898" height="448" rx="28" fill="url(#bg)" stroke="#1E293B" stroke-width="2"/>
   <rect x="1" y="1" width="898" height="448" rx="28" fill="url(#grid)"/>
-  <circle cx="45" cy="43" r="5" fill="#6366F1" filter="url(#glow)"/>
-  <text x="62" y="50" fill="#E6EDF3" font-family="sans-serif" font-size="22" font-weight="800" letter-spacing="1">ENGINEERING DIRECTION</text>
-  <text x="855" y="48" text-anchor="end" fill="#586574" font-family="monospace" font-size="11" font-weight="700" letter-spacing="1.4">FOCUS / NOT HYPE</text>
-  <path d="M44 67H856" stroke="#21262D"/>
 
-  <rect x="125" y="88" width="650" height="77" rx="18" fill="#0F2418" stroke="#238636"/>
-  <text x="450" y="116" text-anchor="middle" fill="#86EFAC" font-family="monospace" font-size="13" font-weight="800" letter-spacing="2">NOW</text>
-  <text x="450" y="145" text-anchor="middle" fill="#F0F6FC" font-family="sans-serif" font-size="26" font-weight="800">END-TO-END PRODUCT ENGINEERING</text>
+  <circle cx="45" cy="43" r="5" fill="#8B5CF6" filter="url(#glow)"/>
+  <text x="62" y="49" fill="#F8FAFC" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="22" font-weight="900" letter-spacing="1">ENGINEERING HORIZONS &amp; ROADMAP</text>
+  <text x="855" y="47" text-anchor="end" fill="#64748B" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="800" letter-spacing="1.5">INTENTIONAL ARCHITECTURE</text>
+  <path d="M44 67H856" stroke="#1E293B"/>
 
+  <!-- NOW -->
+  <rect x="125" y="88" width="650" height="77" rx="18" fill="#0A1F18" stroke="#059669"/>
+  <text x="450" y="115" text-anchor="middle" fill="#6EE7B7" font-family="'JetBrains Mono', monospace" font-size="13" font-weight="900" letter-spacing="2">ACTIVE DEPLOYMENT</text>
+  <text x="450" y="145" text-anchor="middle" fill="#F8FAFC" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="25" font-weight="900">HIGH-PERFORMANCE SYSTEMS &amp; SOVEREIGN TOOLS</text>
+
+  <!-- Branches -->
   <path class="path" d="M450 165V205M450 205H155V235M450 205V235M450 205H745V235" stroke="url(#path)" stroke-width="2.5"/>
-  <circle class="pulse" cx="450" cy="205" r="5" fill="#38BDF8" filter="url(#glow)"/>
+  <circle class="pulse" cx="450" cy="205" r="5" fill="#06B6D4" filter="url(#glow)"/>
 
+  <!-- 3 Horizon Cards -->
   <g>
-    <rect x="55" y="235" width="200" height="88" rx="17" fill="#0B1118" stroke="#1D4D3A"/>
-    <text x="155" y="267" text-anchor="middle" fill="#86EFAC" font-family="monospace" font-size="13" font-weight="800" letter-spacing="1.5">DEEPEN</text>
-    <text x="155" y="297" text-anchor="middle" fill="#E6EDF3" font-family="sans-serif" font-size="22" font-weight="800">AI SYSTEMS</text>
-    <rect x="350" y="235" width="200" height="88" rx="17" fill="#0B1118" stroke="#155E75"/>
-    <text x="450" y="267" text-anchor="middle" fill="#7DD3FC" font-family="monospace" font-size="13" font-weight="800" letter-spacing="1.5">DEEPEN</text>
-    <text x="450" y="297" text-anchor="middle" fill="#E6EDF3" font-family="sans-serif" font-size="22" font-weight="800">AUTOMATION</text>
-    <rect x="645" y="235" width="200" height="88" rx="17" fill="#0B1118" stroke="#4338CA"/>
-    <text x="745" y="267" text-anchor="middle" fill="#A5B4FC" font-family="monospace" font-size="13" font-weight="800" letter-spacing="1.5">DEEPEN</text>
-    <text x="745" y="294" text-anchor="middle" fill="#E6EDF3" font-family="sans-serif" font-size="18" font-weight="800">REAL-TIME / CLOUD</text>
+    <!-- Card 1 -->
+    <rect x="55" y="235" width="200" height="88" rx="17" fill="#07131F" stroke="#0284C7"/>
+    <text x="155" y="265" text-anchor="middle" fill="#38BDF8" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="800" letter-spacing="1.5">HORIZON 01</text>
+    <text x="155" y="296" text-anchor="middle" fill="#F8FAFC" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="20" font-weight="800">NATIVE SYSTEMS</text>
+
+    <!-- Card 2 -->
+    <rect x="350" y="235" width="200" height="88" rx="17" fill="#140B22" stroke="#7C3AED"/>
+    <text x="450" y="265" text-anchor="middle" fill="#C084FC" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="800" letter-spacing="1.5">HORIZON 02</text>
+    <text x="450" y="296" text-anchor="middle" fill="#F8FAFC" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="20" font-weight="800">DECISION AI</text>
+
+    <!-- Card 3 -->
+    <rect x="645" y="235" width="200" height="88" rx="17" fill="#061A15" stroke="#059669"/>
+    <text x="745" y="265" text-anchor="middle" fill="#34D399" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="800" letter-spacing="1.5">HORIZON 03</text>
+    <text x="745" y="296" text-anchor="middle" fill="#F8FAFC" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="18" font-weight="800">FLOW WORKSPACES</text>
   </g>
 
+  <!-- Convergence -->
   <path class="path" d="M155 323V351H450M450 323V351M745 323V351H450M450 351V374" stroke="url(#path)" stroke-width="2.5"/>
-  <rect x="125" y="374" width="650" height="52" rx="16" fill="#0B1720" stroke="#236A88"/>
-  <text x="450" y="406" text-anchor="middle" fill="#E6EDF3" font-family="sans-serif" font-size="23" font-weight="800">RELIABLE, USEFUL DIGITAL PRODUCTS</text>
+  <rect x="125" y="374" width="650" height="52" rx="16" fill="#081420" stroke="#0369A1"/>
+  <text x="450" y="406" text-anchor="middle" fill="#F8FAFC" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="22" font-weight="800">RESILIENT, HIGH-LEVERAGE SOFTWARE FOR BUILDERS</text>
 </svg>

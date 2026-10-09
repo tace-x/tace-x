@@ -1,29 +1,36 @@
 <svg width="900" height="250" viewBox="0 0 900 250" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <title>Engineering process: think, design, build, test, ship and improve</title>
-  <desc>A restrained animated process rail representing Immanuel Melbin's engineering mindset.</desc>
+  <title>Engineering Loop — Immanuel Melbin (@tace-x)</title>
   <defs>
-    <linearGradient id="bg" x1="20" y1="18" x2="880" y2="232" gradientUnits="userSpaceOnUse"><stop stop-color="#0D1117"/><stop offset="1" stop-color="#070A0E"/></linearGradient>
-    <linearGradient id="rail" x1="88" y1="0" x2="812" y2="0" gradientUnits="userSpaceOnUse"><stop stop-color="#22C55E"/><stop offset="0.52" stop-color="#38BDF8"/><stop offset="1" stop-color="#6366F1"/></linearGradient>
-    <filter id="glow" x="-100%" y="-100%" width="300%" height="300%"><feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+    <linearGradient id="bg" x1="20" y1="18" x2="880" y2="232" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0B0F17"/><stop offset="1" stop-color="#04060A"/>
+    </linearGradient>
+    <linearGradient id="rail" x1="88" y1="0" x2="812" y2="0" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#10B981"/><stop offset="0.5" stop-color="#06B6D4"/><stop offset="1" stop-color="#8B5CF6"/>
+    </linearGradient>
+    <filter id="glow" x="-100%" y="-100%" width="300%" height="300%">
+      <feGaussianBlur stdDeviation="5" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
   </defs>
   <style>
     .runner { transform-box: fill-box; transform-origin: center; animation: run 12s ease-in-out infinite; }
     .rail { stroke-dasharray: 8 10; animation: flow 7s linear infinite; }
     @keyframes run { 0%,4%{transform:translateX(0)} 17%,21%{transform:translateX(144px)} 34%,38%{transform:translateX(288px)} 51%,55%{transform:translateX(432px)} 68%,72%{transform:translateX(576px)} 85%,100%{transform:translateX(720px)} }
     @keyframes flow { to { stroke-dashoffset:-144; } }
-    @media (prefers-reduced-motion:reduce) { .runner,.rail { animation:none!important; } }
+    @media (prefers-reduced-motion: reduce) { .runner, .rail { animation: none !important; } }
   </style>
-  <rect x="1" y="1" width="898" height="248" rx="26" fill="url(#bg)" stroke="#30363D" stroke-width="2"/>
-  <text x="44" y="48" fill="#E6EDF3" font-family="sans-serif" font-size="21" font-weight="800" letter-spacing="1">ENGINEERING LOOP</text>
-  <text x="856" y="46" text-anchor="end" fill="#586574" font-family="monospace" font-size="11" font-weight="700" letter-spacing="1.4">PROBLEM FIRST / EVIDENCE AFTER SHIP</text>
-  <path d="M44 66H856" stroke="#21262D"/>
+  <rect x="1" y="1" width="898" height="248" rx="26" fill="url(#bg)" stroke="#1E293B" stroke-width="2"/>
+  <text x="44" y="48" fill="#F8FAFC" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="21" font-weight="900" letter-spacing="1">ENGINEERING EXECUTION LOOP</text>
+  <text x="856" y="46" text-anchor="end" fill="#64748B" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="800" letter-spacing="1.5">FIRST-PRINCIPLES ONLY</text>
+  <path d="M44 66H856" stroke="#1E293B"/>
   <path class="rail" d="M90 127H810" stroke="url(#rail)" stroke-width="3"/>
-  <g fill="#0B1118" stroke-width="2">
-    <circle cx="90" cy="127" r="13" stroke="#22C55E"/><circle cx="234" cy="127" r="13" stroke="#35CFA1"/><circle cx="378" cy="127" r="13" stroke="#38BDF8"/><circle cx="522" cy="127" r="13" stroke="#3B9DF0"/><circle cx="666" cy="127" r="13" stroke="#527EE8"/><circle cx="810" cy="127" r="13" stroke="#6366F1"/>
+  <g fill="#070D18" stroke-width="2.5">
+    <circle cx="90" cy="127" r="14" stroke="#10B981"/><circle cx="234" cy="127" r="14" stroke="#059669"/><circle cx="378" cy="127" r="14" stroke="#06B6D4"/><circle cx="522" cy="127" r="14" stroke="#3B82F6"/><circle cx="666" cy="127" r="14" stroke="#6366F1"/><circle cx="810" cy="127" r="14" stroke="#8B5CF6"/>
   </g>
-  <circle class="runner" cx="90" cy="127" r="6" fill="#F0F6FC" filter="url(#glow)"/>
-  <g fill="#C9D1D9" font-family="monospace" font-size="14" font-weight="800" letter-spacing="1">
-    <text x="90" y="174" text-anchor="middle">THINK</text><text x="234" y="174" text-anchor="middle">DESIGN</text><text x="378" y="174" text-anchor="middle">BUILD</text><text x="522" y="174" text-anchor="middle">TEST</text><text x="666" y="174" text-anchor="middle">SHIP</text><text x="810" y="174" text-anchor="middle">IMPROVE</text>
+  <circle class="runner" cx="90" cy="127" r="6" fill="#F8FAFC" filter="url(#glow)"/>
+  <g fill="#E2E8F0" font-family="'JetBrains Mono', monospace" font-size="13" font-weight="800" letter-spacing="1.2">
+    <text x="90" y="174" text-anchor="middle">THINK</text><text x="234" y="174" text-anchor="middle">DESIGN</text><text x="378" y="174" text-anchor="middle">BUILD</text><text x="522" y="174" text-anchor="middle">BENCHMARK</text><text x="666" y="174" text-anchor="middle">SHIP</text><text x="810" y="174" text-anchor="middle">HARDEN</text>
   </g>
-  <text x="450" y="215" text-anchor="middle" fill="#7D8896" font-family="sans-serif" font-size="16" font-weight="600">Reduce ambiguity. Build the useful version. Validate the edges. Improve from evidence.</text>
+  <text x="450" y="215" text-anchor="middle" fill="#94A3B8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="15" font-weight="600">
+    Deconstruct the problem. Model the data boundaries. Eliminate latency. Verify with real telemetry.
+  </text>
 </svg>
