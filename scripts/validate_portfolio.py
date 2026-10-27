@@ -103,8 +103,9 @@ def test_readme_anchors_and_assets():
         # Split commas if srcset
         paths = [p.strip().split()[0] for p in src.split(',')]
         for p in paths:
-            asset_file = REPO_ROOT / p
-            assert asset_file.exists(), f"Broken image asset link in README: {p}"
+            clean_path = p.split("?")[0]
+            asset_file = REPO_ROOT / clean_path
+            assert asset_file.exists(), f"Broken image asset link in README: {clean_path}"
 
     print(f"  ✓ All {len(img_srcs)} asset references in README exist on disk.\n")
 
