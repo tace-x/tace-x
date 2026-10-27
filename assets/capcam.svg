@@ -1,0 +1,106 @@
+<svg width="900" height="360" viewBox="0 0 900 360" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <title>CAPCAM — Chrome MV3 Offscreen WebRTC Canvas Media Pipeline</title>
+  <defs>
+    <linearGradient id="capBg" x1="20" y1="15" x2="880" y2="345" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#061A14"/>
+      <stop offset="0.5" stop-color="#04100D"/>
+      <stop offset="1" stop-color="#020605"/>
+    </linearGradient>
+    <linearGradient id="capRail" x1="0" y1="0" x2="800" y2="0" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#10B981"/>
+      <stop offset="0.33" stop-color="#00F0FF"/>
+      <stop offset="0.66" stop-color="#3B82F6"/>
+      <stop offset="1" stop-color="#8B5CF6"/>
+    </linearGradient>
+    <radialGradient id="capHalo" cx="0" cy="0" r="1" gradientTransform="translate(740 180) rotate(90) scale(180)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#10B981" stop-opacity="0.18"/>
+      <stop offset="0.6" stop-color="#00F0FF" stop-opacity="0.08"/>
+      <stop offset="1" stop-color="#000000" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="capGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="4" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <pattern id="capGrid" width="24" height="24" patternUnits="userSpaceOnUse">
+      <path d="M 24 0 L 0 0 0 24" fill="none" stroke="#FFFFFF" stroke-opacity="0.02" stroke-width="1"/>
+    </pattern>
+  </defs>
+
+  <style>
+    .capPulse { animation: capP 2.4s ease-in-out infinite; transform-box: fill-box; transform-origin: center; }
+    .capFlow { stroke-dasharray: 6 8; animation: capF 6s linear infinite; }
+    @keyframes capP { 0%,100% { opacity: 0.6; transform: scale(0.92); } 50% { opacity: 1; transform: scale(1.15); } }
+    @keyframes capF { to { stroke-dashoffset: -112; } }
+    @media (prefers-reduced-motion: reduce) { .capPulse, .capFlow { animation: none !important; } }
+  </style>
+
+  <!-- Container Box -->
+  <rect x="2" y="2" width="896" height="356" rx="24" fill="url(#capBg)" stroke="#113D2F" stroke-width="2"/>
+  <rect x="2" y="2" width="896" height="356" rx="24" fill="url(#capGrid)"/>
+  <circle cx="740" cy="180" r="180" fill="url(#capHalo)"/>
+
+  <!-- Top Window Header / Badges -->
+  <rect x="42" y="30" width="240" height="30" rx="15" fill="#0C261E" stroke="#059669" stroke-width="1.2"/>
+  <circle class="capPulse" cx="59" cy="45" r="4.5" fill="#10B981" filter="url(#capGlow)"/>
+  <text x="73" y="50" fill="#6EE7B7" font-family="'JetBrains Mono', monospace" font-size="11.5" font-weight="800" letter-spacing="1.5">CHROME MV3 // BROWSER SYSTEMS</text>
+
+  <rect x="732" y="30" width="126" height="30" rx="15" fill="#082823" stroke="#00F0FF" stroke-width="1.2"/>
+  <circle class="capPulse" cx="748" cy="45" r="4" fill="#00F0FF"/>
+  <text x="760" y="50" fill="#67E8F9" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="800" letter-spacing="1">15 TEST SUITES</text>
+
+  <!-- Title & Description -->
+  <g transform="translate(42, 82)">
+    <text x="0" y="38" fill="#F8FAFC" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="40" font-weight="900" letter-spacing="-0.5">CAPCAM</text>
+    <text x="0" y="68" fill="#34D399" font-family="'JetBrains Mono', monospace" font-size="14.5" font-weight="800" letter-spacing="1.5">WEBRTC MEDIA PIPELINE · OFFSCREEN CANVAS ENGINE</text>
+
+    <text x="0" y="102" fill="#94A3B8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="14.5" font-weight="500">
+      <tspan x="0" dy="0">High-performance Manifest V3 extension transforming WebRTC camera sender tracks</tspan>
+      <tspan x="0" dy="22">via an offscreen canvas rendering engine without dropping frames or leaking memory.</tspan>
+    </text>
+  </g>
+
+  <!-- Offscreen Canvas WebRTC Pipeline Architecture Rail -->
+  <g transform="translate(44, 230)">
+    <path class="capFlow" d="M10 26H800" stroke="url(#capRail)" stroke-width="3"/>
+
+    <!-- Step 1: Camera Stream -->
+    <g transform="translate(10, 0)">
+      <circle cx="26" cy="26" r="16" fill="#061A14" stroke="#10B981" stroke-width="2.5"/>
+      <circle cx="26" cy="26" r="6" fill="#10B981"/>
+      <text x="26" y="58" text-anchor="middle" fill="#E2E8F0" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="800">MediaStream</text>
+      <text x="26" y="73" text-anchor="middle" fill="#6EE7B7" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="600">60 FPS Native</text>
+    </g>
+
+    <!-- Step 2: Offscreen Worker -->
+    <g transform="translate(205, 0)">
+      <circle cx="26" cy="26" r="16" fill="#061A14" stroke="#00F0FF" stroke-width="2.5"/>
+      <circle cx="26" cy="26" r="6" fill="#00F0FF"/>
+      <text x="26" y="58" text-anchor="middle" fill="#E2E8F0" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="800">Offscreen Canvas</text>
+      <text x="26" y="73" text-anchor="middle" fill="#67E8F9" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="600">Zero Main-Thread Lag</text>
+    </g>
+
+    <!-- Step 3: Composite Engine -->
+    <g transform="translate(400, 0)">
+      <circle cx="26" cy="26" r="16" fill="#061A14" stroke="#3B82F6" stroke-width="2.5"/>
+      <circle cx="26" cy="26" r="6" fill="#3B82F6"/>
+      <text x="26" y="58" text-anchor="middle" fill="#E2E8F0" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="800">Filter Engine</text>
+      <text x="26" y="73" text-anchor="middle" fill="#93C5FD" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="600">Pixel Compositor</text>
+    </g>
+
+    <!-- Step 4: Track Replacement -->
+    <g transform="translate(605, 0)">
+      <circle cx="26" cy="26" r="16" fill="#061A14" stroke="#8B5CF6" stroke-width="2.5"/>
+      <circle cx="26" cy="26" r="6" fill="#8B5CF6"/>
+      <text x="26" y="58" text-anchor="middle" fill="#E2E8F0" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="800">RTCRtpSender</text>
+      <text x="26" y="73" text-anchor="middle" fill="#C4B5FD" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="600">Track Replacement</text>
+    </g>
+
+    <!-- Step 5: WebRTC Peer -->
+    <g transform="translate(780, 0)">
+      <circle cx="26" cy="26" r="16" fill="#061A14" stroke="#10B981" stroke-width="2.5"/>
+      <circle cx="26" cy="26" r="6" fill="#10B981" filter="url(#capGlow)"/>
+      <text x="26" y="58" text-anchor="middle" fill="#E2E8F0" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="800">WebRTC Peer</text>
+      <text x="26" y="73" text-anchor="middle" fill="#6EE7B7" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="600">Sovereign Stream</text>
+    </g>
+  </g>
+</svg>

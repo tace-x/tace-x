@@ -1,4 +1,4 @@
-name: Generate Contribution Snake
+name: Generate Contribution Snake & Arcade Telemetry
 
 on:
   schedule:
@@ -11,11 +11,22 @@ permissions:
 jobs:
   generate:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 10
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install Pillow
 
       - name: Generate contribution snake SVGs
         uses: Platane/snk@v3
@@ -25,10 +36,18 @@ jobs:
             assets/github-snake.svg
             assets/github-snake-dark.svg?palette=github-dark
 
-      - name: Commit & push updated snake SVGs
+      - name: Generate contribution arcade shooter
+        run: |
+          python3 scripts/generate_arcade.py
+
+      - name: Validate portfolio asset integrity
+        run: |
+          python3 scripts/validate_portfolio.py
+
+      - name: Commit & push updated telemetry assets
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add assets/github-snake.svg assets/github-snake-dark.svg
-          git diff --staged --quiet || git commit -m "chore(cron): refresh GitHub contribution snake"
+          git add assets/github-snake.svg assets/github-snake-dark.svg assets/arcade/
+          git diff --staged --quiet || git commit -m "chore(cron): refresh GitHub contribution snake and arcade assets"
           git push

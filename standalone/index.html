@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>TACE-X // CONTRIBUTION SPACE DEFENDER (Arcade)</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+    }
+    body {
+      background-color: #070A0F;
+      color: #F8FAFC;
+      font-family: 'JetBrains Mono', 'Courier New', monospace;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      overflow-x: hidden;
+      padding: 16px;
+    }
+    .cabinet-frame {
+      background: #0B0F17;
+      border: 2px solid #1E293B;
+      border-radius: 16px;
+      box-shadow: 0 0 30px rgba(0, 240, 255, 0.15), 0 20px 40px rgba(0, 0, 0, 0.8);
+      padding: 16px;
+      max-width: 900px;
+      width: 100%;
+      position: relative;
+    }
+    .cabinet-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 12px;
+      border-bottom: 1px solid #1E293B;
+      margin-bottom: 12px;
+      font-size: 13px;
+    }
+    .cabinet-header .brand {
+      color: #00F0FF;
+      font-weight: 800;
+      letter-spacing: 2px;
+    }
+    .cabinet-header .nav-links a {
+      color: #10B981;
+      text-decoration: none;
+      margin-left: 16px;
+      font-size: 12px;
+      transition: color 0.2s;
+    }
+    .cabinet-header .nav-links a:hover {
+      color: #00F0FF;
+      text-decoration: underline;
+    }
+    .canvas-container {
+      position: relative;
+      width: 100%;
+      background: #000;
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid #111C2D;
+    }
+    canvas {
+      display: block;
+      width: 100%;
+      height: auto;
+      image-rendering: pixelated;
+    }
+    .crt-scanlines {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
+      background-size: 100% 4px;
+      pointer-events: none;
+      opacity: 0.6;
+    }
+    .controls-hint {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 14px;
+      font-size: 11px;
+      color: #94A3B8;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    .key-badge {
+      background: #111C2D;
+      border: 1px solid #1E293B;
+      color: #00F0FF;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-weight: bold;
+    }
+    .touch-controls {
+      display: none;
+      margin-top: 16px;
+      justify-content: space-between;
+      gap: 12px;
+      width: 100%;
+    }
+    .touch-btn {
+      background: #111C2D;
+      border: 1px solid #00F0FF;
+      color: #00F0FF;
+      padding: 14px;
+      border-radius: 8px;
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: bold;
+      flex: 1;
+      text-align: center;
+    }
+    .touch-btn:active {
+      background: #00F0FF;
+      color: #0B0F17;
+    }
+    @media (max-width: 600px) {
+      .touch-controls {
+        display: flex;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="cabinet-frame">
+    <div class="cabinet-header">
+      <div class="brand">TACE-X // CONTRIBUTION DEFENDER</div>
+      <div class="nav-links">
+        <a href="https://github.com/tace-x">PROFILE</a>
+        <a href="https://github.com/tace-x/tace-x">REPOSITORY</a>
+      </div>
+    </div>
+
+    <div class="canvas-container">
+      <canvas id="gameCanvas" width="840" height="480"></canvas>
+      <div class="crt-scanlines"></div>
+    </div>
+
+    <div class="controls-hint">
+      <div>
+        <span class="key-badge">◀</span> / <span class="key-badge">▶</span> or <span class="key-badge">A</span> / <span class="key-badge">D</span> Move &nbsp;•&nbsp;
+        <span class="key-badge">SPACE</span> Fire Lasers &nbsp;•&nbsp;
+        <span class="key-badge">P</span> Pause &nbsp;•&nbsp;
+        <span class="key-badge">R</span> Restart &nbsp;•&nbsp;
+        <span class="key-badge">M</span> Mute Sound
+      </div>
+      <div>
+        FLEET: 52 WEEKS // REAL GITHUB ACTIVITY
+      </div>
+    </div>
+
+    <div class="touch-controls">
+      <button class="touch-btn" id="btnLeft">◀ LEFT</button>
+      <button class="touch-btn" id="btnShoot">⚡ FIRE</button>
+      <button class="touch-btn" id="btnRight">RIGHT ▶</button>
+    </div>
+  </div>
+
+  <script src="game.js"></script>
+</body>
+</html>
