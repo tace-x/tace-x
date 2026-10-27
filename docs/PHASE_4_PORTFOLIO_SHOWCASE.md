@@ -100,7 +100,6 @@ A structured, accessible Markdown table documents operational production systems
 | Service / Widget | Source | Update Frequency | Status | Mitigation / Failure Behavior |
 |---|---|---|:---:|---|
 | **Contribution Arcade Space Shooter** | Local Generator (`scripts/generate_arcade.py`) | Deterministic build / Pre-rendered | Verified (HTTP 200 local) | Zero network dependency; completely immune to external outages. |
-| **Contribution Snake** | `.github/workflows/snake.yml` | Daily at 00:00 UTC | Verified (HTTP 200 local) | Fallback to previous day's pre-rendered SVG on CI network timeout. |
 | **GitHub Stats Card** | `github-readme-stats.vercel.app` | Dynamic (cached CDN) | Verified (HTTP 200) | Obsidian theme `#0B0F17` matching profile aesthetic. |
 | **Top Languages Card** | `github-readme-stats.vercel.app` | Dynamic (cached CDN) | Verified (HTTP 200) | Bounded to public repository language distribution. |
 | **GitHub Streak Stats** | `github-readme-streak-stats.herokuapp.com` | Dynamic (cached CDN) | Verified (HTTP 200) | Verified HTTP 200 with custom neon ring/fire tokens. |

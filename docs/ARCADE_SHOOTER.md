@@ -47,35 +47,40 @@ $$\text{Final HUD Score} = \text{Base Score} + \text{Clearance Bonus}$$
 
 | Asset Path | Format | Dimensions | Size | Purpose |
 |---|---|---|---|---|
-| [`assets/arcade/arcade_shooter.gif`](file:///Users/immanuelmelbin/tace-x/assets/arcade/arcade_shooter.gif) | GIF89a | 840 × 340 | ~141 KB | 48-frame looping arcade space shooter animation for README display. |
-| [`assets/arcade/arcade_poster.svg`](file:///Users/immanuelmelbin/tace-x/assets/arcade/arcade_poster.svg) | SVG / XML | 840 × 340 | ~24 KB | Accessible static vector poster for users with `prefers-reduced-motion: reduce`. |
+| [`assets/arcade/arcade_shooter.gif`](file:///Users/immanuelmelbin/tace-x/assets/arcade/arcade_shooter.gif) | GIF89a | 840 × 340 | ~178 KB | 64-frame finite 5-state animated space shooter loop for README display. |
+| [`assets/arcade/arcade_poster.svg`](file:///Users/immanuelmelbin/tace-x/assets/arcade/arcade_poster.svg) | SVG / XML | 840 × 340 | ~2.4 KB | Accessible static vector poster featuring victory state. |
+| [`assets/arcade/arcade_contact_sheet.png`](file:///Users/immanuelmelbin/tace-x/assets/arcade/arcade_contact_sheet.png) | PNG (Raster) | 840 × 510 | ~100 KB | 6-frame verification contact sheet proving state transitions. |
 | [`standalone/index.html`](file:///Users/immanuelmelbin/tace-x/standalone/index.html) | HTML5 | Responsive | ~4.2 KB | Standalone interactive retro arcade game container with CRT styling. |
 | [`standalone/game.js`](file:///Users/immanuelmelbin/tace-x/standalone/game.js) | JavaScript | Canvas 2D | ~12.5 KB | 60 FPS zero-dependency game engine with synthesized Web Audio sound effects. |
 
 ---
 
-## 4. Animation Sequence (48 Frames @ 12 FPS = 3.84s Loop)
+## 4. Animation Sequence (64 Frames Finite 5-State Loop)
 
-1. **Frames 0–12 (Target Acquisition & Patrol):**
-   - Player starfighter patrols rightwards along the bottom corridor ($y = 282$).
-   - Contribution armada drifts with subtle sinusoidal hover oscillation.
-   - HUD reports `ARMADA ENGAGED` with live score.
-2. **Frames 13–19 (Cannon Salvo 1):**
-   - Starfighter locks underneath column 32 and fires twin cyan plasma bolts with visible muzzle flashes.
-   - Bolts streak upward with glowing energy wakes.
-3. **Frames 20–26 (Critical Impact 1):**
-   - Plasma bolts detonate a Level 4 Boss Mothership.
-   - 8-directional radial particle burst with red, amber, and white sparks.
-   - HUD updates score with `CRITICAL HIT! +100`.
-4. **Frames 27–33 (Lateral Bank & Salvo 2):**
-   - Starfighter banks sharply left toward column 20 and fires secondary salvo.
-5. **Frames 34–40 (Impact 2 & Wave Cleared):**
-   - Secondary salvo destroys Level 2 Escort with cyan/mint explosion.
-   - HUD flashes `COMBO x5 // CLEARED`.
-6. **Frames 41–47 (Return & Loop Settle):**
-   - Starfighter glides back smoothly to center $x = 360$.
-   - Explosion particles dissipate.
-   - Frame 47 matches Frame 0 position and velocity for a seamless, glitch-free loop!
+1. **STATE 1: INITIALIZATION (Frames 0–7):**
+   - Active armada deployed across 4 operational rows.
+   - Starfighter arrives at bottom corridor ($y = 282$).
+   - HUD reports `ARMADA ENGAGED` with initial score `000000`.
+
+2. **STATE 2: COMBAT (Frames 8–24):**
+   - Starfighter banks left across the sector, locking onto Scout and Escort squadrons.
+   - Twin plasma lasers streak upward with glowing energy wakes.
+   - Hostile targets flash white upon impact, detonate in radial spark bursts, and disappear completely.
+   - HUD reports `COMBAT ACTIVE // FIRING` as score climbs from `000250` to `001600 PTS`.
+
+3. **STATE 3: CLEARING (Frames 25–43):**
+   - Starfighter sweeps across the battlefield, systematically eliminating remaining squadrons.
+   - Heavy Cruisers and Boss Motherships are eliminated (Frame 42).
+   - Battlefield is completely cleared of all hostile vessels with zero targets remaining.
+
+4. **STATE 4: VICTORY (Frames 44–58):**
+   - Clean, cleared playfield with starfighter holding center station.
+   - Prominent HUD modal displays `>> SECTOR CLEARED <<`, `ALL HOSTILE TARGETS ELIMINATED // 100%`, and verified final score `FINAL HUD SCORE: 004070 PTS`.
+   - Victory state is held steadily for 15 frames (~1.5s) with extended frame duration.
+
+5. **STATE 5: RESET (Frames 59–63):**
+   - Deliberate cyan/mint laser scanline warp wipe sweeps vertically down the sector.
+   - Smoothly resets the sector for the next round loop without abrupt target pop-in.
 
 ---
 

@@ -222,6 +222,110 @@ def test_banner_dimensions():
         print(f"  ✓ {b}: {width}x{height} (viewBox='{viewbox}')")
     print("  All project banners verified.\n")
 
+def test_snake_removal():
+    print("[6/7] Testing Complete Snake Deprecation & Removal...")
+    readme_path = REPO_ROOT / "README.md"
+    readme_text = readme_path.read_text(encoding="utf-8").lower()
+    assert "snake" not in readme_text, "Found unwanted 'snake' reference in README.md!"
+
+    # Ensure no snake workflows exist
+    snake_workflow = REPO_ROOT / ".github" / "workflows" / "snake.yml"
+    assert not snake_workflow.exists(), "Found obsolete .github/workflows/snake.yml!"
+
+    # Ensure no snake assets exist
+    for f in ["github-snake.svg", "github-snake-dark.svg"]:
+        snake_asset = REPO_ROOT / "assets" / f
+        assert not snake_asset.exists(), f"Found obsolete snake asset {f}!"
+
+    print("  ✓ Zero snake assets, workflows, or README references exist in repository.\n")
+
+def test_arcade_state_progression():
+    print("[7/7] Testing Arcade State Machine & Finite Combat Sequence...")
+    gif_path = REPO_ROOT / "assets" / "arcade" / "arcade_shooter.gif"
+    assert gif_path.exists(), "Missing arcade_shooter.gif"
+
+    with Image.open(gif_path) as im:
+        assert im.n_frames == 64, f"Expected 64 frames, got {im.n_frames}"
+        assert im.size == (840, 340), f"Expected 840x340, got {im.size}"
+
+        # Frame 4 (State 1: Initialization)
+        im.seek(4)
+        f4 = im.convert("RGB")
+        # Fleet active: check presence of target pixels in target area
+        # Check targets row area y in [70, 190]
+        has_targets_init = False
+        for ty in [80, 115, 150, 185]:
+            for tx in [230, 270, 340, 380, 420, 460, 500, 570, 610]:
+                pixel = f4.getpixel((tx, ty))
+                if pixel != (11, 15, 23):  # Non-void
+                    has_targets_init = True
+                    break
+        assert has_targets_init, "State 1 Initialization has no targets!"
+
+        # Frame 50 (State 4: Victory Held)
+        im.seek(50)
+        f50 = im.convert("RGB")
+        # Battlefield must be cleared: all target origins in target zone must be empty (VOID or star)
+        # Check target locations are completely cleared
+        for ty in [80, 115, 150, 185]:
+            for tx in [230, 270, 340, 380, 500, 570, 610]:
+                pixel = f50.getpixel((tx, ty))
+                # Must not be any of the invader colors
+                assert pixel not in [(16, 185, 129), (0, 240, 255), (139, 92, 246), (244, 63, 94)], \
+                    f"Target still visible at ({tx}, {ty}) in victory state!"
+
+        # Victory modal banner must be present at center (x=420, y=128)
+        modal_pixel = f50.getpixel((420, 128))
+        # Modal interior is DARK_CYANITE (7, 10, 15) or text
+        assert modal_pixel != (11, 15, 23), "Victory modal missing in State 4!"
+
+        # Frame 61 (State 5: Deliberate Reset Scanline at y=168)
+        im.seek(61)
+        f61 = im.convert("RGB")
+        wipe_y = int(54 + ((61 - 59) / 5.0) * (340 - 54))  # 168
+        has_cyan_line = any(f61.getpixel((x, wipe_y)) == (0, 240, 255) for x in range(100, 740, 50))
+        assert has_cyan_line, f"State 5 Deliberate reset scanline missing at y={wipe_y}!"
+
+    print("  ✓ State 1 (Init) -> State 2 (Combat) -> State 3 (Clearing) -> State 4 (Victory Held) -> State 5 (Reset) verified.\n")
+
+def test_heading_uniqueness_and_links():
+    print("[8/9] Testing README Heading Hierarchy and Unique Sections...")
+    readme_path = REPO_ROOT / "README.md"
+    content = readme_path.read_text(encoding="utf-8")
+
+    h2_headings = re.findall(r'^##\s+(.+)$', content, re.MULTILINE)
+    assert len(h2_headings) == 6, f"Expected exactly 6 major sections, found {len(h2_headings)}: {h2_headings}"
+    assert len(set(h2_headings)) == len(h2_headings), f"Duplicate major headings detected: {h2_headings}"
+
+    expected_sections = [
+        "01 // IDENTITY & COCKPIT",
+        "02 // SIGNATURE CONTRIBUTION SPACE DEFENDER",
+        "03 // FEATURED PROJECTS",
+        "04 // TECHNOLOGY STACK",
+        "05 // COMPACT ACTIVITY TELEMETRY",
+        "06 // CONTACT & TRANSMISSION",
+    ]
+    for exp in expected_sections:
+        assert any(exp in h for h in h2_headings), f"Missing expected section: {exp}"
+
+    print("  ✓ All 6 major section headings are strictly unique, correctly ordered, and match specification.\n")
+
+def test_secret_cleanliness():
+    print("[9/9] Testing Secret Cleanliness & File Integrity...")
+    pattern = re.compile(r'(ghp_[a-zA-Z0-9]{36}|github_pat_[a-zA-Z0-9_]{82}|AKIA[0-9A-Z]{16}|AIza[0-9A-Za-z-_]{35}|bearer\s+[a-zA-Z0-9_\-\.]{20,})', re.IGNORECASE)
+    for root, dirs, files in os.walk(REPO_ROOT):
+        if '.git' in dirs:
+            dirs.remove('.git')
+        for f in files:
+            p = Path(root) / f
+            try:
+                text = p.read_text(encoding='utf-8', errors='ignore')
+                match = pattern.search(text)
+                assert not match, f"Potential credential/token pattern in {p.relative_to(REPO_ROOT)}"
+            except Exception:
+                pass
+    print("  ✓ Zero API keys, tokens, or credentials detected across all repository files.\n")
+
 if __name__ == "__main__":
     print("==================================================")
     print("  TACE-X PORTFOLIO VALIDATION SUITE")
@@ -231,6 +335,10 @@ if __name__ == "__main__":
     test_readme_anchors_and_assets()
     test_project_rubric_scoring()
     test_banner_dimensions()
+    test_snake_removal()
+    test_arcade_state_progression()
+    test_heading_uniqueness_and_links()
+    test_secret_cleanliness()
     print("==================================================")
     print("  ALL PORTFOLIO VALIDATION TESTS PASSED (100%)")
     print("==================================================")

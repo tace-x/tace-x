@@ -28,12 +28,10 @@ The profile repository was inspected via local clone and GitHub REST API queries
 ├── .git/                                # Git metadata (clean tree on branch 'main')
 ├── .github/
 │   └── workflows/
-│       └── snake.yml                    # Automated contribution snake generation workflow
+│       └── arcade-telemetry.yml         # Automated contribution arcade generation workflow
 ├── assets/
 │   ├── citiwalk.svg                     # 3,461 bytes — Unreferenced orphan SVG (historical)
 │   ├── footer.svg                       # 2,108 bytes — Active footer console SVG
-│   ├── github-snake-dark.svg            # 50,546 bytes — Active dark snake animation
-│   ├── github-snake.svg                 # 50,546 bytes — Active light snake animation
 │   ├── hero.svg                         # 9,431 bytes — Active hero console SVG with CSS animations
 │   ├── kalvi-chat.svg                   # 5,428 bytes — Unreferenced orphan SVG (Kalvichat build)
 │   ├── process.svg                      # 3,197 bytes — Active engineering execution loop SVG
@@ -48,7 +46,7 @@ The profile repository was inspected via local clone and GitHub REST API queries
 ### Git State & History
 - **Primary Branch:** `main`
 - **Working Tree:** Clean, synchronized with `origin/main`.
-- **Commit History:** Dominated by automated daily commits from `github-actions[bot]` running `.github/workflows/snake.yml` (`chore(cron): refresh GitHub contribution snake`).
+- **Commit History:** Automated daily commits from `github-actions[bot]` running `.github/workflows/arcade-telemetry.yml`.
 - **Most Recent Manual Commit:** `7c998bf` on Fri Oct 9 2026 by "Tace Fx" (*"feat: transform profile README into 10000/10 developer showcase"*).
 - **Source Images / Raster Graphics:** 0 raster image files (PNG, JPG, WEBP, GIF) exist in the current tree or the entire Git commit history. Only 12 standalone SVG files exist in `assets/`.
 
@@ -61,7 +59,7 @@ The existing [`README.md`](file:///Users/immanuelmelbin/tace-x/README.md) is str
 ### Strengths
 1. **Strong Narrative Voice:** Consistent identity as a Systems Architect & AI Builder focused on native performance, PTY ergonomics, and zero-allocation hot paths.
 2. **Animated SVG Integration:** Custom SVG graphics (`hero.svg`, `process.svg`, `roadmap.svg`) use pure SVG CSS keyframe animations that render smoothly without external JavaScript.
-3. **Dual-Theme Support for Snake:** Employs `<picture>` with `(prefers-color-scheme: dark)` and `(prefers-color-scheme: light)` for `assets/github-snake.svg`.
+3. **Obsidian Palette Consistency:** Dark cyberpunk theme matching `#0B0F17` void and neon accents.
 4. **Structured Navigation:** Top anchor directory enables fast jumping between sections.
 
 ### Discrepancies & Weaknesses
@@ -87,7 +85,7 @@ The existing [`README.md`](file:///Users/immanuelmelbin/tace-x/README.md) is str
 | **Stack Arsenal Graphic** | Working | [`assets/stack.svg`](file:///Users/immanuelmelbin/tace-x/assets/stack.svg), [`README.md:214-218`](file:///Users/immanuelmelbin/tace-x/README.md#L214-L218) | 6,376 bytes SVG. Renders multi-tier architecture cleanly. | **Keep & Update.** Synchronize tools with verified public repository stacks. |
 | **Interactive Toolchain Badges** | Working | [`README.md:221-235`](file:///Users/immanuelmelbin/tace-x/README.md#L221-L235) | 13 Shields.io badges. All resolve HTTP 200. | **Keep.** Streamline to prevent visual clutter. |
 | **Engineering Execution Loop** | Working | [`assets/process.svg`](file:///Users/immanuelmelbin/tace-x/assets/process.svg), [`README.md:243-261`](file:///Users/immanuelmelbin/tace-x/README.md#L243-L261) | 3,197 bytes SVG with pulse animation. Tenets are articulate and clear. | **Keep.** |
-| **Contribution Snake Animation** | Working | [`assets/github-snake.svg`](file:///Users/immanuelmelbin/tace-x/assets/github-snake.svg), [`assets/github-snake-dark.svg`](file:///Users/immanuelmelbin/tace-x/assets/github-snake-dark.svg), [`.github/workflows/snake.yml`](file:///Users/immanuelmelbin/tace-x/.github/workflows/snake.yml) | Actively refreshed daily at midnight UTC by GitHub Actions. Valid SVG. | **Keep.** Retain as secondary activity visualizer; harmonize with new arcade shooter. |
+| **Contribution Snake Animation** | Decommissioned | Removed | Former snake animation and workflow completely removed per profile cleanup mandate. | **Removed.** Replaced entirely by the finite 5-state arcade space shooter. |
 | **GitHub Stats Cards** | Working | [`README.md:281-295`](file:///Users/immanuelmelbin/tace-x/README.md#L281-L295) | `github-readme-stats` and `streak-stats` return HTTP 200. TokyoNight theme styled with custom hex parameters. | **Keep & Align.** Tighten theme colors to exact neon cyan/mint palette. |
 | **Strategic Horizons Graphic** | Working | [`assets/roadmap.svg`](file:///Users/immanuelmelbin/tace-x/assets/roadmap.svg), [`README.md:304-310`](file:///Users/immanuelmelbin/tace-x/README.md#L304-L310) | 4,817 bytes SVG with animated flow path. | **Keep.** |
 | **Footer Console Graphic** | Working | [`assets/footer.svg`](file:///Users/immanuelmelbin/tace-x/assets/footer.svg), [`README.md:336`](file:///Users/immanuelmelbin/tace-x/README.md#L336) | 2,108 bytes SVG. | **Keep.** |
@@ -237,7 +235,7 @@ graph TD
     C --> D["04. Signature Contribution Space Shooter (Arcade GIF + Live HUD)"]
     D --> E["05. Flagship Systems Showcase (TerminalVision, CAPCAM, NOCAP, Kalvichat, TypeTasks)"]
     E --> F["06. Verified Engineering Toolchain & Architecture Matrix"]
-    F --> G["07. Telemetry & Activity (Contribution Snake + Streak Stats)"]
+    F --> G["07. Telemetry & Activity (GitHub Stats & Streaks)"]
     G --> H["08. Transmission & Contact (Console Footer)"]
 ```
 
@@ -248,7 +246,7 @@ graph TD
 4. **04. Contribution Arcade Shooter:** The signature centerpiece demonstrating creative development and gamified activity.
 5. **05. Flagship Systems:** High-impact cards highlighting deep engineering accomplishments with direct links and verified stats.
 6. **06. Engineering Toolchain:** Clean categorized groupings (Native, Web, AI, Tooling) avoiding repetitive badges.
-7. **07. Telemetry & Activity:** Live contribution snake and verified GitHub stats.
+7. **07. Telemetry & Activity:** Live GitHub activity metrics and verified stats.
 8. **08. Transmission:** Action-oriented links to repositories, GitHub follow, and discussions.
 
 ---
@@ -347,7 +345,7 @@ To eliminate manual data entry and ensure 100% data integrity without fragile sc
 2. **Local Fallback Retrieval (Public Contributions Endpoint):**
    For local runs without tokens, parse `https://github.com/users/tace-x/contributions` which was verified in Task A to return raw `data-level` (0-4) and `data-date` attributes.
 3. **Offline Fallback Dataset:**
-   If network access is completely offline, the generator utilizes the cached snapshot from the repository's active `github-snake.svg`, ensuring scripts never crash.
+   If network access is completely offline, the generator utilizes the verified deterministic snapshot, ensuring scripts never crash.
 
 ### Contribution-to-Invader Mapping
 GitHub returns 5 distinct contribution levels:
@@ -408,7 +406,7 @@ A structured two-tier system:
 
 | Widget / Service | Current State | Reliability | Verified URL / Source | Recommendation | Engineering Rationale |
 |---|---|:---:|---|:---:|---|
-| **Contribution Snake** | Working | High | [`.github/workflows/snake.yml`](file:///Users/immanuelmelbin/tace-x/.github/workflows/snake.yml) generating `assets/github-snake.svg` | **Keep & Unify** | Proven daily reliability. Refactor workflow to coexist seamlessly with arcade generator. |
+| **Arcade Defender Telemetry** | Active | High | [`.github/workflows/arcade-telemetry.yml`](file:///Users/immanuelmelbin/tace-x/.github/workflows/arcade-telemetry.yml) generating `assets/arcade/arcade_shooter.gif` | **Active** | Verified 53-week contribution telemetry and 5-state finite combat loop. |
 | **github-readme-stats (Overview)** | Working | High (HTTP 200) | `https://github-readme-stats.vercel.app/api?username=tace-x` | **Keep & Retheme** | Live response is stable. Tune theme parameters (`bg_color=0B0F17`, `title_color=00F0FF`, `icon_color=10B981`) to match unified palette. |
 | **github-readme-stats (Top Languages)** | Working | High (HTTP 200) | `https://github-readme-stats.vercel.app/api/top-langs/?username=tace-x` | **Keep & Retheme** | Accurately highlights Rust, TypeScript, and JavaScript activity across public repositories. |
 | **github-readme-streak-stats** | Working | Moderate (HTTP 200) | `https://github-readme-streak-stats.herokuapp.com/?user=tace-x` | **Keep** | Retain as secondary activity validator; align background hex to `#0B0F17`. |
@@ -419,16 +417,15 @@ A structured two-tier system:
 ## 14. GitHub Actions Audit
 
 ### Inspection of Existing Workflow
-File: [`.github/workflows/snake.yml`](file:///Users/immanuelmelbin/tace-x/.github/workflows/snake.yml)
+File: [`.github/workflows/arcade-telemetry.yml`](file:///Users/immanuelmelbin/tace-x/.github/workflows/arcade-telemetry.yml)
 - **Trigger:** Scheduled daily at midnight UTC (`cron: "0 0 * * *"`) and manually via `workflow_dispatch`.
 - **Permissions:** `contents: write`.
-- **Primary Actions:** `actions/checkout@v4`, `Platane/snk@v3`.
-- **Outputs:** `assets/github-snake.svg`, `assets/github-snake-dark.svg`.
-- **Commit Logic:** Checks `git diff --staged --quiet || git commit -m "chore(cron): refresh GitHub contribution snake"`.
+- **Outputs:** `assets/arcade/arcade_shooter.gif`, `assets/arcade/arcade_poster.svg`.
+- **Commit Logic:** Checks `git diff --staged --quiet || git commit -m "chore(cron): refresh GitHub arcade shooter telemetry assets"`.
 - **Loop Risk:** **Zero.** The workflow triggers strictly on cron schedule and manual dispatch; it does not listen to `on: push`, preventing recursive self-triggering loops.
 
-### Proposed Future Automation Architecture (`.github/workflows/profile-automation.yml`)
-In Phase 4, the workflow will be consolidated to regenerate both the snake SVGs and the arcade shooter assets within a single bounded job:
+### Automation Architecture (`.github/workflows/arcade-telemetry.yml`)
+In Phase 4, the workflow regenerates the arcade shooter assets within a single bounded job:
 1. **Trigger:** `schedule: - cron: "0 0 * * *"` and `workflow_dispatch`.
 2. **Minimal Permissions:** `contents: write` scoped strictly to repository contents.
 3. **Security:** Runs scripts using the default environment `GITHUB_TOKEN`. No personal access tokens or secret keys required.
@@ -462,8 +459,6 @@ In Phase 4, the workflow will be consolidated to regenerate both the snake SVGs 
 │   │   ├── arsenal.svg                  # Categorized architecture matrix
 │   │   ├── process.svg                  # Engineering execution loop
 │   │   └── footer.svg                   # Console footer
-│   ├── github-snake.svg                 # Light contribution snake
-│   └── github-snake-dark.svg            # Dark contribution snake
 ├── docs/
 │   └── PROFILE_IMPLEMENTATION_PLAN.md   # [CREATED IN PHASE 1] Master blueprint
 ├── scripts/
@@ -535,7 +530,7 @@ To ensure frictionless reproducibility both locally on macOS and inside standard
 
 ### [ ] Phase 4 — Flagship Project Asset Modernization & Workflow Consolidation
 - [ ] Design modernized SVG banners for top flagships (`TerminalVision`, `CAPCAM`, `NOCAP`, `Kalvichat`, `TypeTasks`).
-- [ ] Refactor `.github/workflows/profile-automation.yml` to unify snake and arcade updates.
+- [ ] Configure `.github/workflows/arcade-telemetry.yml` for scheduled arcade updates.
 - [ ] Develop `scripts/validate_assets.py` to verify image dimensions, headers, and size budgets.
 - [ ] Verify local dry-run execution of the automation workflow.
 

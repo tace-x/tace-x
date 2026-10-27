@@ -4,41 +4,21 @@
 
   <br /><br />
 
-  <a href="#selected-projects"><strong>🚀 SELECTED PROJECTS</strong></a>
+  <a href="#projects"><strong>🚀 FEATURED PROJECTS</strong></a>
   &nbsp;•&nbsp;
-  <a href="#arcade-defender"><strong>👾 ARCADE DEFENDER</strong></a>
+  <a href="#arcade"><strong>👾 ARCADE DEFENDER</strong></a>
   &nbsp;•&nbsp;
-  <a href="#engineering-arsenal"><strong>⚡ TECH ARSENAL</strong></a>
+  <a href="#stack"><strong>⚡ TECH STACK</strong></a>
   &nbsp;•&nbsp;
-  <a href="#production-systems"><strong>📦 PRODUCTION SUITES</strong></a>
+  <a href="#telemetry"><strong>📊 TELEMETRY</strong></a>
   &nbsp;•&nbsp;
-  <a href="#engineering-manifesto"><strong>🧭 ENGINEERING LOOP</strong></a>
-  &nbsp;•&nbsp;
-  <a href="#telemetry--activity"><strong>📊 TELEMETRY</strong></a>
-  &nbsp;•&nbsp;
-  <a href="https://github.com/tace-x?tab=repositories"><strong>🌐 ALL REPOSITORIES</strong></a>
-
-  <br /><br />
-
-  <sub>
-    <a href="#identity">Identity</a> &nbsp;·&nbsp;
-    <a href="#arcade-defender">Arcade Defender</a> &nbsp;·&nbsp;
-    <a href="#terminalvision">TerminalVision</a> &nbsp;·&nbsp;
-    <a href="#capcam">CAPCAM</a> &nbsp;·&nbsp;
-    <a href="#nocap">NOCAP</a> &nbsp;·&nbsp;
-    <a href="#kalvichat">Kalvichat</a> &nbsp;·&nbsp;
-    <a href="#typetasks">TypeTasks</a> &nbsp;·&nbsp;
-    <a href="#project-alpha">Project Alpha</a> &nbsp;·&nbsp;
-    <a href="#production-systems">Production Suites</a> &nbsp;·&nbsp;
-    <a href="#engineering-arsenal">Tech Stack</a> &nbsp;·&nbsp;
-    <a href="#telemetry--activity">Activity</a> &nbsp;·&nbsp;
-    <a href="#transmission">Connect</a>
-  </sub>
+  <a href="#contact"><strong>📡 CONNECT</strong></a>
 
 </div>
 
 ---
 
+<a id="hero"></a>
 <a id="identity"></a>
 <a id="-identity"></a>
 
@@ -46,10 +26,7 @@
 
 <div align="center">
 
-  <picture>
-    <source media="(prefers-reduced-motion: reduce)" srcset="assets/portrait/portrait_dotmatrix.svg" />
-    <img src="assets/portrait/portrait_assembly.gif" width="260" height="260" alt="TACE-X Dot-Matrix Identity [Temporary Geometric Visual — Ready for Custom Portrait Upload]" />
-  </picture>
+  <img src="assets/portrait/portrait_assembly.gif" width="260" height="260" alt="TACE-X Dot-Matrix Identity [Temporary Geometric Visual — Ready for Custom Portrait Upload]" />
 
   <br />
 
@@ -64,18 +41,6 @@
   <sub>
     <i>Temporary geometric architect emblem — <a href="docs/PORTRAIT_PIPELINE.md#-how-to-regenerate-assets-with-your-photo">custom portrait pipeline ready</a></i>
   </sub>
-
-  <br /><br />
-
-  <a href="https://github.com/tace-x/TerminalVision"><img src="https://img.shields.io/badge/TerminalVision-Rust_2024-00F0FF?style=flat-square&logo=rust&logoColor=black" alt="TerminalVision" /></a>
-  &nbsp;
-  <a href="https://github.com/tace-x/CAPCAM"><img src="https://img.shields.io/badge/CAPCAM-Chrome_MV3-10B981?style=flat-square&logo=googlechrome&logoColor=white" alt="CAPCAM" /></a>
-  &nbsp;
-  <a href="https://github.com/tace-x/NOCAP"><img src="https://img.shields.io/badge/NOCAP-NVIDIA_NIM-8B5CF6?style=flat-square&logo=nvidia&logoColor=white" alt="NOCAP" /></a>
-  &nbsp;
-  <a href="https://github.com/tace-x/Kalvichat"><img src="https://img.shields.io/badge/Kalvichat-React_19-38BDF8?style=flat-square&logo=react&logoColor=black" alt="Kalvichat" /></a>
-  &nbsp;
-  <a href="https://github.com/tace-x/TypeTasks"><img src="https://img.shields.io/badge/TypeTasks-Vite_8-F59E0B?style=flat-square&logo=vite&logoColor=white" alt="TypeTasks" /></a>
 
 </div>
 
@@ -107,6 +72,8 @@
 
 ---
 
+<a id="arcade"></a>
+<a id="-arcade"></a>
 <a id="arcade-defender"></a>
 <a id="-arcade-defender"></a>
 
@@ -114,10 +81,7 @@
 
 <div align="center">
 
-  <picture>
-    <source media="(prefers-reduced-motion: reduce)" srcset="assets/arcade/arcade_poster.svg" />
-    <img src="assets/arcade/arcade_shooter.gif" width="100%" alt="TACE-X Arcade Space Defender — Retro space shooter mapping tace-x's 52-week GitHub contribution grid to an invader armada" />
-  </picture>
+  <img src="assets/arcade/arcade_shooter.gif" width="100%" alt="TACE-X Arcade Space Defender — Retro space shooter mapping contribution activity to an alien armada" />
 
   <br />
 
@@ -125,27 +89,31 @@
     <b>TACE-X // ARCADE DEFENDER</b> &nbsp;•&nbsp;
     <code>53 WEEKS // 371 CELLS</code> &nbsp;•&nbsp;
     <code>VERIFIED SCORE: 4,070 PTS</code> &nbsp;•&nbsp;
-    <a href="standalone/index.html"><b>▶ LAUNCH INTERACTIVE RETRO SHOOTER IN BROWSER</b></a>
+    <a href="standalone/index.html"><b>▶ LAUNCH INTERACTIVE RETRO SHOOTER IN BROWSER</b></a> &nbsp;•&nbsp;
+    <a href="assets/arcade/arcade_poster.svg">STATIC POSTER</a> &nbsp;•&nbsp;
+    <a href="assets/arcade/arcade_contact_sheet.png">STATE CONTACT SHEET</a>
   </sub>
 
 </div>
 
 <br />
 
-> **Gamified Contribution Telemetry:** The $53 \times 7$ contribution matrix is rendered as an armada of retro invaders where color, armor, and point values map 1:1 to verified commit intensity: Mint Scouts (Level 1, +10 pts), Cyan Escorts (Level 2, +25 pts), Violet Battlecruisers (Level 3, +50 pts), and Threat Red Motherships (Level 4, +100 pts). Score formula: $\text{Base Score } (1,670) + \text{Clearance Bonus } (480 \times 5 = 2,400) = \mathbf{4,070\text{ PTS}}$.
+> **Finite 5-State Combat Telemetry:** The $53 \times 7$ contribution matrix (480 contributions across 371 days) is visualized as an armada of hostile invaders: Mint Scouts (Level 1, +10 pts), Cyan Escorts (Level 2, +25 pts), Violet Cruisers (Level 3, +50 pts), and Threat Red Motherships (Level 4, +100 pts). The starfighter arrives, intercepts every squadron, systematically eliminates all targets down to zero, and displays the `>> SECTOR CLEARED <<` victory sequence ($4,070\text{ PTS}$) before executing a deliberate reset wipe.
 
 <br />
 
 ---
 
+<a id="projects"></a>
+<a id="-projects"></a>
 <a id="selected-projects"></a>
 <a id="-selected-projects"></a>
 <a id="flagship-systems"></a>
 <a id="-flagship-systems"></a>
 
-## 03 // SELECTED PROJECTS & FLAGSHIP SYSTEMS
+## 03 // FEATURED PROJECTS
 
-A curated breakdown of top-tier systems engineered, verified, and shipped on GitHub. Each project is evaluated on technical depth, architectural originality, practical utility, and code implementation evidence.
+A curated breakdown of top-tier systems engineered, verified, and shipped on GitHub. Each project is evaluated on technical depth, architectural originality, practical utility, and verifiable implementation evidence.
 
 <br />
 
@@ -160,19 +128,13 @@ A curated breakdown of top-tier systems engineered, verified, and shipped on Git
 
 <br />
 
-**TerminalVision** is a high-performance, native Rust terminal file manager, developer cockpit, and integrated interactive shell environment. It fuses side-by-side dual-pane navigation, syntax-highlighted code preview, image and media inspection, in-process Git analytics, an asynchronous storage analyzer, and a **real, live Unix PTY terminal** always visible and ready for seamless keyboard and mouse control.
-
-```bash
-# Clone and build native binary
-git clone https://github.com/tace-x/TerminalVision.git
-cd TerminalVision && cargo run --release
-```
+**TerminalVision** is a high-performance native Rust terminal file manager, developer cockpit, and integrated interactive shell environment. It fuses side-by-side dual-pane navigation, syntax-highlighted code preview, image and media inspection, in-process Git analytics, an asynchronous storage analyzer, and a **real, live Unix PTY terminal** always visible for seamless keyboard and mouse control.
 
 - **⚡ Live Interactive Unix PTY:** Embedded pseudo-terminal running `zsh`, `bash`, `fish`, or `sh` with instant focus toggling (`Ctrl+T` / `F12`). Run `vim`, `nano`, `top`, or `ssh` right inside the cockpit without process suspension.
-- **📁 Dual-Pane Virtual File System:** Side-by-side independent navigation panes with active indicators, fast multi-selection (`Space`, `⌘A`), and instantaneous zero-allocation sorting.
-- **🖼️ Universal Terminal Graphics:** Kitty, iTerm2, and Sixel protocol image rendering for PNG, JPEG, GIF, BMP, and WEBP with fallback ASCII and metadata cards.
+- **📁 Dual-Pane Virtual File System:** Side-by-side independent navigation panes with active indicators, fast multi-selection (`Space`, `⌘A`), and zero-allocation sorting.
+- **🖼️ Universal Terminal Graphics:** Kitty, iTerm2, and Sixel protocol image rendering for PNG, JPEG, GIF, BMP, and WEBP with fallback ASCII cards.
 - **📊 Storage Vision Heatmap:** Background non-blocking directory scanner with real-time usage heatmap bars and top memory consumer breakdown.
-- **🛡️ Bounded Safe Previews:** Syntax highlighting across 20+ programming languages with memory guards preventing OOM spikes on multi-gigabyte files.
+- **🛡️ Bounded Safe Previews:** Syntax highlighting across 20+ programming languages with memory guards preventing OOM spikes on large files.
 - **🧪 Implementation Verification:** 21 comprehensive integration and fuzz test suites under `tests/` verifying state machines, PTY lifecycle, and layout engines.
 
 [**INSPECT REPOSITORY →**](https://github.com/tace-x/TerminalVision) &nbsp;•&nbsp; `RUST 2024` · `RATATUI` · `UNIX PTY` · `CROSSTERM` · `LIBC`
@@ -194,7 +156,7 @@ cd TerminalVision && cargo run --release
 
 **CAPCAM** is a local-first Chrome Manifest V3 extension architected to intercept and substitute WebRTC camera sender tracks via an offscreen canvas rendering engine. Built to operate entirely inside the client sandbox with zero telemetry or cloud transmission, it delivers fluid real-time video compositing directly to browser-based video conferencing peers.
 
-- **🎥 Offscreen Canvas Media Pipeline:** Routes video frames into Chrome's Offscreen Document API context, maintaining a rock-steady 60 FPS without degrading UI responsiveness or blocking the main extension service worker.
+- **🎥 Offscreen Canvas Media Pipeline:** Routes video frames into Chrome's Offscreen Document API context, maintaining a steady 60 FPS without degrading UI responsiveness or blocking the main service worker.
 - **🔄 In-Place Sender Track Replacement:** Leverages WebRTC's `RTCRtpSender.replaceTrack()` to hot-swap live camera streams seamlessly without breaking active peer connections.
 - **🔒 Local-First Sovereignty:** 100% operational offline with zero external network requests, preserving user privacy and confidential media streams.
 - **🧪 Implementation Verification:** 15 modular unit and integration test suites under `tests/` verifying canvas transformations, messaging conduits, stress conditions, and WebRTC stream substitution.
@@ -243,7 +205,7 @@ cd TerminalVision && cargo run --release
 **Kalvichat** is a privacy-first, real-time communication platform engineered for secure educational and organizational messaging. Combining React 19 with Cloud Firestore's real-time streaming engine, it delivers fine-grained administrative moderation, identity resolution, and hardened audit logging.
 
 - **⚡ React 19 Concurrent Streaming:** Low-latency client architecture leveraging React 19 transitions and optimistic updates for instantaneous message dispatch.
-- **🔐 Granular Security Infrastructure:** Complete declarative security matrix (`firestore.rules`) and indexed compound queries (`firestore.indexes.json`) enforcing role-based permissions.
+- **🔐 Granular Security Infrastructure:** Declarative security matrix (`firestore.rules`) and indexed compound queries (`firestore.indexes.json`) enforcing role-based permissions.
 - **🛡️ Server-Authorized Admin Moderation:** Serverless backend functions handling sensitive user elevation, chat channel provisioning, and abuse mitigation.
 - **🧪 Implementation Verification:** Automated test suites in `tests/` executed via Node's native test runner (`node --test`), validating access rules and message serialization.
 
@@ -304,104 +266,21 @@ cd TerminalVision && cargo run --release
 
 ---
 
-<a id="production-systems"></a>
-<a id="-production-systems"></a>
-<a id="more-systems"></a>
-<a id="-more-systems"></a>
-
-## 04 // PRODUCTION SYSTEMS & DOMAIN SUITES
-
-Beyond core flagships, these verified applications and service engines power operations across data-centre management, healthcare logistics, education finance, and offline governance:
-
-<table>
-  <thead>
-    <tr>
-      <th align="left">System / Repository</th>
-      <th align="left">Domain</th>
-      <th align="left">Architectural Highlights</th>
-      <th align="center">Stack</th>
-      <th align="right">Verified Repository</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td><a href="https://github.com/tace-x/Kalopsia"><strong>Kalopsia</strong></a></td>
-      <td>Data-Centre Operations</td>
-      <td>Multi-tenant operations platform tracking service entries, recoveries, automatic payment status, and analytics suites.</td>
-      <td><code>Firestore</code> <code>JavaScript</code> <code>Chart.js</code></td>
-      <td align="right"><a href="https://github.com/tace-x/Kalopsia"><strong>Source →</strong></a></td>
-    </tr>
-    <tr>
-      <td><a href="https://github.com/tace-x/kalopsia-paliative"><strong>kalopsia-paliative</strong></a></td>
-      <td>Healthcare Logistics</td>
-      <td>Firebase-backed service management engine covering medical equipment inventory, rental declarations, and clients.</td>
-      <td><code>Firebase</code> <code>JavaScript</code> <code>HTML5</code></td>
-      <td align="right"><a href="https://github.com/tace-x/kalopsia-paliative"><strong>Source →</strong></a></td>
-    </tr>
-    <tr>
-      <td><a href="https://github.com/tace-x/St.Annes-ICSE-School-Payment-Portal"><strong>St. Annes Fee Portal</strong></a></td>
-      <td>FinTech / EdTech</td>
-      <td>Multi-surface student and administrator portal handling fee schedules, receipts, and protected administrative tools.</td>
-      <td><code>Firebase</code> <code>JavaScript</code> <code>SheetJS</code></td>
-      <td align="right"><a href="https://github.com/tace-x/St.Annes-ICSE-School-Payment-Portal"><strong>Source →</strong></a></td>
-    </tr>
-    <tr>
-      <td><a href="https://github.com/tace-x/school-voting-system"><strong>School Voting System</strong></a></td>
-      <td>Offline Governance</td>
-      <td>Secure secret-ballot digital voting flow with offline local persistence, NOTA handling, and password-gated tally console.</td>
-      <td><code>JavaScript</code> <code>Storage API</code> <code>CSS3</code></td>
-      <td align="right"><a href="https://github.com/tace-x/school-voting-system"><strong>Source →</strong></a></td>
-    </tr>
-  </tbody>
-</table>
-
-<br />
-
----
-
-<a id="engineering-arsenal"></a>
-<a id="-engineering-arsenal"></a>
+<a id="stack"></a>
+<a id="-stack"></a>
+<a id="arsenal"></a>
+<a id="-arsenal"></a>
 <a id="tech-stack"></a>
 <a id="-tech-stack"></a>
+<a id="engineering-arsenal"></a>
+<a id="-engineering-arsenal"></a>
 
-## 05 // VERIFIED ENGINEERING ARSENAL
+## 04 // TECHNOLOGY STACK
 
-Every technology, library, and tool below is verified by direct evidence in public repositories, build configurations, or production deployments. No speculative or unverified skills are claimed.
+Every technology, library, and architecture below is verified by direct evidence in public repositories, build configurations, or production deployments.
 
 <p align="center">
   <img src="assets/stack.svg" width="100%" alt="Verified Engineering Arsenal: Rust 2024, TypeScript, NVIDIA NIM, React 19, Firebase Firestore, PTY, Vite 8" />
-</p>
-
-### 🛠️ Interactive Toolchain Matrix
-
-<p align="center">
-  <a href="https://www.rust-lang.org/"><img src="https://img.shields.io/badge/Rust-2024_Edition-DEA584?style=for-the-badge&logo=rust&logoColor=black" alt="Rust" /></a>
-  <a href="https://www.typescriptlang.org/"><img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" /></a>
-  <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript"><img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" alt="JavaScript" /></a>
-  <a href="https://en.wikipedia.org/wiki/C_(programming_language)"><img src="https://img.shields.io/badge/ANSI_C-A8B9CC?style=for-the-badge&logo=c&logoColor=black" alt="C" /></a>
-  <a href="https://developer.nvidia.com/nim"><img src="https://img.shields.io/badge/NVIDIA_NIM-76B900?style=for-the-badge&logo=nvidia&logoColor=white" alt="NVIDIA NIM" /></a>
-  <a href="https://react.dev/"><img src="https://img.shields.io/badge/React_19-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React" /></a>
-  <a href="https://vitejs.dev/"><img src="https://img.shields.io/badge/Vite_8-646CFF?style=for-the-badge&logo=vite&logoColor=white" alt="Vite" /></a>
-  <a href="https://firebase.google.com/"><img src="https://img.shields.io/badge/Firebase_Firestore-FFCA28?style=for-the-badge&logo=firebase&logoColor=black" alt="Firebase" /></a>
-  <a href="https://webrtc.org/"><img src="https://img.shields.io/badge/WebRTC-333333?style=for-the-badge&logo=webrtc&logoColor=white" alt="WebRTC" /></a>
-  <a href="https://nodejs.org/"><img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white" alt="Node.js" /></a>
-  <a href="https://git-scm.com/"><img src="https://img.shields.io/badge/Git-F05032?style=for-the-badge&logo=git&logoColor=white" alt="Git" /></a>
-  <a href="https://github.com/features/actions"><img src="https://img.shields.io/badge/GitHub_Actions-2088FF?style=for-the-badge&logo=github-actions&logoColor=white" alt="GitHub Actions" /></a>
-</p>
-
-<br />
-
----
-
-<a id="engineering-manifesto"></a>
-<a id="-engineering-manifesto"></a>
-<a id="engineering-loop"></a>
-<a id="-engineering-loop"></a>
-
-## 06 // ENGINEERING EXECUTION LOOP
-
-<p align="center">
-  <img src="assets/process.svg" width="100%" alt="Engineering Loop: Think, Design, Build, Benchmark, Ship, Harden" />
 </p>
 
 <details open>
@@ -420,26 +299,18 @@ Every technology, library, and tool below is verified by direct evidence in publ
 
 ---
 
+<a id="telemetry"></a>
+<a id="-telemetry"></a>
 <a id="telemetry--activity"></a>
 <a id="-telemetry--activity"></a>
 <a id="activity"></a>
 <a id="-activity"></a>
 
-## 07 // CONTRIBUTION TELEMETRY & ACTIVITY
+## 05 // COMPACT ACTIVITY TELEMETRY
 
-Activity metrics and contribution visualizations are pre-rendered and verified to ensure maximum reliability and zero external service dependency.
+Real-time developer activity metrics and language distributions served directly from verified GitHub profile telemetry.
 
 <div align="center">
-
-  <picture>
-    <source media="(prefers-color-scheme: dark)" srcset="assets/github-snake-dark.svg" />
-    <source media="(prefers-color-scheme: light)" srcset="assets/github-snake.svg" />
-    <img src="assets/github-snake.svg" width="100%" alt="Animated GitHub contribution snake generated from tace-x's contribution activity" />
-  </picture>
-
-  <sub>Automated via GitHub Actions cron workflow &nbsp;•&nbsp; Refreshed daily at 00:00 UTC</sub>
-
-  <br /><br />
 
   <table border="0">
     <tr>
@@ -460,34 +331,18 @@ Activity metrics and contribution visualizations are pre-rendered and verified t
 
 <br />
 
-> **Telemetry Data Integrity & Freshness:**
-> - **Arcade Defender Telemetry:** 53-week commit history ($53 \times 7 = 371$ days) compiled from GitHub GraphQL API, rendered into `assets/arcade/arcade_shooter.gif` with verified score formula ($\text{Base } 1,670 + \text{Bonus } 2,400 = 4,070\text{ PTS}$).
-> - **Contribution Snake:** Refreshed daily at 00:00 UTC via `.github/workflows/snake.yml`.
-> - **Dynamic Statistics Cards:** Real-time metrics served via GitHub API with fallback pre-rendered assets preventing broken image states.
+> **Telemetry Data Integrity:** Real-time activity statistics queried directly via GitHub API with dark Tokyo Night obsidian styling matching the system palette (`#0B0F17` void, `#00F0FF` electric cyan, `#10B981` mint). Primary historical contribution activity is visualized in the deterministic [Arcade Space Defender](#arcade).
 
 <br />
 
 ---
 
-<a id="roadmap"></a>
-<a id="-roadmap"></a>
-
-## 08 // STRATEGIC HORIZONS
-
-<p align="center">
-  <img src="assets/roadmap.svg" width="100%" alt="Engineering Roadmap: Native Systems, Decision AI, Flow Workspaces" />
-</p>
-
-<br />
-
----
-
-<a id="transmission"></a>
-<a id="-transmission"></a>
 <a id="contact"></a>
 <a id="-contact"></a>
+<a id="transmission"></a>
+<a id="-transmission"></a>
 
-## 09 // TRANSMISSION & NETWORK
+## 06 // CONTACT & TRANSMISSION
 
 <div align="center">
 
