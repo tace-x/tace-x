@@ -182,76 +182,104 @@ def generate_cybernetic_architect_grid(grid_size=64):
 # ==============================================================================
 # IMAGE PROCESSING & QUANTIZATION PIPELINE
 # ==============================================================================
+def isolate_portrait_subject(img):
+    w, h = img.size
+    visited = set()
+    queue = [(0, 0), (w - 1, 0), (0, 10), (w - 1, 10), (1, 1), (w - 2, 1), (0, 5), (w - 1, 5)]
+
+    def is_bg(x, y):
+        if not (0 <= x < w and 0 <= y < h):
+            return False
+        r, g, b = img.getpixel((x, y))[:3]
+        lum = 0.299 * r + 0.587 * g + 0.114 * b
+        is_neutral = max(abs(r - g), abs(g - b), abs(r - b)) < 25
+        if lum < 45:
+            return False  # hair or suit
+        if r > g + 28:
+            return False  # warm skin tone
+        return is_neutral and 50 <= lum <= 145
+
+    for qx, qy in queue:
+        if is_bg(qx, qy):
+            visited.add((qx, qy))
+
+    frontier = list(visited)
+    while frontier:
+        cx, cy = frontier.pop()
+        for dx, dy in [(-1, 0), (1, 0), (0, -1), (0, 1), (-1, -1), (1, -1), (-1, 1), (1, 1)]:
+            nx, ny = cx + dx, cy + dy
+            if (nx, ny) not in visited and is_bg(nx, ny):
+                visited.add((nx, ny))
+                frontier.append((nx, ny))
+
+    out_img = Image.new("RGB", (w, h), PALETTE["VOID"])
+    for y in range(h):
+        for x in range(w):
+            if (x, y) not in visited:
+                out_img.putpixel((x, y), img.getpixel((x, y))[:3])
+    return out_img
+
+
+LIKENESS_PALETTE = [
+    PALETTE["VOID"],
+    (22,  20,  24),   # HAIR_DARK
+    (42,  34,  38),   # HAIR_MID
+    (75,  42,  25),   # SKIN_DEEP
+    (105, 62,  40),   # SKIN_SHADOW
+    (138, 86,  58),   # SKIN_LOW_MID
+    (168, 108, 76),   # SKIN_MID
+    (195, 134, 98),   # SKIN_LIGHT
+    (218, 162, 128),  # SKIN_HIGHLIGHT
+    (235, 188, 158),  # SKIN_SPECULAR
+    (130, 145, 165),  # SHIRT_SHADOW
+    (190, 202, 218),  # SHIRT_MID
+    PALETTE["WHITE"],  # SHIRT_WHITE
+    (13,  17,  23),   # SUIT_BLACK
+    (25,  33,  44),   # SUIT_MID
+    (42,  54,  72),   # SUIT_EDGE
+]
+
+
 def process_source_image(image_path, grid_size=64):
     """
     Loads, square-crops, enhances, and quantizes a source portrait image
-    into a 64x64 grid of colors from the TACE-X Cyber/Neon palette.
+    into a 64x64 grid of colors preserving recognizability and natural tones.
     """
-    img = Image.open(image_path)
+    raw = Image.open(image_path).convert("RGB")
+    isolated = isolate_portrait_subject(raw)
 
-    # Handle transparency
-    if img.mode in ("RGBA", "LA") or (img.mode == "P" and "transparency" in img.info):
-        alpha_img = img.convert("RGBA")
-        bg = Image.new("RGBA", alpha_img.size, PALETTE["VOID"] + (255,))
-        img = Image.alpha_composite(bg, alpha_img).convert("RGB")
-    else:
-        img = img.convert("RGB")
-
-    # Center square crop
-    w, h = img.size
+    w, h = isolated.size
     crop_size = min(w, h)
     left = (w - crop_size) // 2
     top = (h - crop_size) // 2
-    img = img.crop((left, top, left + crop_size, top + crop_size))
+    img = isolated.crop((left, top, left + crop_size, top + crop_size))
 
-    # Preprocessing: enhance contrast and edge definition for dot-matrix clarity
+    # Preprocessing
     contrast_enhancer = ImageEnhance.Contrast(img)
-    img = contrast_enhancer.enhance(1.35)
-
+    img = contrast_enhancer.enhance(1.15)
     sharpness_enhancer = ImageEnhance.Sharpness(img)
-    img = sharpness_enhancer.enhance(1.4)
+    img = sharpness_enhancer.enhance(1.25)
 
-    # Downsample to working grid
     img_grid = img.resize((grid_size, grid_size), Image.Resampling.LANCZOS)
 
-    # Quantize each pixel to closest palette token with aesthetic weighting
     grid = []
-    active_tokens = [
-        PALETTE["VOID"],
-        PALETTE["SHADOW"],
-        PALETTE["MID_SHADOW"],
-        PALETTE["CYAN"],
-        PALETTE["MINT"],
-        PALETTE["VIOLET"],
-        PALETTE["RED"],
-        PALETTE["WHITE"],
-    ]
-
     for y in range(grid_size):
         row = []
         for x in range(grid_size):
             r, g, b = img_grid.getpixel((x, y))
-            lum = 0.299 * r + 0.587 * g + 0.114 * b
+            # Background void check
+            if r < 18 and g < 22 and b < 28:
+                row.append(PALETTE["VOID"])
+                continue
 
-            # Deep shadows become void
-            if lum < 22:
-                best_color = PALETTE["VOID"]
-            elif lum > 225:
-                best_color = PALETTE["WHITE"]
-            else:
-                # Weighted color distance
-                min_dist = float("inf")
-                best_color = PALETTE["SHADOW"]
-                for token in active_tokens:
-                    tr, tg, tb = token
-                    # Slight emphasis on cyan/mint hue matching
-                    dr = r - tr
-                    dg = g - tg
-                    db = b - tb
-                    dist = 0.3 * (dr * dr) + 0.59 * (dg * dg) + 0.11 * (db * db)
-                    if dist < min_dist:
-                        min_dist = dist
-                        best_color = token
+            best_color = LIKENESS_PALETTE[0]
+            min_dist = float("inf")
+            for token in LIKENESS_PALETTE:
+                tr, tg, tb = token
+                dist = 0.3 * (r - tr) ** 2 + 0.59 * (g - tg) ** 2 + 0.11 * (b - tb) ** 2
+                if dist < min_dist:
+                    min_dist = dist
+                    best_color = token
             row.append(best_color)
         grid.append(row)
 

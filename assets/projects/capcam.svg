@@ -1,0 +1,33 @@
+<svg width="860" height="110" viewBox="0 0 860 110" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <title>CAPCAM — TACE-X</title>
+  <desc>Chrome MV3 extension that intercepts WebRTC camera tracks via an offscreen canvas pipeline — zero cloud, local-first.</desc>
+  <defs>
+    <linearGradient id="bg_capcam" x1="0" y1="0" x2="860" y2="110" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#070A0F"/>
+      <stop offset="1" stop-color="#0B0F17"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Card background -->
+  <rect width="860" height="110" rx="10" fill="url(#bg_capcam)" stroke="#1E293B" stroke-width="1.2"/>
+
+  <!-- Left accent bar -->
+  <rect x="0" y="0" width="4" height="110" rx="2" fill="#00F0FF"/>
+
+  <!-- Tag pill -->
+  <rect x="24" y="18" width="132" height="18" rx="9" fill="#00F0FF" fill-opacity="0.12" stroke="#00F0FF" stroke-opacity="0.4" stroke-width="1"/>
+  <text x="90" y="30" text-anchor="middle" fill="#00F0FF" font-family="'JetBrains Mono', monospace" font-size="9" font-weight="700" letter-spacing="1.5">BROWSER SYSTEMS</text>
+
+  <!-- Project name -->
+  <text x="24" y="64" fill="#F8FAFC" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif" font-size="26" font-weight="800">CAPCAM</text>
+
+  <!-- Description -->
+  <text x="24" y="85" fill="#94A3B8" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="12" font-weight="400">Chrome MV3 extension that intercepts WebRTC camera tracks via an offscreen canvas pipeline</text>
+
+  <!-- Language strip -->
+  <text x="24" y="100" fill="#38BDF8" font-family="'JetBrains Mono', monospace" font-size="10" font-weight="600" letter-spacing="0.5">TypeScript  ·  Chrome MV3  ·  WebRTC</text>
+
+  <!-- Arrow indicator -->
+  <text x="836" y="60" text-anchor="end" fill="#00F0FF" font-family="'JetBrains Mono', monospace" font-size="20" font-weight="700">→</text>
+  <text x="836" y="80" text-anchor="end" fill="#64748B" font-family="'JetBrains Mono', monospace" font-size="10">VIEW REPO</text>
+</svg>
