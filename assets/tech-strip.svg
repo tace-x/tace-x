@@ -1,22 +1,210 @@
-<svg width="860" height="44" viewBox="0 0 860 44" fill="none" xmlns="http://www.w3.org/2000/svg">
-  <title>TACE-X Technology Stack: Rust, TypeScript, React, AI/NIM, Firebase, WebRTC</title>
-  <rect width="860" height="44" rx="8" fill="#070A0F" stroke="#1E293B" stroke-width="1"/>
-  <!-- Rust -->
-  <rect x="20" y="11" width="56" height="22" rx="11" fill="#F59E0B" fill-opacity="0.12" stroke="#F59E0B" stroke-opacity="0.4" stroke-width="1"/>
-  <text x="48" y="26" text-anchor="middle" fill="#F59E0B" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="700" letter-spacing="1">RUST</text>
-  <!-- TypeScript -->
-  <rect x="88" y="11" width="100" height="22" rx="11" fill="#38BDF8" fill-opacity="0.12" stroke="#38BDF8" stroke-opacity="0.4" stroke-width="1"/>
-  <text x="138" y="26" text-anchor="middle" fill="#38BDF8" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="700" letter-spacing="1">TYPESCRIPT</text>
-  <!-- React -->
-  <rect x="200" y="11" width="70" height="22" rx="11" fill="#06B6D4" fill-opacity="0.12" stroke="#06B6D4" stroke-opacity="0.4" stroke-width="1"/>
-  <text x="235" y="26" text-anchor="middle" fill="#06B6D4" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="700" letter-spacing="1">REACT</text>
-  <!-- AI / NIM -->
-  <rect x="282" y="11" width="76" height="22" rx="11" fill="#10B981" fill-opacity="0.12" stroke="#10B981" stroke-opacity="0.4" stroke-width="1"/>
-  <text x="320" y="26" text-anchor="middle" fill="#10B981" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="700" letter-spacing="1">AI / NIM</text>
-  <!-- Firebase -->
-  <rect x="370" y="11" width="84" height="22" rx="11" fill="#F59E0B" fill-opacity="0.12" stroke="#F59E0B" stroke-opacity="0.4" stroke-width="1"/>
-  <text x="412" y="26" text-anchor="middle" fill="#F59E0B" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="700" letter-spacing="1">FIREBASE</text>
-  <!-- WebRTC -->
-  <rect x="466" y="11" width="78" height="22" rx="11" fill="#8B5CF6" fill-opacity="0.12" stroke="#8B5CF6" stroke-opacity="0.4" stroke-width="1"/>
-  <text x="505" y="26" text-anchor="middle" fill="#8B5CF6" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="700" letter-spacing="1">WEBRTC</text>
+<svg width="860" height="52" viewBox="0 0 860 52" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <title>TACE-X Verified Engineering Toolchain (13 Technologies)</title>
+  <desc>Directly verified across public repositories: Rust, TypeScript, Python, JavaScript, React, Node.js, Tailwind CSS, Vite, Firebase, WebRTC, Linux/POSIX, Chrome MV3, Git/CI</desc>
+
+  <!-- Background Panel -->
+  <rect width="860" height="52" rx="8" fill="#070A0F" stroke="#1E293B" stroke-width="1"/>
+
+  <!-- Subtle Top Cyan Accent -->
+  <line x1="16" y1="1" x2="844" y2="1" stroke="#00F0FF" stroke-opacity="0.3" stroke-width="1"/>
+
+  <!-- 13 Verified Technology Icons & Labels -->
+  
+    <!-- Rust -->
+    
+    <g id="tech-rust" transform="translate(33, 19)">
+      <title>Rust — Verified in TerminalVision (2.2MB Rust 2024, Unix PTY, Ratatui)</title>
+      
+              <g transform="translate(-10, -10)">
+                <!-- Gear teeth -->
+                <path d="M9 1h2l.4 2.1c.5.1 1 .4 1.5.7l1.9-1.1 1.4 1.4-1.1 1.9c.3.5.6 1 .7 1.5L19 9v2l-2.1.4c-.1.5-.4 1-.7 1.5l1.1 1.9-1.4 1.4-1.9-1.1c-.5.3-1 .6-1.5.7L11 19H9l-.4-2.1c-.5-.1-1-.4-1.5-.7l-1.9 1.1-1.4-1.4 1.1-1.9c-.3-.5-.6-1-.7-1.5L1 11V9l2.1-.4c.1-.5.4-1 .7-1.5L2.7 5.2 4.1 3.8l1.9 1.1c.5-.3 1-.6 1.5-.7L9 1z" fill="none" stroke="#94A3B8" stroke-width="1.2"/>
+                <circle cx="10" cy="10" r="4.5" fill="#070A0F" stroke="#00F0FF" stroke-width="1"/>
+                <!-- R letter -->
+                <path d="M8.5 7.5h2.2c.8 0 1.3.4 1.3 1.1 0 .6-.4 1-1 1.1l1.2 2.8H11l-1-2.6h-.5v2.6H8.5V7.5zm1 1.8h1c.3 0 .5-.2.5-.5s-.2-.5-.5-.5h-1v1z" fill="#F8FAFC"/>
+              </g>
+            
+    </g>
+    <text x="33" y="42" text-anchor="middle" fill="#64748B" font-family="'JetBrains Mono', -apple-system, monospace" font-size="8.5" font-weight="700" letter-spacing="0.5">RUST</text>
+    <!-- TypeScript -->
+    <line x1="66" y1="12" x2="66" y2="40" stroke="#1E293B" stroke-width="1" stroke-opacity="0.5"/>
+    <g id="tech-typescript" transform="translate(99, 19)">
+      <title>TypeScript — Verified in CAPCAM, NOCAP, Project-Alpha, CITIWALK, TypeTasks (2.8MB TS)</title>
+      
+              <g transform="translate(-10, -10)">
+                <rect x="1" y="1" width="18" height="18" rx="3.5" fill="#0B132B" stroke="#00F0FF" stroke-width="1"/>
+                <!-- T -->
+                <path d="M4 6.5h5.5v1.4H7.6v6.6H5.9V7.9H4V6.5z" fill="#94A3B8"/>
+                <!-- S -->
+                <path d="M14.8 8.1c-.4-.4-.9-.6-1.6-.6-.9 0-1.5.5-1.5 1.2 0 .7.4 1 1.4 1.3.9.3 1.9.7 1.9 1.9 0 1.2-1 2-2.3 2-.9 0-1.7-.3-2.3-.9l.8-1.2c.4.4.9.7 1.5.7.7 0 1.1-.3 1.1-.8 0-.5-.4-.8-1.3-1.1-1.1-.4-2-.8-2-2 0-1.1.9-1.9 2.2-1.9.8 0 1.5.3 2 .7l-.8 1.2z" fill="#00F0FF"/>
+              </g>
+            
+    </g>
+    <text x="99" y="42" text-anchor="middle" fill="#64748B" font-family="'JetBrains Mono', -apple-system, monospace" font-size="8.5" font-weight="700" letter-spacing="0.5">TYPESCRIPT</text>
+    <!-- Python -->
+    <line x1="132" y1="12" x2="132" y2="40" stroke="#1E293B" stroke-width="1" stroke-opacity="0.5"/>
+    <g id="tech-python" transform="translate(165, 19)">
+      <title>Python — Verified in Profile automation pipelines, telemetry generators, calculator repo</title>
+      
+              <g transform="translate(-10, -10)">
+                <!-- Top snake -->
+                <path d="M9.8 1.5c-2.8 0-2.6 1.2-2.6 1.2l.01 1.3h2.6v.4H5.2s-1.8.2-1.8 2.6c0 2.4 1.5 2.5 1.5 2.5h.9v-1.3c0-1.5 1.3-1.5 1.3-1.5h2.6c1.3 0 1.3-1.2 1.3-1.2V3s.2-1.5-2.2-1.5zm-.7.8a.4.4 0 1 1 0 .8.4.4 0 0 1 0-.8z" fill="#94A3B8"/>
+                <!-- Bottom snake -->
+                <path d="M10.2 18.5c2.8 0 2.6-1.2 2.6-1.2l-.01-1.3H10.2v-.4h4.6s1.8-.2 1.8-2.6c0-2.4-1.5-2.5-1.5-2.5h-.9v1.3c0 1.5-1.3 1.5-1.3 1.5h-2.6c-1.3 0-1.3 1.2-1.3 1.2V17s-.2 1.5 2.2 1.5zm.7-.8a.4.4 0 1 1 0-.8.4.4 0 0 1 0 .8z" fill="#00F0FF"/>
+              </g>
+            
+    </g>
+    <text x="165" y="42" text-anchor="middle" fill="#64748B" font-family="'JetBrains Mono', -apple-system, monospace" font-size="8.5" font-weight="700" letter-spacing="0.5">PYTHON</text>
+    <!-- JavaScript -->
+    <line x1="198" y1="12" x2="198" y2="40" stroke="#1E293B" stroke-width="1" stroke-opacity="0.5"/>
+    <g id="tech-javascript" transform="translate(231, 19)">
+      <title>JavaScript — Verified in Kalvichat (220KB JS), Node serverless API, CITIWALK</title>
+      
+              <g transform="translate(-10, -10)">
+                <rect x="1" y="1" width="18" height="18" rx="3.5" fill="#1C1808" stroke="#F59E0B" stroke-opacity="0.6" stroke-width="1"/>
+                <!-- J -->
+                <path d="M7.5 7.5v5c0 1.2-.7 1.8-1.8 1.8-.7 0-1.3-.3-1.6-.7l.9-1c.2.2.4.4.7.4.4 0 .6-.2.6-.7v-4.8h1.2z" fill="#94A3B8"/>
+                <!-- S -->
+                <path d="M14.5 9.1c-.3-.4-.8-.6-1.4-.6-.8 0-1.3.4-1.3 1 0 .6.4.8 1.2 1.1.9.3 1.8.6 1.8 1.7 0 1.1-.9 1.8-2.1 1.8-.8 0-1.5-.3-2-.8l.7-1.1c.3.4.7.6 1.3.6.6 0 1-.2 1-.6 0-.4-.4-.6-1.2-.9-1-.3-1.8-.7-1.8-1.7 0-1 .8-1.7 2-1.7.7 0 1.3.2 1.8.6l-.7 1.1z" fill="#F59E0B"/>
+              </g>
+            
+    </g>
+    <text x="231" y="42" text-anchor="middle" fill="#64748B" font-family="'JetBrains Mono', -apple-system, monospace" font-size="8.5" font-weight="700" letter-spacing="0.5">JAVASCRIPT</text>
+    <!-- React -->
+    <line x1="264" y1="12" x2="264" y2="40" stroke="#1E293B" stroke-width="1" stroke-opacity="0.5"/>
+    <g id="tech-react" transform="translate(297, 19)">
+      <title>React — Verified in CAPCAM, NOCAP, Kalvichat, TypeTasks, CITIWALK (React 19 / 18)</title>
+      
+              <g transform="translate(-10, -10)">
+                <circle cx="10" cy="10" r="1.8" fill="#00F0FF"/>
+                <ellipse cx="10" cy="10" rx="8" ry="3" fill="none" stroke="#94A3B8" stroke-width="1"/>
+                <ellipse cx="10" cy="10" rx="8" ry="3" fill="none" stroke="#00F0FF" stroke-width="1" transform="rotate(60 10 10)"/>
+                <ellipse cx="10" cy="10" rx="8" ry="3" fill="none" stroke="#94A3B8" stroke-width="1" transform="rotate(120 10 10)"/>
+              </g>
+            
+    </g>
+    <text x="297" y="42" text-anchor="middle" fill="#64748B" font-family="'JetBrains Mono', -apple-system, monospace" font-size="8.5" font-weight="700" letter-spacing="0.5">REACT</text>
+    <!-- Node.js -->
+    <line x1="330" y1="12" x2="330" y2="40" stroke="#1E293B" stroke-width="1" stroke-opacity="0.5"/>
+    <g id="tech-nodejs" transform="translate(363, 19)">
+      <title>Node.js — Verified in Kalvichat serverless functions, node --test runner, tooling</title>
+      
+              <g transform="translate(-10, -10)">
+                <!-- Hexagon -->
+                <path d="M10 1.5l7 4v9l-7 4-7-4v-9l7-4z" fill="#07150E" stroke="#10B981" stroke-width="1"/>
+                <!-- Node N -->
+                <path d="M7 6.5v7l6-3.5v-7l-6 3.5zm1.5 2.2l3-1.7v4.6l-3 1.7V8.7z" fill="#94A3B8"/>
+              </g>
+            
+    </g>
+    <text x="363" y="42" text-anchor="middle" fill="#64748B" font-family="'JetBrains Mono', -apple-system, monospace" font-size="8.5" font-weight="700" letter-spacing="0.5">NODE.JS</text>
+    <!-- Tailwind -->
+    <line x1="396" y1="12" x2="396" y2="40" stroke="#1E293B" stroke-width="1" stroke-opacity="0.5"/>
+    <g id="tech-tailwind" transform="translate(430, 19)">
+      <title>Tailwind — Verified in NOCAP (@tailwindcss/vite v4), CITIWALK (tailwind-merge)</title>
+      
+              <g transform="translate(-10, -10)">
+                <!-- Twin waves -->
+                <path d="M5.5 8.5c1-2 2.5-2.8 4.2-2.3 1.3.4 2 1.3 2.8 2.2.9 1 1.9 2.1 3.8 2.1 1.7 0 2.8-1 3.5-2.8-.9.7-1.9 1-2.9.6-1.1-.4-1.8-1.3-2.6-2.2-.9-1-1.9-2.1-3.8-2.1-1.8 0-3 1-3.6 2.8l-1.4 1.7z" fill="#00F0FF"/>
+                <path d="M1.5 13.5c1-2 2.5-2.8 4.2-2.3 1.3.4 2 1.3 2.8 2.2.9 1 1.9 2.1 3.8 2.1 1.7 0 2.8-1 3.5-2.8-.9.7-1.9 1-2.9.6-1.1-.4-1.8-1.3-2.6-2.2-.9-1-1.9-2.1-3.8-2.1-1.8 0-3 1-3.6 2.8L1.5 13.5z" fill="#94A3B8"/>
+              </g>
+            
+    </g>
+    <text x="430" y="42" text-anchor="middle" fill="#64748B" font-family="'JetBrains Mono', -apple-system, monospace" font-size="8.5" font-weight="700" letter-spacing="0.5">TAILWIND</text>
+    <!-- Vite -->
+    <line x1="463" y1="12" x2="463" y2="40" stroke="#1E293B" stroke-width="1" stroke-opacity="0.5"/>
+    <g id="tech-vite" transform="translate(496, 19)">
+      <title>Vite — Verified in CAPCAM, NOCAP, Kalvichat, TypeTasks (Vite frontend tooling)</title>
+      
+              <g transform="translate(-10, -10)">
+                <!-- Shield -->
+                <path d="M17.5 3.5L10 18.5 2.5 3.5l15 0z" fill="#130C2E" stroke="#8B5CF6" stroke-width="1"/>
+                <!-- Lightning bolt -->
+                <path d="M12.5 2.5L7 11h3.5l-1.5 6 6-8.5h-3.8l1.3-6z" fill="#00F0FF"/>
+              </g>
+            
+    </g>
+    <text x="496" y="42" text-anchor="middle" fill="#64748B" font-family="'JetBrains Mono', -apple-system, monospace" font-size="8.5" font-weight="700" letter-spacing="0.5">VITE</text>
+    <!-- Firebase -->
+    <line x1="529" y1="12" x2="529" y2="40" stroke="#1E293B" stroke-width="1" stroke-opacity="0.5"/>
+    <g id="tech-firebase" transform="translate(562, 19)">
+      <title>Firebase — Verified in Kalvichat (Firestore rules, indexes, Auth), CITIWALK (Firebase)</title>
+      
+              <g transform="translate(-10, -10)">
+                <!-- Faceted flame -->
+                <path d="M3.5 14.5L5.8 4.2c.1-.4.6-.5.8-.2l2.6 3.6L3.5 14.5z" fill="#F59E0B" fill-opacity="0.8"/>
+                <path d="M3.5 14.5l13-2.8L11.8 2.3c-.2-.4-.8-.4-.9 0L3.5 14.5z" fill="#F59E0B"/>
+                <path d="M16.5 11.7L14.2 7.4c-.2-.3-.6-.4-.8-.1l-9.9 7.2 9.5 2.3c.7.2 1.4-.2 1.6-.9l1.9-4.2z" fill="#00F0FF" fill-opacity="0.9"/>
+              </g>
+            
+    </g>
+    <text x="562" y="42" text-anchor="middle" fill="#64748B" font-family="'JetBrains Mono', -apple-system, monospace" font-size="8.5" font-weight="700" letter-spacing="0.5">FIREBASE</text>
+    <!-- WebRTC -->
+    <line x1="595" y1="12" x2="595" y2="40" stroke="#1E293B" stroke-width="1" stroke-opacity="0.5"/>
+    <g id="tech-webrtc" transform="translate(628, 19)">
+      <title>WebRTC — Verified in CAPCAM (WebRTC camera track interception &amp; offscreen canvas injection)</title>
+      
+              <g transform="translate(-10, -10)">
+                <circle cx="10" cy="10" r="3" fill="#00F0FF"/>
+                <!-- Interconnected nodes -->
+                <circle cx="4" cy="5" r="1.8" fill="#94A3B8"/>
+                <circle cx="16" cy="5" r="1.8" fill="#94A3B8"/>
+                <circle cx="10" cy="17" r="1.8" fill="#94A3B8"/>
+                <line x1="4" y1="5" x2="10" y2="10" stroke="#94A3B8" stroke-width="1"/>
+                <line x1="16" y1="5" x2="10" y2="10" stroke="#94A3B8" stroke-width="1"/>
+                <line x1="10" y1="17" x2="10" y2="10" stroke="#94A3B8" stroke-width="1"/>
+                <circle cx="10" cy="10" r="7.5" fill="none" stroke="#00F0FF" stroke-width="0.8" stroke-dasharray="2 3"/>
+              </g>
+            
+    </g>
+    <text x="628" y="42" text-anchor="middle" fill="#64748B" font-family="'JetBrains Mono', -apple-system, monospace" font-size="8.5" font-weight="700" letter-spacing="0.5">WEBRTC</text>
+    <!-- Linux / POSIX -->
+    <line x1="661" y1="12" x2="661" y2="40" stroke="#1E293B" stroke-width="1" stroke-opacity="0.5"/>
+    <g id="tech-linux" transform="translate(694, 19)">
+      <title>Linux / POSIX — Verified in TerminalVision (Unix PTY, openpty, libc, POSIX terminal control)</title>
+      
+              <g transform="translate(-10, -10)">
+                <!-- Terminal Console -->
+                <rect x="2" y="3" width="16" height="14" rx="2.5" fill="#0B1320" stroke="#94A3B8" stroke-width="1"/>
+                <line x1="2" y1="7" x2="18" y2="7" stroke="#1E293B" stroke-width="1"/>
+                <circle cx="4.5" cy="5" r="0.7" fill="#F43F5E"/>
+                <circle cx="6.5" cy="5" r="0.7" fill="#F59E0B"/>
+                <circle cx="8.5" cy="5" r="0.7" fill="#10B981"/>
+                <!-- Prompt >_ -->
+                <path d="M5 10l2.5 2L5 14" fill="none" stroke="#00F0FF" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+                <line x1="9.5" y1="14" x2="14" y2="14" stroke="#94A3B8" stroke-width="1.2" stroke-linecap="round"/>
+              </g>
+            
+    </g>
+    <text x="694" y="42" text-anchor="middle" fill="#64748B" font-family="'JetBrains Mono', -apple-system, monospace" font-size="8.5" font-weight="700" letter-spacing="0.5">LINUX</text>
+    <!-- Chrome MV3 -->
+    <line x1="727" y1="12" x2="727" y2="40" stroke="#1E293B" stroke-width="1" stroke-opacity="0.5"/>
+    <g id="tech-chrome-mv3" transform="translate(760, 19)">
+      <title>Chrome MV3 — Verified in CAPCAM (Manifest V3, background service worker, offscreen documents)</title>
+      
+              <g transform="translate(-10, -10)">
+                <!-- Extension Puzzle Piece -->
+                <path d="M6 3h3a2 2 0 0 1 4 0h3a1 1 0 0 1 1 1v3a2 2 0 0 1 0 4v3a1 1 0 0 1-1 1h-3a2 2 0 0 0-4 0H6a1 1 0 0 1-1-1v-3a2 2 0 0 1 0-4V4a1 1 0 0 1 1-1z" fill="#0B1526" stroke="#00F0FF" stroke-width="1"/>
+                <circle cx="10" cy="10" r="1.8" fill="#94A3B8"/>
+              </g>
+            
+    </g>
+    <text x="760" y="42" text-anchor="middle" fill="#64748B" font-family="'JetBrains Mono', -apple-system, monospace" font-size="8.5" font-weight="700" letter-spacing="0.5">CHROME MV3</text>
+    <!-- Git / CI -->
+    <line x1="793" y1="12" x2="793" y2="40" stroke="#1E293B" stroke-width="1" stroke-opacity="0.5"/>
+    <g id="tech-git" transform="translate(826, 19)">
+      <title>Git / CI — Verified in arcade-telemetry.yml GitHub Actions workflows, GraphQL integration</title>
+      
+              <g transform="translate(-10, -10)">
+                <!-- Rotated Rhombus -->
+                <rect x="3" y="3" width="14" height="14" rx="2" fill="#1C0E0B" stroke="#F43F5E" stroke-opacity="0.8" stroke-width="1" transform="rotate(45 10 10)"/>
+                <!-- Branch line & nodes -->
+                <circle cx="6.5" cy="13.5" r="1.5" fill="#00F0FF"/>
+                <circle cx="13.5" cy="6.5" r="1.5" fill="#94A3B8"/>
+                <circle cx="13.5" cy="13.5" r="1.5" fill="#94A3B8"/>
+                <path d="M6.5 13.5h3.5a3.5 3.5 0 0 0 3.5-3.5V6.5" fill="none" stroke="#00F0FF" stroke-width="1"/>
+                <line x1="13.5" y1="13.5" x2="13.5" y2="10" stroke="#94A3B8" stroke-width="1"/>
+              </g>
+            
+    </g>
+    <text x="826" y="42" text-anchor="middle" fill="#64748B" font-family="'JetBrains Mono', -apple-system, monospace" font-size="8.5" font-weight="700" letter-spacing="0.5">GIT</text>
 </svg>

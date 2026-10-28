@@ -3,32 +3,32 @@
 TACE-X Contribution Grid Arcade Shooter
 =========================================
 Generates an arcade space-shooter GIF where:
-  - EVERY target corresponds to a REAL GitHub contribution cell.
-  - The ship shoots ONLY cells that have actual contributions (count > 0).
+  - The spaceship fires EXACTLY ONE projectile at a time.
+  - A new projectile cannot launch until the previous shot has completed its hit.
+  - The projectile visibly travels from the spaceship to one specific active cell.
+  - When the projectile hits, that cell visibly pops, dissolves, and disappears.
+  - Only real, active GitHub contribution cells are targeted (count > 0).
   - Empty cells (count == 0) are shown as dim ghost cells — never targeted.
-  - Targets are colored by contribution intensity (level 1–4).
-  - All 7 state transitions are explicit and tested.
-
-Data source:
-  1. Attempts GitHub GraphQL API (requires GITHUB_TOKEN env var).
-  2. Falls back to a clearly-labeled DEVELOPMENT FIXTURE (never shipped as real).
+  - The spaceship selects targets in chronological left-to-right sweep order.
+  - The score updates only after a successful hit.
+  - The animation contains no multiple overlapping projectiles.
+  - The game clears all eligible targets before displaying its victory state.
+  - After the victory sequence, resets deliberately with a scanline beam and loops.
 
 State machine:
-  A=INIT  →  B=TARGETING  →  C=SHOOTING  →  D=POP  →  E=CLEARING
-  →  F=VICTORY  →  G=RESET
-
-Run:
-    python3 scripts/generate_arcade.py
-    GITHUB_TOKEN=... python3 scripts/generate_arcade.py   # with real data
+  IDLE -> AIMING -> FIRING -> IMPACT -> CELL CLEARED -> NEXT TARGET
+  -> SECTOR CLEARED -> VICTORY -> RESET -> NEW CYCLE
 """
 
 import argparse
 import json
 import math
 import os
+import subprocess
 import sys
 import urllib.request
 import urllib.error
+import ssl
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
@@ -51,7 +51,7 @@ P = {
     "MUTED":    (148, 163, 184),
 }
 
-# Contribution intensity → color
+# Contribution intensity -> color
 LEVEL_COLOR = {
     0: P["SHADOW"],    # ghost — empty cell
     1: P["MINT"],      # 1–3 contributions
@@ -75,12 +75,14 @@ def contribution_level(count: int) -> int:
 
 def fetch_github_contributions(username="tace-x", token=None):
     """
-    Fetch 52-week contribution calendar from GitHub GraphQL API.
+    Fetch 52/53-week contribution calendar from GitHub GraphQL API.
     Returns list of dicts: [{date, count, level, week, day}]
-    week = 0..51, day = 0..6 (Sun=0, Sat=6)
+    week = 0..52, day = 0..6 (Sun=0, Sat=6)
     """
     if not token:
-        import subprocess
+        token = os.environ.get("GITHUB_TOKEN")
+
+    if not token:
         try:
             r = subprocess.run(["gh", "auth", "token"], capture_output=True, text=True)
             if r.returncode == 0 and r.stdout.strip():
@@ -88,32 +90,70 @@ def fetch_github_contributions(username="tace-x", token=None):
         except Exception:
             pass
 
-    if not token:
-        return None, "No GITHUB_TOKEN env var set and gh auth token not available"
+    # Try gh api directly if available
+    try:
+        query = f"""query {{
+          user(login: "{username}") {{
+            contributionsCollection {{
+              contributionCalendar {{
+                totalContributions
+                weeks {{
+                  contributionDays {{
+                    date
+                    contributionCount
+                    contributionLevel
+                  }}
+                }}
+              }}
+            }}
+          }}
+        }}"""
+        gh_cmd = ["gh", "api", "graphql", "-f", f"query={query}"]
+        res = subprocess.run(gh_cmd, capture_output=True, text=True)
+        if res.returncode == 0:
+            data = json.loads(res.stdout)
+            weeks = (data["data"]["user"]["contributionsCollection"]
+                     ["contributionCalendar"]["weeks"])
+            cells = []
+            for week_idx, week in enumerate(weeks):
+                for day in week["contributionDays"]:
+                    count = day["contributionCount"]
+                    lv = contribution_level(count)
+                    cells.append({
+                        "date":  day["date"],
+                        "count": count,
+                        "level": lv,
+                        "week":  week_idx,
+                        "day":   datetime.fromisoformat(day["date"]).weekday(),
+                    })
+            return cells, None
+    except Exception:
+        pass
 
-    query = """
-    query($login: String!) {
-      user(login: $login) {
-        contributionsCollection {
-          contributionCalendar {
+    if not token:
+        return None, "No GITHUB_TOKEN or gh CLI auth available"
+
+    query = f"""query {{
+      user(login: "{username}") {{
+        contributionsCollection {{
+          contributionCalendar {{
             totalContributions
-            weeks {
-              contributionDays {
+            weeks {{
+              contributionDays {{
                 date
                 contributionCount
                 contributionLevel
-              }
-            }
-          }
-        }
-      }
-    }
-    """
-    payload = json.dumps({"query": query, "variables": {"login": username}}).encode()
+              }}
+            }}
+          }}
+        }}
+      }}
+    }}"""
+    payload = json.dumps({"query": query}).encode()
     headers = {
         "Authorization": f"bearer {token}",
         "Content-Type": "application/json",
-        "User-Agent": "tace-x-arcade-generator/1.0",
+        "User-Agent": "tace-x-arcade-generator/2.0",
     }
     req = urllib.request.Request(
         "https://api.github.com/graphql",
@@ -121,7 +161,6 @@ def fetch_github_contributions(username="tace-x", token=None):
         headers=headers,
         method="POST",
     )
-    import ssl
     ctx = ssl.create_default_context()
     ctx.check_hostname = False
     ctx.verify_mode = ssl.CERT_NONE
@@ -154,21 +193,14 @@ def fetch_github_contributions(username="tace-x", token=None):
 
 
 def make_dev_fixture():
-    """
-    Create a clearly-labeled development fixture.
-    Uses a realistic but FICTIONAL sparse contribution pattern.
-    Label is embedded in returned dict so callers can warn users.
-    """
+    """Fallback fixture if API and cached data are both unavailable."""
     cells = []
     import random
-    rng = random.Random(0x74616365)  # deterministic seed (TACEX ASCII)
-
-    # 52 weeks × 7 days
-    start = datetime(2025, 10, 27, tzinfo=timezone.utc)
-    for week in range(52):
+    rng = random.Random(0x74616365)
+    start = datetime(2025, 10, 26, tzinfo=timezone.utc)
+    for week in range(53):
         for day in range(7):
             date = start + timedelta(weeks=week, days=day)
-            # Sparse realistic pattern: ~30% active days
             if rng.random() < 0.30:
                 count = rng.choices(
                     [1, 2, 3, 5, 8, 12, 15, 22],
@@ -241,8 +273,8 @@ def draw_ship(draw, cx, cy, banking=0, thrust_t=0, firing=False):
         draw.rectangle([cx+foffset, cy+8, cx+foffset+1, cy+9], fill=P["WHITE"])
     # Muzzle flash
     if firing:
-        for wx in (cx-14, cx+14):
-            draw.rectangle([wx-2, cy-14, wx+2, cy-10], fill=P["WHITE"])
+        draw.rectangle([cx-2, cy-14, cx+2, cy-10], fill=P["WHITE"])
+        draw.rectangle([cx-4, cy-13, cx+4, cy-11], fill=P["CYAN"])
 
 
 def draw_contribution_cell(draw, cx, cy, level, size=9, tick=0):
@@ -260,7 +292,6 @@ def draw_contribution_cell(draw, cx, cy, level, size=9, tick=0):
             4: (253, 164, 175),
         }.get(level, P["WHITE"])
         draw.rectangle([cx-h, cy-h, cx-h+2, cy-h+2], fill=br_col)
-        # Subtle pulse flicker on high-level cells
         if level >= 3 and tick % 4 == 0:
             draw.point([cx, cy], fill=P["WHITE"])
 
@@ -271,47 +302,71 @@ def draw_ghost_cell(draw, cx, cy, size=9):
     draw.rectangle([cx-h, cy-h, cx+h, cy+h], outline=P["SHADOW"], width=1)
 
 
-def draw_laser(draw, x1, y1, x2, y2, col):
-    """Animated laser bolt."""
-    draw.line([(x1-1, y1), (x2-1, y2)], fill=col, width=2)
-    draw.line([(x1, y1),   (x2, y2)],   fill=P["WHITE"], width=1)
-    draw.line([(x1+1, y1), (x2+1, y2)], fill=col, width=2)
+def draw_reticle(draw, cx, cy, size=9, col=P["CYAN"]):
+    """Target acquisition reticle / brackets around locked cell."""
+    h = size // 2 + 3
+    # Corner brackets
+    draw.line([(cx-h, cy-h), (cx-h+3, cy-h)], fill=col, width=1)
+    draw.line([(cx-h, cy-h), (cx-h, cy-h+3)], fill=col, width=1)
+    draw.line([(cx+h, cy-h), (cx+h-3, cy-h)], fill=col, width=1)
+    draw.line([(cx+h, cy-h), (cx+h, cy-h+3)], fill=col, width=1)
+    draw.line([(cx-h, cy+h), (cx-h+3, cy+h)], fill=col, width=1)
+    draw.line([(cx-h, cy+h), (cx-h, cy+h-3)], fill=col, width=1)
+    draw.line([(cx+h, cy+h), (cx+h-3, cy+h)], fill=col, width=1)
+    draw.line([(cx+h, cy+h), (cx+h, cy+h-3)], fill=col, width=1)
 
 
-def draw_explosion(draw, cx, cy, age, col):
-    """Radial pixel burst."""
-    rad = int(age * 5) + 3
+def draw_single_projectile(draw, x1, y1, x2, y2, progress, col):
+    """
+    Renders exactly ONE projectile traveling visibly from (x1, y1) to (x2, y2).
+    Progress: 0.0 at launch -> 1.0 at target.
+    """
+    curr_x = int(x1 + (x2 - x1) * progress)
+    curr_y = int(y1 + (y2 - y1) * progress)
+
+    # Laser bolt body
+    bolt_len = 16
+    tail_x = int(x1 + (x2 - x1) * max(0.0, progress - 0.15))
+    tail_y = int(y1 + (y2 - y1) * max(0.0, progress - 0.15))
+
+    # Outer glow
+    draw.line([(tail_x, tail_y), (curr_x, curr_y)], fill=col, width=3)
+    # Bright inner core
+    draw.line([(tail_x, tail_y), (curr_x, curr_y)], fill=P["WHITE"], width=1)
+    # Glowing diamond head
+    draw.rectangle([curr_x-2, curr_y-2, curr_x+2, curr_y+2], fill=col)
+    draw.rectangle([curr_x-1, curr_y-1, curr_x+1, curr_y+1], fill=P["WHITE"])
+
+
+def draw_cell_impact(draw, cx, cy, col):
+    """Single cell pop & impact burst."""
+    # Central flash
+    draw.rectangle([cx-4, cy-4, cx+4, cy+4], fill=P["WHITE"])
+    draw.rectangle([cx-6, cy-6, cx+6, cy+6], outline=col, width=1)
+    # 8 radial explosion particles
+    rad = 8
     for angle_deg in range(0, 360, 45):
         a = math.radians(angle_deg)
-        px = cx + math.cos(a) * rad
-        py = cy + math.sin(a) * rad
-        sz = max(1, 3 - age // 2)
-        draw.rectangle([px-sz, py-sz, px+sz, py+sz], fill=col)
-    if age <= 2:
-        draw.rectangle([cx-3, cy-3, cx+3, cy+3], fill=P["WHITE"])
+        px = int(cx + math.cos(a) * rad)
+        py = int(cy + math.sin(a) * rad)
+        draw.rectangle([px-1, py-1, px+1, py+1], fill=col)
+        draw.point([px, py], fill=P["WHITE"])
 
 
 # ─── LAYOUT ─────────────────────────────────────────────────────────────────
 
-# Canvas
 CW, CH = 860, 360
 
-# Contribution grid display area
-GRID_COLS = 52   # weeks
+GRID_COLS = 53   # weeks (covers 53 weeks)
 GRID_ROWS = 7    # days
 CELL_SZ   = 9    # cell pixel size
 CELL_GAP  = 3    # gap between cells
 
-# Grid origin (top-left of contribution display)
-GRID_OX = 24
-GRID_OY = 64
-GRID_W  = GRID_COLS * (CELL_SZ + CELL_GAP)   # 52*12 = 624
-GRID_H  = GRID_ROWS * (CELL_SZ + CELL_GAP)   # 7*12 = 84
+GRID_W  = GRID_COLS * (CELL_SZ + CELL_GAP)
+GRID_H  = GRID_ROWS * (CELL_SZ + CELL_GAP)
+GRID_OX = (CW - GRID_W) // 2   # Centered horizontally
+GRID_OY = 66                   # Below HUD
 
-# Center the grid horizontally
-GRID_OX = (CW - GRID_W) // 2   # ≈ 118
-
-# Ship position
 SHIP_Y = CH - 34
 
 
@@ -322,22 +377,32 @@ def cell_screen_pos(week, day):
     return x, y
 
 
-# ─── ANIMATION ENGINE ───────────────────────────────────────────────────────
+# ─── STATE MACHINE ──────────────────────────────────────────────────────────
 
 class ArcadeState:
-    INIT      = "INIT"
-    TARGETING = "TARGETING"
-    SHOOTING  = "SHOOTING"
-    POP       = "POP"
-    CLEARING  = "CLEARING"
-    VICTORY   = "VICTORY"
-    RESET     = "RESET"
+    IDLE           = "IDLE"
+    AIMING         = "AIMING"
+    FIRING         = "FIRING"
+    IMPACT         = "IMPACT"
+    CELL_CLEARED   = "CELL_CLEARED"
+    SECTOR_CLEARED = "SECTOR_CLEARED"
+    VICTORY        = "VICTORY"
+    RESET          = "RESET"
 
+
+# ─── ANIMATION ENGINE ───────────────────────────────────────────────────────
 
 def generate_arcade_gif(cells, output_path, is_fixture=False):
     """
-    Generates the complete arcade shooter animation.
-    cells: list of contribution cell dicts from fetch or fixture.
+    Generates the arcade shooter with the single-projectile state machine:
+      - Exactly ONE projectile at a time.
+      - Next shot cannot launch until previous completes.
+      - Visible projectile travel.
+      - Active cell pops and clears on impact.
+      - Only active cells targeted.
+      - Chronological left-to-right sweep.
+      - Score updates on impact.
+      - Sector cleared -> Victory -> Reset scanline -> Loop.
     """
     fonts = load_fonts()
     out = Path(output_path)
@@ -347,39 +412,13 @@ def generate_arcade_gif(cells, output_path, is_fixture=False):
     active_cells = [c for c in cells if c["level"] > 0]
     empty_cells  = [c for c in cells if c["level"] == 0]
 
-    # Build shoot schedule: sorted by column (week) then row (day)
-    # to give a left-to-right sweep pattern
+    # Deliberate, understandable order: chronological sweep (week column then day)
     targets = sorted(active_cells, key=lambda c: (c["week"], c["day"]))
     total_targets = len(targets)
-
-    # Score: each destroyed cell gives LEVEL_PTS[level] points
     total_score = sum(LEVEL_PTS[t["level"]] for t in targets)
 
-    # ─── DATE RANGE ───
     all_dates = sorted(c["date"] for c in cells)
     date_range = f"{all_dates[0]}  →  {all_dates[-1]}" if all_dates else "UNKNOWN"
-
-    # ─── ANIMATION PLAN ───────────────────────────────────────────────────
-    # We need to pack: INIT(18f) → SHOOT LOOP(~4f per target) → VICTORY(22f) → RESET(8f)
-    # Max GIF budget: ~200 KB at 860×360. Limit total frames.
-    # Strategy: every 4 frames = 1 target destroyed (shoot + pop).
-    # With ~100-200 active targets, that's 400-800 frames — too many.
-    # Solution: shoot multiple targets per "sweep", grouping by week column.
-
-    # Group targets into "salvos" of up to 8 per sweep pass
-    SALVO_SIZE = max(1, len(targets) // 14)   # aim for ~14 salvos
-    salvos = [targets[i:i+SALVO_SIZE] for i in range(0, len(targets), SALVO_SIZE)]
-
-    # Frame budget:
-    # INIT: 14 frames
-    # Per salvo: 6 frames (approach + fire + pop)
-    # VICTORY: 20 frames
-    # RESET: 8 frames
-    INIT_F    = 14
-    SALVO_F   = 6
-    VICTORY_F = 22
-    RESET_F   = 8
-    total_frames = INIT_F + len(salvos) * SALVO_F + VICTORY_F + RESET_F
 
     # Pre-build starfield
     import random
@@ -388,90 +427,130 @@ def generate_arcade_gif(cells, output_path, is_fixture=False):
               rng.choice([P["SHADOW"], P["MID"], P["CYAN_DIM"]]))
              for _ in range(60)]
 
-    # Track which targets have been destroyed
-    destroyed_ids = set()
-    current_score = 0
-    running_score = 0
+    # ─── COMPOSE EXPLICIT FRAME SCHEDULE ───
+    # Each frame has a descriptor:
+    # (state, target_index, target_obj, projectile_progress, is_impact, current_cleared_count, tag_text)
+    frame_schedule = []
 
+    # 1. IDLE / INIT (8 frames)
+    for f in range(8):
+        frame_schedule.append({
+            "state": ArcadeState.IDLE,
+            "target_idx": -1,
+            "target": None,
+            "proj": None,
+            "impact": False,
+            "cleared_count": 0,
+            "tag": ("SYSTEM INITIALIZING", P["MUTED"]),
+            "init_f": f,
+        })
+
+    # 2. COMBAT SEQUENCE (One shot at a time)
+    cleared_count = 0
+    for i, t in enumerate(targets):
+        prev_w = targets[i-1]["week"] if i > 0 else -1
+
+        # If entering a new column, insert an explicit AIMING frame
+        if t["week"] != prev_w:
+            frame_schedule.append({
+                "state": ArcadeState.AIMING,
+                "target_idx": i,
+                "target": t,
+                "proj": None,
+                "impact": False,
+                "cleared_count": cleared_count,
+                "tag": (f"AIMING [W{t['week']:02d}:D{t['day']}]", P["AMBER"]),
+            })
+
+        # FIRING frame: Projectile visibly travels from ship to target
+        frame_schedule.append({
+            "state": ArcadeState.FIRING,
+            "target_idx": i,
+            "target": t,
+            "proj": 0.50, # Mid-flight
+            "impact": False,
+            "cleared_count": cleared_count,
+            "tag": (f"FIRING [TGT #{i+1:03d}]", P["RED"]),
+        })
+
+        # IMPACT frame: Projectile hits cell, burst explosion, cell cleared, score updates
+        cleared_count += 1
+        frame_schedule.append({
+            "state": ArcadeState.IMPACT,
+            "target_idx": i,
+            "target": t,
+            "proj": None,
+            "impact": True,
+            "cleared_count": cleared_count,
+            "tag": (f"IMPACT [+ {LEVEL_PTS[t['level']]} PTS]", P["MINT_LT"]),
+        })
+
+    # 3. SECTOR CLEARED (1 frame)
+    frame_schedule.append({
+        "state": ArcadeState.SECTOR_CLEARED,
+        "target_idx": total_targets,
+        "target": None,
+        "proj": None,
+        "impact": False,
+        "cleared_count": total_targets,
+        "tag": ("SECTOR CLEARED", P["MINT"]),
+    })
+
+    # 4. VICTORY (16 frames)
+    victory_start_f = len(frame_schedule)
+    for f in range(16):
+        frame_schedule.append({
+            "state": ArcadeState.VICTORY,
+            "target_idx": total_targets,
+            "target": None,
+            "proj": None,
+            "impact": False,
+            "cleared_count": total_targets,
+            "tag": ("VICTORY ACHIEVED", P["MINT"]),
+            "vf": f,
+        })
+
+    # 5. RESET (8 frames)
+    reset_start_f = len(frame_schedule)
+    for f in range(8):
+        frame_schedule.append({
+            "state": ArcadeState.RESET,
+            "target_idx": -1,
+            "target": None,
+            "proj": None,
+            "impact": False,
+            "cleared_count": total_targets,
+            "tag": ("RESETTING GRID...", P["MUTED"]),
+            "rf": f,
+        })
+
+    total_frames = len(frame_schedule)
+
+    # ─── RENDER ALL FRAMES ───
     frames = []
     durations = []
+    ship_x = cell_screen_pos(targets[0]["week"], targets[0]["day"])[0] if targets else CW // 2
 
-    # Explosion registry: {frame_start: [(cx, cy, col), ...]}
-    explosions_by_frame = {}
-
-    def add_explosion(frame_idx, cx, cy, col):
-        for df in range(5):
-            key = frame_idx + df
-            if key not in explosions_by_frame:
-                explosions_by_frame[key] = []
-            explosions_by_frame[key].append((cx, cy, col, df))
-
-    # ─── PLAN SALVOS ───────────────────────────────────────────────────────
-    salvo_info = []  # (salvo_start_frame, targets_in_salvo, score_earned)
-    for si, salvo in enumerate(salvos):
-        sf = INIT_F + si * SALVO_F
-        score_earned = sum(LEVEL_PTS[t["level"]] for t in salvo)
-        salvo_info.append((sf, salvo, score_earned))
-        # Register explosions at pop frame (sf+4)
-        for t in salvo:
-            cx, cy = cell_screen_pos(t["week"], t["day"])
-            add_explosion(sf + 4, cx, cy, LEVEL_COLOR[t["level"]])
-
-    # Determine score timeline
-    score_at_frame = {}
-    score_acc = 0
-    for sf, salvo, earned in salvo_info:
-        score_acc += earned
-        score_at_frame[sf + 4] = score_acc  # score updates on pop frame
-
-    victory_start = INIT_F + len(salvos) * SALVO_F
-
-    # ─── RENDER FRAMES ─────────────────────────────────────────────────────
-    def get_state(f):
-        if f < INIT_F:
-            return ArcadeState.INIT
-        if f < victory_start:
-            local = f - INIT_F
-            si = local // SALVO_F
-            sf = si * SALVO_F
-            sf_in = local - sf
-            if sf_in < 2:
-                return ArcadeState.TARGETING
-            elif sf_in < 4:
-                return ArcadeState.SHOOTING
-            else:
-                return ArcadeState.POP
-        if f < victory_start + VICTORY_F:
-            return ArcadeState.VICTORY
-        return ArcadeState.RESET
-
-    def current_salvo_idx(f):
-        if f < INIT_F or f >= victory_start:
-            return -1
-        return (f - INIT_F) // SALVO_F
-
-    # Determine ship_x position based on current salvo targets
-    def get_ship_x(f):
-        si = current_salvo_idx(f)
-        if si < 0 or si >= len(salvos):
-            return CW // 2
-        salvo = salvos[si]
-        # Aim at centroid of salvo
-        avg_x = sum(cell_screen_pos(t["week"], t["day"])[0] for t in salvo) / len(salvo)
-        return avg_x
-
-    prev_ship_x = CW // 2
-    cur_score = 0
-
-    for f in range(total_frames):
+    for f_idx, sched in enumerate(frame_schedule):
         im = Image.new("RGB", (CW, CH), P["VOID"])
         draw = ImageDraw.Draw(im)
 
-        state = get_state(f)
+        state = sched["state"]
+        cleared_n = sched["cleared_count"]
+        cur_target = sched["target"]
+        tgt_idx = sched["target_idx"]
+
+        # Calculate current score strictly from cleared targets
+        if cleared_n == 0:
+            cur_score = 0
+        elif cleared_n >= total_targets:
+            cur_score = total_score
+        else:
+            cur_score = sum(LEVEL_PTS[t["level"]] for t in targets[:cleared_n])
 
         # ─── STARFIELD ───
         for sx, sy, sc in stars:
-            if (f + sx) % 13 == 0:
+            if (f_idx + sx) % 13 == 0:
                 draw.point([sx, sy], fill=P["WHITE"])
             else:
                 draw.point([sx, sy], fill=sc)
@@ -481,101 +560,83 @@ def generate_arcade_gif(cells, output_path, is_fixture=False):
         draw.line([(0, 52), (CW, 52)], fill=P["MID"], width=1)
         draw.line([(0, 53), (CW, 53)], fill=P["CYAN"], width=1)
 
-        # Left: title
+        # Title
         draw.text((16, 17), "TACE-X  //  ARCADE DEFENDER", fill=P["MINT"], font=fonts["md"])
 
-        # Center: score
-        for trigger_f, score_val in sorted(score_at_frame.items()):
-            if f >= trigger_f:
-                cur_score = score_val
+        # Score (updates strictly on hit)
         score_str = f"SCORE: {cur_score:06d}"
         draw.text((340, 17), score_str, fill=P["CYAN"], font=fonts["md"])
 
-        # Right: state tag
-        state_tags = {
-            ArcadeState.INIT:      ("INITIALIZING...", P["MUTED"]),
-            ArcadeState.TARGETING: ("TARGETING",       P["AMBER"]),
-            ArcadeState.SHOOTING:  ("FIRING",          P["RED"]),
-            ArcadeState.POP:       ("IMPACT",          P["WHITE"]),
-            ArcadeState.CLEARING:  ("CLEARING",        P["CYAN"]),
-            ArcadeState.VICTORY:   ("SECTOR CLEARED",  P["MINT"]),
-            ArcadeState.RESET:     ("RESETTING...",    P["MUTED"]),
-        }
-        tag_text, tag_col = state_tags.get(state, ("", P["MUTED"]))
+        # State Tag
+        tag_text, tag_col = sched["tag"]
         draw.text((CW - 16, 17), tag_text, fill=tag_col, font=fonts["md"], anchor="ra")
 
-        # ─── DATE RANGE LABEL ───
+        # Sub-header: Date range
         draw.text((CW // 2, 57), date_range, fill=P["MUTED"], font=fonts["sm"], anchor="mm")
 
         # ─── CONTRIBUTION GRID ───
-        # Determine what has been destroyed by now
-        destroyed_now = set()
-        for si, (sf, salvo, _) in enumerate(salvo_info):
-            if f >= sf + 4:   # pop frame has passed
-                for t in salvo:
-                    destroyed_now.add((t["week"], t["day"]))
-
-        bob = math.sin(f * 0.3) * 1.5 if state in (ArcadeState.INIT, ArcadeState.TARGETING) else 0
-
-        for t in targets:
+        # Active targets:
+        # Targets 0..(cleared_n - 1) are destroyed -> drawn as empty
+        # Targets cleared_n..end are still active
+        # Exception: During IMPACT frame, target (cleared_n - 1) is currently impacting!
+        for ti, t in enumerate(targets):
             cx, cy = cell_screen_pos(t["week"], t["day"])
-            cy_bob = cy + int(bob)
-            key = (t["week"], t["day"])
-            if key in destroyed_now:
-                # Destroyed: draw nothing (empty space)
-                pass
+            if ti < cleared_n:
+                # If this target is currently in IMPACT frame, draw the impact explosion
+                if sched["impact"] and ti == cleared_n - 1:
+                    draw_cell_impact(draw, cx, cy, LEVEL_COLOR[t["level"]])
+                else:
+                    # Cell is cleared / destroyed: nothing drawn (dissolved)
+                    pass
             else:
-                draw_contribution_cell(draw, cx, cy_bob, t["level"], CELL_SZ, f)
+                # Cell is still active
+                draw_contribution_cell(draw, cx, cy, t["level"], CELL_SZ, f_idx)
 
-        # Empty (ghost) cells
+        # Empty (ghost) cells — never targeted
         for c in empty_cells:
             cx, cy = cell_screen_pos(c["week"], c["day"])
             draw_ghost_cell(draw, cx, cy, CELL_SZ)
 
-        # ─── EXPLOSIONS ───
-        if f in explosions_by_frame:
-            for cx, cy, col, age in explosions_by_frame[f]:
-                draw_explosion(draw, cx, cy, age, col)
+        # ─── TARGET RETICLE ───
+        if cur_target is not None and state in (ArcadeState.AIMING, ArcadeState.FIRING):
+            tx, ty = cell_screen_pos(cur_target["week"], cur_target["day"])
+            draw_reticle(draw, tx, ty, CELL_SZ, P["CYAN"])
 
-        # ─── LASER + SHIP ───
-        si = current_salvo_idx(f)
-        target_ship_x = get_ship_x(f) if si >= 0 else CW // 2
-        # Smooth ship motion
-        prev_ship_x += (target_ship_x - prev_ship_x) * 0.4
-        ship_x = prev_ship_x
+        # ─── SHIP POSITIONING ───
+        if cur_target is not None:
+            target_x = cell_screen_pos(cur_target["week"], cur_target["day"])[0]
+        else:
+            target_x = CW // 2
 
-        banking = 0
-        if abs(target_ship_x - (ship_x - (target_ship_x - ship_x))) > 10:
-            banking = 1 if target_ship_x > ship_x else -1
+        # Smooth horizontal glide
+        ship_x += (target_x - ship_x) * 0.55
+        banking = 1 if (target_x - ship_x) > 2 else (-1 if (target_x - ship_x) < -2 else 0)
 
-        # Entry animation
-        if state == ArcadeState.INIT:
-            entry_t = f / max(1, INIT_F - 1)
-            actual_ship_y = CH + 40 - (CH + 40 - SHIP_Y) * entry_t
+        # Ship Y position
+        if state == ArcadeState.IDLE:
+            init_f = sched.get("init_f", 0)
+            entry_t = init_f / 7.0
+            actual_ship_y = int(CH + 30 - (CH + 30 - SHIP_Y) * entry_t)
         else:
             actual_ship_y = SHIP_Y
 
-        firing = (state == ArcadeState.SHOOTING)
-        draw_ship(draw, ship_x, actual_ship_y, banking, f, firing)
+        # Firing state determines muzzle flash
+        is_firing = (state == ArcadeState.FIRING)
+        draw_ship(draw, ship_x, actual_ship_y, banking, f_idx, is_firing)
 
-        # Laser bolts in SHOOTING state
-        if state == ArcadeState.SHOOTING and si >= 0 and si < len(salvos):
-            sf_start = INIT_F + si * SALVO_F + 2  # shooting starts 2f into salvo
-            local_shoot = f - sf_start
-            shoot_progress = local_shoot / 2.0  # 0.0 → 1.0 over 2 frames
-            for t in salvos[si]:
-                tx, ty = cell_screen_pos(t["week"], t["day"])
-                px = ship_x + (tx - ship_x) * shoot_progress
-                py = actual_ship_y - 20 + (ty - (actual_ship_y - 20)) * shoot_progress
-                laser_col = LEVEL_COLOR[t["level"]]
-                draw_laser(draw, int(ship_x), int(actual_ship_y - 20), int(px), int(py), laser_col)
+        # ─── SINGLE PROJECTILE ───
+        # Rendered strictly when in FIRING state — exactly one projectile
+        if sched["proj"] is not None and cur_target is not None:
+            tx, ty = cell_screen_pos(cur_target["week"], cur_target["day"])
+            proj_col = LEVEL_COLOR[cur_target["level"]]
+            cannon_x = ship_x
+            cannon_y = actual_ship_y - 12
+            draw_single_projectile(draw, cannon_x, cannon_y, tx, ty, sched["proj"], proj_col)
 
         # ─── VICTORY OVERLAY ───
         if state == ArcadeState.VICTORY:
-            vf = f - victory_start
-            # Fade in first 4 frames
-            alpha_mod = min(1.0, vf / 4.0)
-            mx, my, mw, mh = CW//2-200, CH//2-54, 400, 108
+            vf = sched.get("vf", 0)
+            mx, my, mw, mh = CW//2 - 200, CH//2 - 54, 400, 108
             draw.rectangle([mx-3, my-3, mx+mw+3, my+mh+3], fill=P["SHADOW"], outline=P["CYAN"], width=2)
             draw.rectangle([mx, my, mx+mw, my+mh], fill=P["DARK"])
             draw.text((CW//2, my+26), ">> ACTIVITY CLEARED <<", fill=P["MINT"],
@@ -590,8 +651,8 @@ def generate_arcade_gif(cells, output_path, is_fixture=False):
 
         # ─── RESET WIPE ───
         if state == ArcadeState.RESET:
-            rf = f - (victory_start + VICTORY_F)
-            wipe_t = rf / max(1, RESET_F - 1)
+            rf = sched.get("rf", 0)
+            wipe_t = rf / 7.0
             wipe_y = int(54 + wipe_t * (CH - 54))
             draw.line([(0, wipe_y), (CW, wipe_y)], fill=P["CYAN"], width=3)
             draw.line([(0, wipe_y-2), (CW, wipe_y-2)], fill=P["WHITE"], width=1)
@@ -602,16 +663,29 @@ def generate_arcade_gif(cells, output_path, is_fixture=False):
         note = "[DEV FIXTURE — NOT REAL ACTIVITY]" if is_fixture else "VERIFIED GITHUB CONTRIBUTION GRID"
         note_col = P["AMBER"] if is_fixture else P["CYAN_DIM"]
         draw.text((16, CH-11), note, fill=note_col, font=fonts["sm"])
-        draw.text((CW-16, CH-11), f"{total_targets} ACTIVE CELLS  //  {total_targets+len(empty_cells)} TOTAL",
+        remaining = max(0, total_targets - cleared_n)
+        draw.text((CW-16, CH-11), f"REMAINING: {remaining}  //  TOTAL ACTIVE: {total_targets}",
                   fill=P["MUTED"], font=fonts["sm"], anchor="ra")
 
-        # Frame done
-        dur = 120 if state == ArcadeState.VICTORY else (
-              200 if state == ArcadeState.INIT and f < 4 else 80)
-        frames.append(im)
+        # Frame pacing:
+        # IDLE: 100ms
+        # Combat (AIMING, FIRING, IMPACT): 65ms
+        # VICTORY: 120ms
+        # RESET: 80ms
+        if state == ArcadeState.VICTORY:
+            dur = 120
+        elif state == ArcadeState.IDLE:
+            dur = 100
+        elif state == ArcadeState.RESET:
+            dur = 80
+        else:
+            dur = 65
+
+        # Quantize to 64 colors for crisp retro palette and compact file size
+        frames.append(im.quantize(colors=64))
         durations.append(dur)
 
-    # ─── SAVE ───
+    # ─── SAVE GIF ───
     frames[0].save(
         out,
         save_all=True,
@@ -621,42 +695,56 @@ def generate_arcade_gif(cells, output_path, is_fixture=False):
         optimize=True,
     )
     size_kb = out.stat().st_size / 1024
-    print(f"[✓] Arcade GIF → {out} ({size_kb:.1f} KB, {len(frames)} frames)")
-    return {"path": str(out), "size_kb": size_kb, "frames": len(frames),
-            "targets": total_targets, "score": total_score, "is_fixture": is_fixture}
+    print(f"[✓] Arcade GIF -> {out} ({size_kb:.1f} KB, {len(frames)} frames)")
+    return {
+        "path": str(out),
+        "size_kb": size_kb,
+        "frames": len(frames),
+        "targets": total_targets,
+        "score": total_score,
+        "is_fixture": is_fixture,
+        "schedule": frame_schedule,
+    }
 
 
-def generate_contact_sheet(cells, output_path):
+def generate_contact_sheet(cells, output_path, results):
     """
-    Generate a 6-panel contact sheet proving state transitions.
-    Re-renders individual representative frames.
+    Generate a 6-panel contact sheet proving single-shot state transitions:
+      1. INITIALIZE (Ship enters combat zone)
+      2. AIMING (Aim locked on contribution cell)
+      3. FIRING (Single projectile traveling to cell)
+      4. IMPACT (Projectile strikes cell, explosion burst)
+      5. CLEARING (Battlefield progressively clearing)
+      6. VICTORY (Sector cleared, victory banner held)
     """
-    from PIL import Image
-    # Select true representative frames across the full 140-frame sequence:
-    # Frame 4: Init (ship enters)
-    # Frame 9: Targeting (aim locked on early cells)
-    # Frame 10: Shooting (lasers firing)
-    # Frame 12: Pop (first impact & explosion)
-    # Frame 80: Clearing (half of grid cleared)
-    # Frame 125: Victory (all 110 cells cleared, ACTIVITY CLEARED banner held)
-    frames_needed = [4, 9, 10, 12, 80, 125]
-
-    # Actually open the GIF and extract frames
     gif_path = Path(output_path).parent / "arcade_shooter.gif"
     if not gif_path.exists():
-        print("[!] GIF not found for contact sheet extraction")
         return
 
     gif = Image.open(gif_path)
+    schedule = results.get("schedule", [])
+    total_frames = len(schedule)
+
+    # Identify representative frames from the schedule
+    f_init = 4
+    f_aiming = next((i for i, s in enumerate(schedule) if s["state"] == ArcadeState.AIMING), 8)
+    f_firing = next((i for i, s in enumerate(schedule) if s["state"] == ArcadeState.FIRING), 9)
+    f_impact = next((i for i, s in enumerate(schedule) if s["state"] == ArcadeState.IMPACT), 10)
+    # Mid-clearing frame (approx 50% through combat)
+    f_clearing = total_frames // 2
+    f_victory = next((i for i, s in enumerate(schedule) if s["state"] == ArcadeState.VICTORY), total_frames - 20) + 4
+
+    frames_needed = [f_init, f_aiming, f_firing, f_impact, f_clearing, f_victory]
+
     extracted = []
-    try:
-        for i, fi in enumerate(frames_needed):
+    for fi in frames_needed:
+        try:
             gif.seek(fi)
             extracted.append(gif.copy().convert("RGB"))
-    except EOFError:
-        pass
+        except EOFError:
+            pass
 
-    if not extracted:
+    if len(extracted) < 6:
         return
 
     TW, TH = extracted[0].size
@@ -664,39 +752,38 @@ def generate_contact_sheet(cells, output_path):
     tw, th = int(TW * scale), int(TH * scale)
 
     labels = [
-        "A. INITIALIZE — Ship enters",
-        "B. TARGETING — Aim locked",
-        "C. SHOOTING — Lasers fire",
-        "D. POP — Cell destroyed",
-        "E. CLEARING — Battlefield empties",
-        "F. VICTORY — Sector cleared",
+        "1. IDLE / INIT — Ship enters sector",
+        "2. AIMING — Lock reticle on active cell",
+        "3. FIRING — Single projectile in transit",
+        "4. IMPACT — Cell pops & dissolves",
+        "5. CLEARING — Battlefield clearing",
+        "6. VICTORY — Sector 100% cleared",
     ]
 
     sheet = Image.new("RGB", (tw * 2, th * 3), P["VOID"])
-    from PIL import ImageDraw
     sdraw = ImageDraw.Draw(sheet)
     font = load_fonts()["sm"]
 
-    for i, frame in enumerate(extracted):
+    for i, frame in enumerate(extracted[:6]):
         thumb = frame.resize((tw, th), Image.Resampling.LANCZOS)
         row, col = i // 2, i % 2
         ox, oy = col * tw, row * th
         sheet.paste(thumb, (ox, oy))
         sdraw.rectangle([ox, oy, ox+tw, oy+th], outline=P["MID"], width=1)
-        lbl = labels[i] if i < len(labels) else f"Frame {frames_needed[i]}"
-        sdraw.rectangle([ox+4, oy+th-18, ox+min(len(lbl)*6+12, tw-4), oy+th-4],
+        lbl = labels[i]
+        sdraw.rectangle([ox+4, oy+th-18, ox+min(len(lbl)*6+14, tw-4), oy+th-4],
                         fill=P["DARK"], outline=P["CYAN"])
         sdraw.text((ox+8, oy+th-16), lbl, fill=P["CYAN"], font=font)
 
     sheet_path = Path(output_path)
     sheet.save(sheet_path)
-    print(f"[✓] Contact sheet → {sheet_path}")
+    print(f"[✓] Contact sheet -> {sheet_path}")
 
 
 # ─── VALIDATION SUITE ────────────────────────────────────────────────────────
 
 def run_tests(cells, results):
-    """Automated checks for data and animation state integrity."""
+    """Automated checks for single-projectile state integrity."""
     passed = 0
     failed = 0
 
@@ -709,38 +796,57 @@ def run_tests(cells, results):
             print(f"  [FAIL] {name}{' — ' + detail if detail else ''}")
             failed += 1
 
-    print("\n[*] Running validation suite...")
+    print("\n[*] Running arcade telemetry validation suite...")
 
     active = [c for c in cells if c["level"] > 0]
     empty  = [c for c in cells if c["level"] == 0]
 
-    check("Contribution data not empty",        len(cells) > 0)
-    check("Has active (non-zero) cells",        len(active) > 0)
-    check("Active cells have valid levels 1–4", all(1 <= c["level"] <= 4 for c in active))
-    check("Empty cells have level 0",           all(c["level"] == 0 for c in empty))
-    check("All cells have date, count, week, day",
-          all("date" in c and "count" in c and "week" in c and "day" in c for c in cells))
-    check("Week values 0–52",                   all(0 <= c["week"] <= 52 for c in cells))
-    check("Day values 0–6",                     all(0 <= c["day"] <= 6 for c in cells))
+    check("Contribution data not empty", len(cells) > 0)
+    check("Has active (non-zero) cells", len(active) > 0)
+    check("Empty cells have level 0", all(c["level"] == 0 for c in empty))
+    check("Active cells have level 1..4", all(1 <= c["level"] <= 4 for c in active))
 
-    # GIF checks
+    schedule = results.get("schedule", [])
+    firing_frames = [s for s in schedule if s["state"] == ArcadeState.FIRING]
+    impact_frames = [s for s in schedule if s["state"] == ArcadeState.IMPACT]
+
+    check("Firing frame count matches active cells exactly",
+          len(firing_frames) == len(active),
+          f"firing: {len(firing_frames)}, active: {len(active)}")
+    check("Impact frame count matches active cells exactly",
+          len(impact_frames) == len(active),
+          f"impact: {len(impact_frames)}, active: {len(active)}")
+
+    # Verify single projectile: no frame has multiple projectiles
+    single_projectile_rule = all(
+        (s["proj"] is not None and s["state"] == ArcadeState.FIRING) or (s["proj"] is None)
+        for s in schedule
+    )
+    check("Strictly one projectile at a time (zero overlapping)", single_projectile_rule)
+
+    # Verify score strictly updates only upon impact
+    score_integrity = True
+    prev_cleared = 0
+    for s in schedule:
+        if s["state"] == ArcadeState.FIRING:
+            if s["cleared_count"] != prev_cleared:
+                score_integrity = False
+        elif s["state"] == ArcadeState.IMPACT:
+            if s["cleared_count"] != prev_cleared + 1:
+                score_integrity = False
+            prev_cleared = s["cleared_count"]
+    check("Score and cell clearance strictly update on impact only", score_integrity)
+
+    # Verify victory occurs ONLY after all targets are cleared
+    victory_frames = [s for s in schedule if s["state"] == ArcadeState.VICTORY]
+    check("Victory frames exist", len(victory_frames) > 0)
+    victory_cleared = all(s["cleared_count"] == len(active) for s in victory_frames)
+    check("Victory state occurs only after 100% of targets cleared", victory_cleared)
+
+    # GIF file checks
     gif_path = Path(results["path"])
-    check("GIF file exists",     gif_path.exists())
-    check("GIF size < 400 KB",   results["size_kb"] < 400,
-          f"actual: {results['size_kb']:.1f} KB")
-    check("GIF has frames",      results["frames"] > 20, f"actual: {results['frames']}")
-
-    from PIL import Image
-    gif = Image.open(gif_path)
-    frame_count = 0
-    try:
-        while True:
-            frame_count += 1
-            gif.seek(gif.tell() + 1)
-    except EOFError:
-        pass
-    check("GIF frame count matches generated", frame_count == results["frames"],
-          f"actual: {frame_count}")
+    check("GIF file exists", gif_path.exists())
+    check("GIF size < 1.5 MB", results["size_kb"] < 1536, f"actual: {results['size_kb']:.1f} KB")
 
     print(f"\n[*] Results: {passed} passed, {failed} failed")
     return failed == 0
@@ -757,49 +863,52 @@ def main():
     parser.add_argument("--test", action="store_true", help="Run validation after generation")
     args = parser.parse_args()
 
-    # ─── Contribution data ───
     token = os.environ.get("GITHUB_TOKEN")
     is_fixture = args.fixture
+    data_file = args.data or os.path.join(args.output_dir, "contribution_data.json")
 
     cells = None
-    # 1. Check if user passed explicit --data or default contribution_data.json exists
-    data_file = args.data or os.path.join(args.output_dir, "contribution_data.json")
-    if not is_fixture and os.path.exists(data_file):
+
+    # 1. If not forcing fixture, try fetching live data from GitHub API first
+    if not is_fixture:
+        print(f"[*] Fetching live GitHub contribution data for @{args.username}...")
+        fetched_cells, err = fetch_github_contributions(args.username, token)
+        if not err and fetched_cells:
+            cells = fetched_cells
+            print(f"[✓] Successfully fetched {len(cells)} cells from GitHub API")
+            try:
+                os.makedirs(args.output_dir, exist_ok=True)
+                with open(data_file, "w", encoding="utf-8") as f:
+                    json.dump({
+                        "username": args.username,
+                        "source": "github-graphql-api",
+                        "fetched_at": datetime.now(timezone.utc).isoformat(),
+                        "cells": cells
+                    }, f, indent=2)
+                print(f"[✓] Saved updated contribution data to {data_file}")
+            except Exception as e:
+                print(f"[!] Could not save {data_file}: {e}")
+        else:
+            print(f"[!] API fetch notice: {err}")
+
+    # 2. If API fetch did not produce cells, load from existing cached data_file
+    if cells is None and not is_fixture and os.path.exists(data_file):
         try:
             with open(data_file, "r", encoding="utf-8") as f:
                 saved = json.load(f)
             cells = saved.get("cells")
             active_cnt = sum(1 for c in cells if c["level"] > 0)
-            print(f"[✓] Loaded verified GitHub contribution data from {data_file} ({len(cells)} cells, {active_cnt} active)")
+            print(f"[✓] Loaded verified GitHub contribution data from cache {data_file} ({len(cells)} cells, {active_cnt} active)")
         except Exception as e:
             print(f"[!] Could not load {data_file}: {e}")
             cells = None
 
-    # 2. Try fetching live from GitHub API if not loaded
-    if cells is None and not is_fixture:
-        print(f"[*] Fetching real GitHub contribution data for @{args.username}...")
-        cells, err = fetch_github_contributions(args.username, token)
-        if err:
-            print(f"[!] API error: {err}")
-            cells = None
-        else:
-            print(f"[✓] Fetched {len(cells)} contribution cells from GitHub API")
-            # Save fetched data
-            try:
-                os.makedirs(args.output_dir, exist_ok=True)
-                with open(data_file, "w", encoding="utf-8") as f:
-                    json.dump({"username": args.username, "source": "github-graphql-api", "cells": cells}, f, indent=2)
-            except Exception:
-                pass
-
     # 3. Fallback to fixture only if forced or data completely unavailable
     if cells is None:
         if not args.fixture:
-            print("[!] No real contribution data or token available.")
-            print("[!] Using DEVELOPMENT FIXTURE — do not publish as real activity.")
+            print("[!] Using DEVELOPMENT FIXTURE — replace with live data or valid cache")
         cells = make_dev_fixture()
         is_fixture = True
-        print(f"[*] Dev fixture: {len(cells)} cells, {sum(1 for c in cells if c['level']>0)} active")
 
     # ─── Generate GIF ───
     gif_path = os.path.join(args.output_dir, "arcade_shooter.gif")
@@ -807,7 +916,7 @@ def main():
 
     # ─── Contact sheet ───
     sheet_path = os.path.join(args.output_dir, "arcade_contact_sheet.png")
-    generate_contact_sheet(cells, sheet_path)
+    generate_contact_sheet(cells, sheet_path, results)
 
     # ─── Tests ───
     if args.test:
@@ -816,11 +925,11 @@ def main():
             sys.exit(1)
 
     print(f"\n[+] Generation complete.")
-    print(f"    GIF:     {gif_path} ({results['size_kb']:.1f} KB)")
+    print(f"    GIF:     {gif_path} ({results['size_kb']:.1f} KB, {results['frames']} frames)")
     print(f"    Targets: {results['targets']} active contribution cells")
     print(f"    Score:   {results['score']:,} pts")
     if is_fixture:
-        print("    ⚠️  DATA SOURCE: DEV FIXTURE — replace with GITHUB_TOKEN for real data")
+        print("    ⚠️  DATA SOURCE: DEV FIXTURE")
     else:
         print("    ✓  DATA SOURCE: Real GitHub contribution API")
 

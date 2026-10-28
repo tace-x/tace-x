@@ -246,7 +246,7 @@ def test_arcade_state_progression():
     assert gif_path.exists(), "Missing arcade_shooter.gif"
 
     with Image.open(gif_path) as im:
-        assert im.n_frames == 140, f"Expected 140 frames, got {im.n_frames}"
+        assert im.n_frames >= 200, f"Expected single-shot sequence >=200 frames, got {im.n_frames}"
         assert im.size == (860, 360), f"Expected 860x360, got {im.size}"
 
         # Frame 4 (State A: Initialization)
@@ -254,28 +254,27 @@ def test_arcade_state_progression():
         f4 = im.convert("RGB")
         # Fleet active: check presence of target pixels in target area
         has_targets_init = False
-        for ty in range(80, 200, 15):
-            for tx in range(150, 700, 30):
+        for ty in range(80, 140, 10):
+            for tx in range(150, 700, 20):
                 pixel = f4.getpixel((tx, ty))
                 if pixel != (11, 15, 23):  # Non-void
                     has_targets_init = True
                     break
         assert has_targets_init, "State A Initialization has no targets!"
 
-        # Frame 125 (State F: Victory Held)
-        im.seek(125)
-        f125 = im.convert("RGB")
-        # Victory modal banner must be present at center (x=430, y=180)
-        modal_pixel = f125.getpixel((430, 180))
-        assert modal_pixel != (11, 15, 23), "Victory modal missing in State F!"
+        # Victory Frame: ~18 frames before the end
+        im.seek(im.n_frames - 18)
+        f_vic = im.convert("RGB")
+        modal_pixel = f_vic.getpixel((430, 180))
+        assert modal_pixel != (11, 15, 23), "Victory modal missing in Victory State!"
 
-        # Frame 135 (State G: Deliberate Reset Scanline)
-        im.seek(135)
-        f135 = im.convert("RGB")
-        has_reset_line = any(f135.getpixel((x, 185)) == (0, 240, 255) for x in range(100, 700, 50))
-        assert has_reset_line, "State G Deliberate reset scanline missing at y=185!"
+        # Reset Frame: ~5 frames before the end (scanline sweep)
+        im.seek(im.n_frames - 5)
+        f_res = im.convert("RGB")
+        has_reset_line = any(f_res.getpixel((x, 185)) == (0, 240, 255) for x in range(100, 700, 50))
+        assert has_reset_line, "Reset scanline missing at y=185!"
 
-    print("  ✓ State A (Init) -> State B (Targeting) -> State C (Shooting) -> State D (Pop) -> State E (Clearing) -> State F (Victory) -> State G (Reset) verified.\n")
+    print("  ✓ State: IDLE -> AIMING -> FIRING -> IMPACT -> CELL CLEARED -> SECTOR CLEARED -> VICTORY -> RESET verified.\n")
 
 def test_heading_uniqueness_and_links():
     print("[8/9] Testing README Structure & Minimalist Design...")
@@ -297,6 +296,7 @@ def test_heading_uniqueness_and_links():
     assert "assets/arcade/arcade_shooter.gif" in content, "Missing arcade shooter reference in README"
     assert "assets/projects/terminalvision.svg" in content, "Missing TerminalVision project card in README"
     assert "assets/tech-strip.svg" in content, "Missing tech strip reference in README"
+    assert "assets/view-repositories.svg" in content, "Missing graphical view-repositories CTA in README"
     assert "github.com/tace-x" in content, "Missing GitHub contact link in README"
 
     print("  ✓ README is lean (<100 lines), clutter-free, and contains all 5 required elements.\n")

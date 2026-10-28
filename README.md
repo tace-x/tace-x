@@ -8,20 +8,23 @@
 
 <div align="center">
 
-<img src="assets/arcade/arcade_shooter.gif?v=20261028" width="100%" alt="TACE-X Arcade Defender — GitHub contribution grid as a pixel-art space shooter. Each green target is a real contribution cell. The ship shoots and clears all 110 active cells, displays ACTIVITY CLEARED, then resets. Oct 2025 – Oct 2026, 760 total contributions." />
-
-<sub>
-<b>TACE-X // ARCADE DEFENDER</b> &nbsp;•&nbsp;
-<code>53 WEEKS · 110 ACTIVE CELLS · 760 CONTRIBUTIONS</code> &nbsp;•&nbsp;
-<code>OCT 2025 → OCT 2026</code> &nbsp;•&nbsp;
-<a href="assets/arcade/contribution_data.json">DATA SOURCE</a>
-</sub>
+<img src="assets/tech-strip.svg?v=20261028" width="100%" alt="TACE-X Verified Engineering Toolchain: Rust, TypeScript, Python, JavaScript, React, Node.js, Tailwind CSS, Vite, Firebase, WebRTC, Linux, Chrome MV3, Git" />
 
 </div>
 
-> Each target is a **real GitHub contribution cell** (Oct 2025 – Oct 2026).
-> Color = contribution intensity. Empty cells are never targeted.
-> Score = sum of destroyed cells weighted by intensity.
+---
+
+<div align="center">
+
+<img src="assets/arcade/arcade_shooter.gif?v=20261028" width="100%" alt="TACE-X Arcade Defender — GitHub contribution grid as a pixel-art space shooter. Firing single projectiles at verified contribution cells in chronological sequence. The ship shoots and clears all 111 active cells, displays ACTIVITY CLEARED, then resets. Oct 2025 – Oct 2026, 764 total contributions." />
+
+<sub>
+<b>TACE-X // ARCADE DEFENDER</b> &nbsp;•&nbsp;
+<code>53 WEEKS · 111 ACTIVE CELLS · 764 CONTRIBUTIONS</code> &nbsp;•&nbsp;
+<code>OCT 2025 → OCT 2026</code>
+</sub>
+
+</div>
 
 ---
 
@@ -33,28 +36,22 @@
 
 <br />
 
-<a href="https://github.com/tace-x/NOCAP">
-  <img src="assets/projects/nocap.svg?v=20261028" width="100%" alt="NO CAP — AI-powered rumour intelligence desk using NVIDIA NIM and Gemma 4 to verify viral claims" />
-</a>
-
-<br />
-
 <a href="https://github.com/tace-x/CAPCAM">
   <img src="assets/projects/capcam.svg?v=20261028" width="100%" alt="CAPCAM — Chrome MV3 extension intercepting WebRTC camera tracks via offscreen canvas pipeline" />
 </a>
 
----
+<br />
 
-<div align="center">
-
-<img src="assets/tech-strip.svg?v=20261028" width="100%" alt="Technologies: Rust, TypeScript, React, AI/NIM, Firebase, WebRTC" />
-
-</div>
+<a href="https://github.com/tace-x/NOCAP">
+  <img src="assets/projects/nocap.svg?v=20261028" width="100%" alt="NO CAP — AI-powered rumour intelligence desk using NVIDIA NIM and Gemma 4 to verify viral claims" />
+</a>
 
 ---
 
 <div align="center">
 
-**[github.com/tace-x](https://github.com/tace-x)**
+<a href="https://github.com/tace-x?tab=repositories">
+  <img src="assets/view-repositories.svg" alt="View All Repositories" />
+</a>
 
 </div>

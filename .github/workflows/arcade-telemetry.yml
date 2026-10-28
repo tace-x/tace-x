@@ -29,8 +29,10 @@ jobs:
           pip install Pillow
 
       - name: Generate contribution arcade shooter
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          python3 scripts/generate_arcade.py
+          python3 scripts/generate_arcade.py --test
 
       - name: Validate portfolio asset integrity
         run: |
