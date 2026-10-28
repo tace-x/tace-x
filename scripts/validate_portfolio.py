@@ -295,11 +295,20 @@ def test_heading_uniqueness_and_links():
     assert ("assets/tace-x-banner.svg" in content or "assets/hero.svg" in content), "Missing identity banner reference in README"
     assert "assets/arcade/arcade_shooter.gif" in content, "Missing arcade shooter reference in README"
     assert "assets/projects/terminalvision.svg" in content, "Missing TerminalVision project card in README"
-    assert "assets/tech-strip.svg" in content, "Missing tech strip reference in README"
+    assert ("assets/tech-grid.svg" in content or "assets/tech-strip.svg" in content), "Missing tech showcase reference in README"
+    assert "ENGINEERING ARSENAL" in content, "Missing ENGINEERING ARSENAL heading in README"
+    assert "13 TECHNOLOGIES · ONE BUILDER · BUILT TO SHIP" in content, "Missing supporting line in README"
     assert "assets/view-repositories.svg" in content, "Missing graphical view-repositories CTA in README"
     assert "github.com/tace-x" in content, "Missing GitHub contact link in README"
 
-    print("  ✓ README is lean (<100 lines), clutter-free, and contains all 5 required elements.\n")
+    # Verify all 13 technologies represented in tech grid
+    tech_grid_text = (REPO_ROOT / "assets" / "tech-grid.svg").read_text(encoding="utf-8")
+    req_techs = ["HTML", "CSS", "JavaScript", "TypeScript", "Python", "Java", "Rust", "React", "Node.js", "Tailwind CSS", "Vite", "Firebase", "Git"]
+    for t in req_techs:
+        assert t in tech_grid_text, f"Missing requested technology {t} in tech-grid.svg!"
+
+    print("  ✓ README is lean (<100 lines), clutter-free, and contains all required elements.")
+    print("  ✓ All 13 requested technologies verified in tech-grid.svg.\n")
 
 def test_secret_cleanliness():
     print("[9/9] Testing Secret Cleanliness & File Integrity...")

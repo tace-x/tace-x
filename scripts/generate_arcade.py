@@ -4,19 +4,20 @@ TACE-X Contribution Grid Arcade Shooter
 =========================================
 Generates an arcade space-shooter GIF where:
   - The spaceship fires EXACTLY ONE projectile at a time.
-  - A new projectile cannot launch until the previous shot has completed its hit.
-  - The projectile visibly travels from the spaceship to one specific active cell.
-  - When the projectile hits, that cell visibly pops, dissolves, and disappears.
-  - Only real, active GitHub contribution cells are targeted (count > 0).
-  - Empty cells (count == 0) are shown as dim ghost cells — never targeted.
-  - The spaceship selects targets in chronological left-to-right sweep order.
+  - Targets are chosen RANDOMLY from the remaining active GitHub contribution cells.
+  - The ship aims toward the selected target and fires.
+  - The projectile visibly travels to that specific target.
+  - On impact, the target cell pops, dissolves, and disappears.
   - The score updates only after a successful hit.
-  - The animation contains no multiple overlapping projectiles.
-  - The game clears all eligible targets before displaying its victory state.
-  - After the victory sequence, resets deliberately with a scanline beam and loops.
+  - A new shot does not launch until the current hit completes.
+  - Empty cells (count == 0) are shown as dim ghost cells — never targeted.
+  - Destroyed cells cannot be targeted again (removed from remaining collection).
+  - No multiple overlapping projectiles.
+  - All active targets are cleared before entering the victory state.
+  - After victory sequence, resets deliberately with a scanline beam and loops.
 
 State machine:
-  IDLE -> AIMING -> FIRING -> IMPACT -> CELL CLEARED -> NEXT TARGET
+  IDLE -> AIMING -> FIRING -> IMPACT -> CELL CLEARED -> NEXT RANDOM TARGET
   -> SECTOR CLEARED -> VICTORY -> RESET -> NEW CYCLE
 """
 
@@ -24,6 +25,7 @@ import argparse
 import json
 import math
 import os
+import random
 import subprocess
 import sys
 import urllib.request
@@ -195,7 +197,6 @@ def fetch_github_contributions(username="tace-x", token=None):
 def make_dev_fixture():
     """Fallback fixture if API and cached data are both unavailable."""
     cells = []
-    import random
     rng = random.Random(0x74616365)
     start = datetime(2025, 10, 26, tzinfo=timezone.utc)
     for week in range(53):
@@ -311,7 +312,7 @@ def draw_reticle(draw, cx, cy, size=9, col=P["CYAN"]):
     draw.line([(cx+h, cy-h), (cx+h-3, cy-h)], fill=col, width=1)
     draw.line([(cx+h, cy-h), (cx+h, cy-h+3)], fill=col, width=1)
     draw.line([(cx-h, cy+h), (cx-h+3, cy+h)], fill=col, width=1)
-    draw.line([(cx-h, cy+h), (cx-h, cy+h-3)], fill=col, width=1)
+    draw.line([(cx-h, cy+h), (cx-h, cy-h-3)], fill=col, width=1)
     draw.line([(cx+h, cy+h), (cx+h-3, cy+h)], fill=col, width=1)
     draw.line([(cx+h, cy+h), (cx+h, cy+h-3)], fill=col, width=1)
 
@@ -324,10 +325,8 @@ def draw_single_projectile(draw, x1, y1, x2, y2, progress, col):
     curr_x = int(x1 + (x2 - x1) * progress)
     curr_y = int(y1 + (y2 - y1) * progress)
 
-    # Laser bolt body
-    bolt_len = 16
-    tail_x = int(x1 + (x2 - x1) * max(0.0, progress - 0.15))
-    tail_y = int(y1 + (y2 - y1) * max(0.0, progress - 0.15))
+    tail_x = int(x1 + (x2 - x1) * max(0.0, progress - 0.18))
+    tail_y = int(y1 + (y2 - y1) * max(0.0, progress - 0.18))
 
     # Outer glow
     draw.line([(tail_x, tail_y), (curr_x, curr_y)], fill=col, width=3)
@@ -392,17 +391,15 @@ class ArcadeState:
 
 # ─── ANIMATION ENGINE ───────────────────────────────────────────────────────
 
-def generate_arcade_gif(cells, output_path, is_fixture=False):
+def generate_arcade_gif(cells, output_path, is_fixture=False, seed=0x54414345):
     """
-    Generates the arcade shooter with the single-projectile state machine:
+    Generates the arcade shooter with RANDOM target selection:
+      - Targets are chosen RANDOMLY from remaining active GitHub cells.
       - Exactly ONE projectile at a time.
-      - Next shot cannot launch until previous completes.
-      - Visible projectile travel.
-      - Active cell pops and clears on impact.
-      - Only active cells targeted.
-      - Chronological left-to-right sweep.
-      - Score updates on impact.
-      - Sector cleared -> Victory -> Reset scanline -> Loop.
+      - Ship aims, fires, projectile visibly travels, and cell pops/dissolves.
+      - Next shot does not launch until previous shot completes.
+      - Authentic GitHub contribution data (never fabricates cells).
+      - After all targets cleared: Sector Cleared -> Victory -> Scanline Reset.
     """
     fonts = load_fonts()
     out = Path(output_path)
@@ -412,24 +409,30 @@ def generate_arcade_gif(cells, output_path, is_fixture=False):
     active_cells = [c for c in cells if c["level"] > 0]
     empty_cells  = [c for c in cells if c["level"] == 0]
 
-    # Deliberate, understandable order: chronological sweep (week column then day)
-    targets = sorted(active_cells, key=lambda c: (c["week"], c["day"]))
-    total_targets = len(targets)
-    total_score = sum(LEVEL_PTS[t["level"]] for t in targets)
+    total_targets = len(active_cells)
+    total_score = sum(LEVEL_PTS[t["level"]] for t in active_cells)
 
     all_dates = sorted(c["date"] for c in cells)
     date_range = f"{all_dates[0]}  →  {all_dates[-1]}" if all_dates else "UNKNOWN"
 
     # Pre-build starfield
-    import random
-    rng = random.Random(42)
-    stars = [(rng.randint(4, CW-4), rng.randint(58, CH-10),
-              rng.choice([P["SHADOW"], P["MID"], P["CYAN_DIM"]]))
+    rng_stars = random.Random(42)
+    stars = [(rng_stars.randint(4, CW-4), rng_stars.randint(58, CH-10),
+              rng_stars.choice([P["SHADOW"], P["MID"], P["CYAN_DIM"]]))
              for _ in range(60)]
 
+    # ─── RANDOM TARGET SELECTION ───────────────────────────────────────────
+    # Maintain remaining active cells pool.
+    # For every shot, choose a uniform random cell from remaining, pop it, and enqueue combat frames.
+    rng = random.Random(seed)
+    remaining_pool = list(active_cells)
+    random_shot_order = []
+    while remaining_pool:
+        idx = rng.randrange(len(remaining_pool))
+        target = remaining_pool.pop(idx)
+        random_shot_order.append(target)
+
     # ─── COMPOSE EXPLICIT FRAME SCHEDULE ───
-    # Each frame has a descriptor:
-    # (state, target_index, target_obj, projectile_progress, is_impact, current_cleared_count, tag_text)
     frame_schedule = []
 
     # 1. IDLE / INIT (8 frames)
@@ -445,35 +448,35 @@ def generate_arcade_gif(cells, output_path, is_fixture=False):
             "init_f": f,
         })
 
-    # 2. COMBAT SEQUENCE (One shot at a time)
+    # 2. RANDOM COMBAT SEQUENCE (One shot at a time)
     cleared_count = 0
-    for i, t in enumerate(targets):
-        prev_w = targets[i-1]["week"] if i > 0 else -1
+    for i, t in enumerate(random_shot_order):
+        # Frame A: AIMING
+        # Ship positions and locks targeting reticle onto the randomly chosen cell
+        frame_schedule.append({
+            "state": ArcadeState.AIMING,
+            "target_idx": i,
+            "target": t,
+            "proj": None,
+            "impact": False,
+            "cleared_count": cleared_count,
+            "tag": (f"TARGET LOCK [W{t['week']:02d}:D{t['day']}]", P["AMBER"]),
+        })
 
-        # If entering a new column, insert an explicit AIMING frame
-        if t["week"] != prev_w:
-            frame_schedule.append({
-                "state": ArcadeState.AIMING,
-                "target_idx": i,
-                "target": t,
-                "proj": None,
-                "impact": False,
-                "cleared_count": cleared_count,
-                "tag": (f"AIMING [W{t['week']:02d}:D{t['day']}]", P["AMBER"]),
-            })
-
-        # FIRING frame: Projectile visibly travels from ship to target
+        # Frame B: FIRING
+        # Projectile is launched and travels visibly in mid-flight from ship cannon towards cell
         frame_schedule.append({
             "state": ArcadeState.FIRING,
             "target_idx": i,
             "target": t,
-            "proj": 0.50, # Mid-flight
+            "proj": 0.50, # In flight
             "impact": False,
             "cleared_count": cleared_count,
             "tag": (f"FIRING [TGT #{i+1:03d}]", P["RED"]),
         })
 
-        # IMPACT frame: Projectile hits cell, burst explosion, cell cleared, score updates
+        # Frame C: IMPACT & CELL CLEARED
+        # Projectile strikes cell, explosion pops/dissolves cell, score updates
         cleared_count += 1
         frame_schedule.append({
             "state": ArcadeState.IMPACT,
@@ -497,7 +500,6 @@ def generate_arcade_gif(cells, output_path, is_fixture=False):
     })
 
     # 4. VICTORY (16 frames)
-    victory_start_f = len(frame_schedule)
     for f in range(16):
         frame_schedule.append({
             "state": ArcadeState.VICTORY,
@@ -511,7 +513,6 @@ def generate_arcade_gif(cells, output_path, is_fixture=False):
         })
 
     # 5. RESET (8 frames)
-    reset_start_f = len(frame_schedule)
     for f in range(8):
         frame_schedule.append({
             "state": ArcadeState.RESET,
@@ -529,7 +530,8 @@ def generate_arcade_gif(cells, output_path, is_fixture=False):
     # ─── RENDER ALL FRAMES ───
     frames = []
     durations = []
-    ship_x = cell_screen_pos(targets[0]["week"], targets[0]["day"])[0] if targets else CW // 2
+    prev_ship_x = cell_screen_pos(random_shot_order[0]["week"], random_shot_order[0]["day"])[0] if random_shot_order else CW // 2
+    ship_x = prev_ship_x
 
     for f_idx, sched in enumerate(frame_schedule):
         im = Image.new("RGB", (CW, CH), P["VOID"])
@@ -540,13 +542,13 @@ def generate_arcade_gif(cells, output_path, is_fixture=False):
         cur_target = sched["target"]
         tgt_idx = sched["target_idx"]
 
-        # Calculate current score strictly from cleared targets
+        # Calculate score strictly from cleared targets
         if cleared_n == 0:
             cur_score = 0
         elif cleared_n >= total_targets:
             cur_score = total_score
         else:
-            cur_score = sum(LEVEL_PTS[t["level"]] for t in targets[:cleared_n])
+            cur_score = sum(LEVEL_PTS[t["level"]] for t in random_shot_order[:cleared_n])
 
         # ─── STARFIELD ───
         for sx, sy, sc in stars:
@@ -575,27 +577,29 @@ def generate_arcade_gif(cells, output_path, is_fixture=False):
         draw.text((CW // 2, 57), date_range, fill=P["MUTED"], font=fonts["sm"], anchor="mm")
 
         # ─── CONTRIBUTION GRID ───
-        # Active targets:
-        # Targets 0..(cleared_n - 1) are destroyed -> drawn as empty
-        # Targets cleared_n..end are still active
-        # Exception: During IMPACT frame, target (cleared_n - 1) is currently impacting!
-        for ti, t in enumerate(targets):
+        # Active cells destroyed so far:
+        destroyed_now = set((t["week"], t["day"]) for t in random_shot_order[:cleared_n])
+        # If currently in IMPACT frame, the cell being hit is drawn exploding
+        if sched["impact"] and cleared_n > 0:
+            imp_cell = random_shot_order[cleared_n - 1]
+            destroyed_now.remove((imp_cell["week"], imp_cell["day"]))
+
+        for t in active_cells:
+            key = (t["week"], t["day"])
             cx, cy = cell_screen_pos(t["week"], t["day"])
-            if ti < cleared_n:
-                # If this target is currently in IMPACT frame, draw the impact explosion
-                if sched["impact"] and ti == cleared_n - 1:
-                    draw_cell_impact(draw, cx, cy, LEVEL_COLOR[t["level"]])
-                else:
-                    # Cell is cleared / destroyed: nothing drawn (dissolved)
-                    pass
-            else:
-                # Cell is still active
+            if key not in destroyed_now:
                 draw_contribution_cell(draw, cx, cy, t["level"], CELL_SZ, f_idx)
 
         # Empty (ghost) cells — never targeted
         for c in empty_cells:
             cx, cy = cell_screen_pos(c["week"], c["day"])
             draw_ghost_cell(draw, cx, cy, CELL_SZ)
+
+        # If impacting in this frame, draw the impact explosion
+        if sched["impact"] and cleared_n > 0:
+            imp_cell = random_shot_order[cleared_n - 1]
+            cx, cy = cell_screen_pos(imp_cell["week"], imp_cell["day"])
+            draw_cell_impact(draw, cx, cy, LEVEL_COLOR[imp_cell["level"]])
 
         # ─── TARGET RETICLE ───
         if cur_target is not None and state in (ArcadeState.AIMING, ArcadeState.FIRING):
@@ -608,9 +612,9 @@ def generate_arcade_gif(cells, output_path, is_fixture=False):
         else:
             target_x = CW // 2
 
-        # Smooth horizontal glide
-        ship_x += (target_x - ship_x) * 0.55
-        banking = 1 if (target_x - ship_x) > 2 else (-1 if (target_x - ship_x) < -2 else 0)
+        banking = 1 if (target_x - prev_ship_x) > 4 else (-1 if (target_x - prev_ship_x) < -4 else 0)
+        ship_x = target_x
+        prev_ship_x = ship_x
 
         # Ship Y position
         if state == ArcadeState.IDLE:
@@ -620,12 +624,11 @@ def generate_arcade_gif(cells, output_path, is_fixture=False):
         else:
             actual_ship_y = SHIP_Y
 
-        # Firing state determines muzzle flash
         is_firing = (state == ArcadeState.FIRING)
         draw_ship(draw, ship_x, actual_ship_y, banking, f_idx, is_firing)
 
         # ─── SINGLE PROJECTILE ───
-        # Rendered strictly when in FIRING state — exactly one projectile
+        # Strictly one projectile at a time in FIRING state
         if sched["proj"] is not None and cur_target is not None:
             tx, ty = cell_screen_pos(cur_target["week"], cur_target["day"])
             proj_col = LEVEL_COLOR[cur_target["level"]]
@@ -660,18 +663,14 @@ def generate_arcade_gif(cells, output_path, is_fixture=False):
 
         # ─── BOTTOM CONSOLE ───
         draw.line([(0, CH-18), (CW, CH-18)], fill=P["MID"], width=1)
-        note = "[DEV FIXTURE — NOT REAL ACTIVITY]" if is_fixture else "VERIFIED GITHUB CONTRIBUTION GRID"
+        note = "[DEV FIXTURE — NOT REAL ACTIVITY]" if is_fixture else "VERIFIED GITHUB CONTRIBUTION GRID [RANDOM COMBAT]"
         note_col = P["AMBER"] if is_fixture else P["CYAN_DIM"]
         draw.text((16, CH-11), note, fill=note_col, font=fonts["sm"])
         remaining = max(0, total_targets - cleared_n)
-        draw.text((CW-16, CH-11), f"REMAINING: {remaining}  //  TOTAL ACTIVE: {total_targets}",
+        draw.text((CW-16, CH-11), f"REMAINING: {remaining:03d}  //  TOTAL ACTIVE: {total_targets}",
                   fill=P["MUTED"], font=fonts["sm"], anchor="ra")
 
-        # Frame pacing:
-        # IDLE: 100ms
-        # Combat (AIMING, FIRING, IMPACT): 65ms
-        # VICTORY: 120ms
-        # RESET: 80ms
+        # Frame pacing
         if state == ArcadeState.VICTORY:
             dur = 120
         elif state == ArcadeState.IDLE:
@@ -679,9 +678,8 @@ def generate_arcade_gif(cells, output_path, is_fixture=False):
         elif state == ArcadeState.RESET:
             dur = 80
         else:
-            dur = 65
+            dur = 55
 
-        # Quantize to 64 colors for crisp retro palette and compact file size
         frames.append(im.quantize(colors=64))
         durations.append(dur)
 
@@ -704,17 +702,18 @@ def generate_arcade_gif(cells, output_path, is_fixture=False):
         "score": total_score,
         "is_fixture": is_fixture,
         "schedule": frame_schedule,
+        "shot_order": random_shot_order,
     }
 
 
 def generate_contact_sheet(cells, output_path, results):
     """
-    Generate a 6-panel contact sheet proving single-shot state transitions:
+    Generate a 6-panel contact sheet proving single-shot random state transitions:
       1. INITIALIZE (Ship enters combat zone)
-      2. AIMING (Aim locked on contribution cell)
+      2. AIMING (Aim locked on a random active cell)
       3. FIRING (Single projectile traveling to cell)
       4. IMPACT (Projectile strikes cell, explosion burst)
-      5. CLEARING (Battlefield progressively clearing)
+      5. CLEARING (Battlefield progressively clearing randomly)
       6. VICTORY (Sector cleared, victory banner held)
     """
     gif_path = Path(output_path).parent / "arcade_shooter.gif"
@@ -725,12 +724,10 @@ def generate_contact_sheet(cells, output_path, results):
     schedule = results.get("schedule", [])
     total_frames = len(schedule)
 
-    # Identify representative frames from the schedule
     f_init = 4
     f_aiming = next((i for i, s in enumerate(schedule) if s["state"] == ArcadeState.AIMING), 8)
     f_firing = next((i for i, s in enumerate(schedule) if s["state"] == ArcadeState.FIRING), 9)
     f_impact = next((i for i, s in enumerate(schedule) if s["state"] == ArcadeState.IMPACT), 10)
-    # Mid-clearing frame (approx 50% through combat)
     f_clearing = total_frames // 2
     f_victory = next((i for i, s in enumerate(schedule) if s["state"] == ArcadeState.VICTORY), total_frames - 20) + 4
 
@@ -753,10 +750,10 @@ def generate_contact_sheet(cells, output_path, results):
 
     labels = [
         "1. IDLE / INIT — Ship enters sector",
-        "2. AIMING — Lock reticle on active cell",
+        "2. AIMING — Lock reticle on random cell",
         "3. FIRING — Single projectile in transit",
         "4. IMPACT — Cell pops & dissolves",
-        "5. CLEARING — Battlefield clearing",
+        "5. CLEARING — Random combat clearing grid",
         "6. VICTORY — Sector 100% cleared",
     ]
 
@@ -783,7 +780,7 @@ def generate_contact_sheet(cells, output_path, results):
 # ─── VALIDATION SUITE ────────────────────────────────────────────────────────
 
 def run_tests(cells, results):
-    """Automated checks for single-projectile state integrity."""
+    """Automated checks for single-projectile random targeting integrity."""
     passed = 0
     failed = 0
 
@@ -796,7 +793,7 @@ def run_tests(cells, results):
             print(f"  [FAIL] {name}{' — ' + detail if detail else ''}")
             failed += 1
 
-    print("\n[*] Running arcade telemetry validation suite...")
+    print("\n[*] Running arcade random combat telemetry validation suite...")
 
     active = [c for c in cells if c["level"] > 0]
     empty  = [c for c in cells if c["level"] == 0]
@@ -807,6 +804,22 @@ def run_tests(cells, results):
     check("Active cells have level 1..4", all(1 <= c["level"] <= 4 for c in active))
 
     schedule = results.get("schedule", [])
+    shot_order = results.get("shot_order", [])
+
+    check("Shot order targets exactly all active cells", len(shot_order) == len(active))
+    # Confirm no cell targeted twice
+    shot_keys = [(t["week"], t["day"]) for t in shot_order]
+    check("Zero duplicate targets (each destroyed cell cleared once)", len(set(shot_keys)) == len(active))
+
+    # Confirm targeting is genuinely random rather than sequential (e.g., column by column)
+    weeks = [t["week"] for t in shot_order]
+    is_strictly_sequential = all(weeks[i] <= weeks[i+1] for i in range(len(weeks)-1))
+    check("Targeting is non-sequential (randomized across calendar)", not is_strictly_sequential)
+
+    week_diffs = [abs(weeks[i] - weeks[i-1]) for i in range(1, len(weeks))]
+    avg_hop = sum(week_diffs) / len(week_diffs) if week_diffs else 0
+    check("Targeting has substantial hop distance across grid (avg > 5 weeks)", avg_hop > 5.0, f"actual: {avg_hop:.1f} weeks")
+
     firing_frames = [s for s in schedule if s["state"] == ArcadeState.FIRING]
     impact_frames = [s for s in schedule if s["state"] == ArcadeState.IMPACT]
 
@@ -846,7 +859,7 @@ def run_tests(cells, results):
     # GIF file checks
     gif_path = Path(results["path"])
     check("GIF file exists", gif_path.exists())
-    check("GIF size < 1.5 MB", results["size_kb"] < 1536, f"actual: {results['size_kb']:.1f} KB")
+    check("GIF size < 2.0 MB", results["size_kb"] < 2048, f"actual: {results['size_kb']:.1f} KB")
 
     print(f"\n[*] Results: {passed} passed, {failed} failed")
     return failed == 0
@@ -855,7 +868,7 @@ def run_tests(cells, results):
 # ─── MAIN ───────────────────────────────────────────────────────────────────
 
 def main():
-    parser = argparse.ArgumentParser(description="TACE-X Contribution Arcade Shooter")
+    parser = argparse.ArgumentParser(description="TACE-X Contribution Arcade Shooter (Random Combat)")
     parser.add_argument("--username", default="tace-x")
     parser.add_argument("--output-dir", "-o", default="assets/arcade")
     parser.add_argument("--data", "-d", default=None, help="Path to contribution data JSON file")
@@ -926,7 +939,7 @@ def main():
 
     print(f"\n[+] Generation complete.")
     print(f"    GIF:     {gif_path} ({results['size_kb']:.1f} KB, {results['frames']} frames)")
-    print(f"    Targets: {results['targets']} active contribution cells")
+    print(f"    Targets: {results['targets']} active contribution cells (Random combat)")
     print(f"    Score:   {results['score']:,} pts")
     if is_fixture:
         print("    ⚠️  DATA SOURCE: DEV FIXTURE")

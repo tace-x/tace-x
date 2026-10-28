@@ -8,7 +8,12 @@
 
 <div align="center">
 
-<img src="assets/tech-strip.svg?v=20261028" width="100%" alt="TACE-X Verified Engineering Toolchain: Rust, TypeScript, Python, JavaScript, React, Node.js, Tailwind CSS, Vite, Firebase, WebRTC, Linux, Chrome MV3, Git" />
+## ENGINEERING ARSENAL
+<sub><code>13 TECHNOLOGIES · ONE BUILDER · BUILT TO SHIP</code></sub>
+
+<br />
+
+<img src="assets/tech-grid.svg?v=20261028" width="100%" alt="ENGINEERING ARSENAL: HTML, CSS, JavaScript, TypeScript, Python, Java, Rust, React, Node.js, Tailwind CSS, Vite, Firebase, Git — 13 Technologies · One Builder · Built to Ship" />
 
 </div>
 
@@ -16,11 +21,12 @@
 
 <div align="center">
 
-<img src="assets/arcade/arcade_shooter.gif?v=20261028" width="100%" alt="TACE-X Arcade Defender — GitHub contribution grid as a pixel-art space shooter. Firing single projectiles at verified contribution cells in chronological sequence. The ship shoots and clears all 111 active cells, displays ACTIVITY CLEARED, then resets. Oct 2025 – Oct 2026, 764 total contributions." />
+<img src="assets/arcade/arcade_shooter.gif?v=20261028" width="100%" alt="TACE-X Arcade Defender — GitHub contribution grid as a pixel-art space shooter. Firing single projectiles at randomized active contribution cells until the entire sector is cleared. Oct 2025 – Oct 2026, 764 total contributions, 111 active cells." />
 
 <sub>
 <b>TACE-X // ARCADE DEFENDER</b> &nbsp;•&nbsp;
 <code>53 WEEKS · 111 ACTIVE CELLS · 764 CONTRIBUTIONS</code> &nbsp;•&nbsp;
+<code>RANDOM COMBAT MODE</code> &nbsp;•&nbsp;
 <code>OCT 2025 → OCT 2026</code>
 </sub>
 
