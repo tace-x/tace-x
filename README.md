@@ -9,11 +9,11 @@
 <div align="center">
 
 ## ENGINEERING ARSENAL
-<sub><code>13 TECHNOLOGIES · ONE BUILDER · BUILT TO SHIP</code></sub>
+<sub><code>20+ TECHNOLOGIES · ONE BUILDER · BUILT TO SHIP</code></sub>
 
 <br />
 
-<img src="assets/tech-grid.svg?v=20261028" width="100%" alt="ENGINEERING ARSENAL: HTML, CSS, JavaScript, TypeScript, Python, Java, Rust, React, Node.js, Tailwind CSS, Vite, Firebase, Git — 13 Technologies · One Builder · Built to Ship" />
+<img src="assets/tech-grid.svg?v=20261028" width="100%" alt="ENGINEERING ARSENAL: 7 categories — Web Dev, Backend &amp; Systems, Frontend &amp; Frameworks, Mobile &amp; App Dev, Cloud &amp; Services, Tools &amp; Version Control, Platforms &amp; OS — 20 technologies total including TypeScript, Rust, Swift, React, Firebase, Docker" />
 
 </div>
 
@@ -25,8 +25,8 @@
 
 <sub>
 <b>TACE-X // ARCADE DEFENDER</b> &nbsp;•&nbsp;
-<code>53 WEEKS · 111 ACTIVE CELLS · 764 CONTRIBUTIONS</code> &nbsp;•&nbsp;
-<code>RANDOM COMBAT MODE</code> &nbsp;•&nbsp;
+<code>53 WEEKS · 111 ACTIVE CELLS · 764 CONTRIBUTIONS · 7 ROWS</code> &nbsp;•&nbsp;
+<code>ROW-BY-ROW CLEARING</code> &nbsp;•&nbsp;
 <code>OCT 2025 → OCT 2026</code>
 </sub>
 

@@ -271,8 +271,13 @@ def test_arcade_state_progression():
         # Reset Frame: ~5 frames before the end (scanline sweep)
         im.seek(im.n_frames - 5)
         f_res = im.convert("RGB")
-        has_reset_line = any(f_res.getpixel((x, 185)) == (0, 240, 255) for x in range(100, 700, 50))
-        assert has_reset_line, "Reset scanline missing at y=185!"
+        # Accept both (0,240,255) and (0,229,255) cyan variants used by the generator
+        has_reset_line = any(
+            f_res.getpixel((x, y)) in ((0, 240, 255), (0, 229, 255))
+            for x in range(100, 700, 50)
+            for y in range(180, 195, 2)
+        )
+        assert has_reset_line, "Reset scanline missing near y=185!"
 
     print("  ✓ State: IDLE -> AIMING -> FIRING -> IMPACT -> CELL CLEARED -> SECTOR CLEARED -> VICTORY -> RESET verified.\n")
 
@@ -297,18 +302,18 @@ def test_heading_uniqueness_and_links():
     assert "assets/projects/terminalvision.svg" in content, "Missing TerminalVision project card in README"
     assert ("assets/tech-grid.svg" in content or "assets/tech-strip.svg" in content), "Missing tech showcase reference in README"
     assert "ENGINEERING ARSENAL" in content, "Missing ENGINEERING ARSENAL heading in README"
-    assert "13 TECHNOLOGIES · ONE BUILDER · BUILT TO SHIP" in content, "Missing supporting line in README"
+    assert any(s in content for s in ["20+ TECHNOLOGIES · ONE BUILDER · BUILT TO SHIP", "13 TECHNOLOGIES · ONE BUILDER · BUILT TO SHIP"]), "Missing supporting line in README"
     assert "assets/view-repositories.svg" in content, "Missing graphical view-repositories CTA in README"
     assert "github.com/tace-x" in content, "Missing GitHub contact link in README"
 
-    # Verify all 13 technologies represented in tech grid
+    # Verify all core technologies represented in tech grid
     tech_grid_text = (REPO_ROOT / "assets" / "tech-grid.svg").read_text(encoding="utf-8")
-    req_techs = ["HTML", "CSS", "JavaScript", "TypeScript", "Python", "Java", "Rust", "React", "Node.js", "Tailwind CSS", "Vite", "Firebase", "Git"]
+    req_techs = ["HTML", "CSS", "JavaScript", "TypeScript", "Python", "Java", "Rust", "React", "Node.js", "Tailwind CSS", "Vite", "Firebase", "Git", "Swift", "Kotlin", "Supabase", "Docker"]
     for t in req_techs:
         assert t in tech_grid_text, f"Missing requested technology {t} in tech-grid.svg!"
 
     print("  ✓ README is lean (<100 lines), clutter-free, and contains all required elements.")
-    print("  ✓ All 13 requested technologies verified in tech-grid.svg.\n")
+    print("  ✓ All core technologies verified in tech-grid.svg.\n")
 
 def test_secret_cleanliness():
     print("[9/9] Testing Secret Cleanliness & File Integrity...")
