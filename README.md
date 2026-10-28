@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="assets/hero.svg?v=20261028" width="100%" alt="IMMANUEL MELBIN (@tace-x) — Software · Systems · AI" />
+<img src="assets/tace-x-banner.svg?v=20261028" width="100%" alt="TACE-X — Immanuel Melbin // Software • Systems • AI" />
 
 </div>
 

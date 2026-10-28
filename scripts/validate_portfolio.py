@@ -293,7 +293,7 @@ def test_heading_uniqueness_and_links():
     assert "json" not in content.lower() or "contribution_data.json" in content, "README contains JSON status panel"
 
     # Verify core elements exist
-    assert "assets/hero.svg" in content, "Missing hero card reference in README"
+    assert ("assets/tace-x-banner.svg" in content or "assets/hero.svg" in content), "Missing identity banner reference in README"
     assert "assets/arcade/arcade_shooter.gif" in content, "Missing arcade shooter reference in README"
     assert "assets/projects/terminalvision.svg" in content, "Missing TerminalVision project card in README"
     assert "assets/tech-strip.svg" in content, "Missing tech strip reference in README"

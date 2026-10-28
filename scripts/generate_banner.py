@@ -1,0 +1,481 @@
+#!/usr/bin/env python3
+"""
+TACE-X Signature Animated GitHub README Banner Generator
+=========================================================
+Generates:
+  assets/tace-x-banner.svg
+
+Specifications:
+  - Proportions: 900x320 wide composition.
+  - Left: Left-aligned typography (Eyebrow, Name, Handle, Description, Status telemetry).
+  - Right: Sharp abstract Falcon Emblem with intense, multi-layered energy aura.
+  - Animations (Pure CSS keyframes, zero JS, GitHub Camo proxy compatible):
+      1. Controlled cyan-blue aura pulse
+      2. Narrow diagonal energy sweep across the emblem
+      3. Drifting micro-particle field around the emblem
+      4. Dynamic orbital energy trails behind the sweeping wing
+      5. Atmospheric deep glow breathing
+      6. Background scanning telemetry beam and fine technical grid
+      7. Restrained typography shimmer on name
+      8. Rock-solid static idle state
+"""
+
+import os
+import re
+import subprocess
+import xml.etree.ElementTree as ET
+from pathlib import Path
+
+REPO_ROOT = Path(__file__).resolve().parent.parent
+OUTPUT_PATH = REPO_ROOT / "assets" / "tace-x-banner.svg"
+CHROME_BIN = "/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+
+# Falcon Emblem Path Segments (Original 512x512 coordinate space)
+# Transformed to (600, 50) with scale 0.42
+SCALE = 0.43
+TX = 600
+TY = 50
+
+EMBLEM_PATHS = {
+    "wing_primary": (
+        "M 232 142 "
+        "C 285 110 355 88 442 78 "
+        "C 438 112 418 152 388 184 "
+        "C 346 228 296 250 252 260 "
+        "C 264 228 268 190 232 142 Z"
+    ),
+    "wing_secondary": (
+        "M 258 274 "
+        "C 300 262 350 240 402 198 "
+        "C 388 230 364 265 330 294 "
+        "C 292 326 254 338 236 342 "
+        "C 246 320 252 296 258 274 Z"
+    ),
+    "wing_tertiary": (
+        "M 240 354 "
+        "C 276 344 316 326 352 298 "
+        "C 336 328 310 356 276 376 "
+        "C 248 392 226 398 216 400 "
+        "C 224 384 232 368 240 354 Z"
+    ),
+    "central_stroke_and_head": (
+        "M 194 92 "
+        "C 214 90 234 98 250 114 "
+        "L 272 136 "
+        "L 236 148 "
+        "C 224 162 216 182 212 210 "
+        "C 202 278 184 350 148 424 "
+        "C 142 436 134 448 128 452 "
+        "C 126 450 128 438 132 422 "
+        "C 144 368 156 304 160 244 "
+        "C 162 212 160 186 150 166 "
+        "C 142 150 134 140 126 134 "
+        "C 144 116 168 96 194 92 Z"
+    ),
+    "tail_fin": (
+        "M 148 278 "
+        "C 158 296 162 320 158 350 "
+        "C 152 384 136 422 110 460 "
+        "C 102 470 94 480 88 484 "
+        "C 88 478 92 464 98 448 "
+        "C 112 410 126 366 130 326 "
+        "C 132 302 134 286 148 278 Z"
+    )
+}
+
+def build_banner_svg():
+    # Combine emblem paths into a single definition for clipping/masks
+    all_paths_d = " ".join(EMBLEM_PATHS.values())
+
+    svg = f"""<svg width="900" height="320" viewBox="0 0 900 320" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <title>IMMANUEL MELBIN (@tace-x) — Software • Systems • AI</title>
+  <desc>Signature animated developer banner for Immanuel Melbin (@tace-x). Native systems, AI platforms, and high-performance software.</desc>
+
+  <defs>
+    <!-- Background Canvas Gradient -->
+    <linearGradient id="bgGradient" x1="0" y1="0" x2="900" y2="320" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#090D14" />
+      <stop offset="50%" stop-color="#06090F" />
+      <stop offset="100%" stop-color="#030508" />
+    </linearGradient>
+
+    <!-- Top Accent Cyber-Line -->
+    <linearGradient id="topLineGradient" x1="0" y1="0" x2="900" y2="0" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#00F0FF" stop-opacity="0" />
+      <stop offset="20%" stop-color="#00F0FF" stop-opacity="0.9" />
+      <stop offset="50%" stop-color="#38BDF8" stop-opacity="1" />
+      <stop offset="80%" stop-color="#8B5CF6" stop-opacity="0.8" />
+      <stop offset="100%" stop-color="#8B5CF6" stop-opacity="0" />
+    </linearGradient>
+
+    <!-- Falcon Emblem Primary Gradient -->
+    <linearGradient id="emblemGradient" x1="100" y1="80" x2="440" y2="460" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="18%" stop-color="#00F0FF" />
+      <stop offset="50%" stop-color="#38BDF8" />
+      <stop offset="80%" stop-color="#2563EB" />
+      <stop offset="100%" stop-color="#8B5CF6" />
+    </linearGradient>
+
+    <!-- Energy Sweep Gradient (Translates across the emblem) -->
+    <linearGradient id="sweepGradient" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#00F0FF" stop-opacity="0" />
+      <stop offset="45%" stop-color="#FFFFFF" stop-opacity="0.95" />
+      <stop offset="55%" stop-color="#00F0FF" stop-opacity="0.8" />
+      <stop offset="100%" stop-color="#00F0FF" stop-opacity="0" />
+    </linearGradient>
+
+    <!-- Energy Trails Gradient -->
+    <linearGradient id="trailCyan" x1="0" y1="0" x2="900" y2="320" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#00F0FF" stop-opacity="0.1" />
+      <stop offset="50%" stop-color="#00F0FF" stop-opacity="0.8" />
+      <stop offset="100%" stop-color="#8B5CF6" stop-opacity="0" />
+    </linearGradient>
+
+    <linearGradient id="trailViolet" x1="900" y1="100" x2="500" y2="300" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#8B5CF6" stop-opacity="0.6" />
+      <stop offset="100%" stop-color="#00F0FF" stop-opacity="0" />
+    </linearGradient>
+
+    <!-- Heading Shimmer Gradient -->
+    <linearGradient id="textShimmer" x1="0" y1="0" x2="100%" y2="0">
+      <stop offset="0%" stop-color="#F8FAFC" />
+      <stop offset="45%" stop-color="#F8FAFC" />
+      <stop offset="50%" stop-color="#38BDF8" />
+      <stop offset="55%" stop-color="#FFFFFF" />
+      <stop offset="60%" stop-color="#F8FAFC" />
+      <stop offset="100%" stop-color="#F8FAFC" />
+    </linearGradient>
+
+    <!-- Radial Atmospheric Glows -->
+    <radialGradient id="auraGlowCyan" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#00F0FF" stop-opacity="0.32" />
+      <stop offset="40%" stop-color="#0284C7" stop-opacity="0.16" />
+      <stop offset="75%" stop-color="#1E1B4B" stop-opacity="0.06" />
+      <stop offset="100%" stop-color="#090D14" stop-opacity="0" />
+    </radialGradient>
+
+    <radialGradient id="auraGlowViolet" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#8B5CF6" stop-opacity="0.25" />
+      <stop offset="50%" stop-color="#6366F1" stop-opacity="0.12" />
+      <stop offset="100%" stop-color="#090D14" stop-opacity="0" />
+    </radialGradient>
+
+    <!-- Filters -->
+    <filter id="softBlur" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="16" />
+    </filter>
+    <filter id="coreGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="4" result="b" />
+      <feMerge>
+        <feMergeNode in="b" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+    <filter id="subtleGlow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="2" result="b" />
+      <feMerge>
+        <feMergeNode in="b" />
+        <feMergeNode in="SourceGraphic" />
+      </feMerge>
+    </filter>
+
+    <!-- Precision Fine Technical Grid -->
+    <pattern id="techGrid" width="24" height="24" patternUnits="userSpaceOnUse">
+      <path d="M 24 0 L 0 0 0 24" fill="none" stroke="#FFFFFF" stroke-opacity="0.022" stroke-width="0.75" />
+    </pattern>
+
+    <!-- Clip Paths -->
+    <clipPath id="cardClip">
+      <rect width="900" height="320" rx="16" />
+    </clipPath>
+
+    <!-- Falcon Silhouette Clip for Energy Sweep -->
+    <clipPath id="falconClip">
+      <g transform="translate({TX}, {TY}) scale({SCALE})">
+        <path d="{all_paths_d}" />
+      </g>
+    </clipPath>
+  </defs>
+
+  <style>
+    /* CSS Keyframe Animations - 100% SVG and GitHub Camo Compatible */
+    
+    /* 1. Controlled Aura Pulse */
+    .aura-pulse-core {{
+      animation: auraPulse 4.8s ease-in-out infinite;
+      transform-origin: 710px 160px;
+    }}
+    .aura-pulse-outer {{
+      animation: auraOuter 6.2s ease-in-out infinite alternate;
+      transform-origin: 710px 160px;
+    }}
+    @keyframes auraPulse {{
+      0%, 100% {{ transform: scale(0.92); opacity: 0.75; }}
+      50% {{ transform: scale(1.08); opacity: 1; }}
+    }}
+    @keyframes auraOuter {{
+      0% {{ transform: scale(0.94); opacity: 0.6; }}
+      100% {{ transform: scale(1.12); opacity: 0.95; }}
+    }}
+
+    /* 2. Aura Energy Rings */
+    .ring-cyan {{
+      animation: ringRotate 14s linear infinite;
+      transform-origin: 710px 160px;
+    }}
+    .ring-violet {{
+      animation: ringCounter 18s linear infinite;
+      transform-origin: 710px 160px;
+    }}
+    @keyframes ringRotate {{
+      from {{ transform: rotate(0deg); }}
+      to {{ transform: rotate(360deg); }}
+    }}
+    @keyframes ringCounter {{
+      from {{ transform: rotate(360deg); }}
+      to {{ transform: rotate(0deg); }}
+    }}
+
+    /* 3. Energy Sweep Across Falcon Emblem */
+    .energy-sweep {{
+      animation: energySweep 4.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+    }}
+    @keyframes energySweep {{
+      0% {{ transform: translateX(-350px) rotate(25deg); opacity: 0; }}
+      15% {{ opacity: 0.85; }}
+      45% {{ opacity: 0.9; }}
+      60% {{ transform: translateX(450px) rotate(25deg); opacity: 0; }}
+      100% {{ transform: translateX(450px) rotate(25deg); opacity: 0; }}
+    }}
+
+    /* 4. Drifting Particles Field */
+    .p1 {{ animation: particleDrift1 5.2s ease-in-out infinite; }}
+    .p2 {{ animation: particleDrift2 6.8s ease-in-out infinite 0.8s; }}
+    .p3 {{ animation: particleDrift1 5.8s ease-in-out infinite 1.6s; }}
+    .p4 {{ animation: particleDrift2 7.4s ease-in-out infinite 2.4s; }}
+    .p5 {{ animation: particleDrift1 6.2s ease-in-out infinite 3.2s; }}
+    .p6 {{ animation: particleDrift2 5.5s ease-in-out infinite 4.0s; }}
+
+    @keyframes particleDrift1 {{
+      0%, 100% {{ transform: translate(0, 0); opacity: 0.25; }}
+      50% {{ transform: translate(12px, -18px); opacity: 0.95; }}
+    }}
+    @keyframes particleDrift2 {{
+      0%, 100% {{ transform: translate(0, 0); opacity: 0.3; }}
+      50% {{ transform: translate(-14px, 16px); opacity: 0.9; }}
+    }}
+
+    /* 5. Energy Trails Flow */
+    .trail-flow {{
+      stroke-dasharray: 24 48;
+      animation: trailDash 4s linear infinite;
+    }}
+    .trail-flow-slow {{
+      stroke-dasharray: 32 64;
+      animation: trailDash 7s linear infinite reverse;
+    }}
+    @keyframes trailDash {{
+      to {{ stroke-dashoffset: -288; }}
+    }}
+
+    /* 6. Background Scanlines / Telemetry Drift */
+    .scan-beam {{
+      animation: scanBeam 9s ease-in-out infinite;
+    }}
+    @keyframes scanBeam {{
+      0%, 100% {{ transform: translateY(0); opacity: 0.15; }}
+      50% {{ transform: translateY(220px); opacity: 0.45; }}
+    }}
+
+    /* 7. Typography Shimmer */
+    .shimmer-text {{
+      animation: textShimmerAnim 6s ease-in-out infinite;
+    }}
+    @keyframes textShimmerAnim {{
+      0%, 70%, 100% {{ opacity: 0.96; }}
+      85% {{ opacity: 1; filter: drop-shadow(0 0 10px rgba(0, 240, 255, 0.45)); }}
+    }}
+
+    /* 8. Status Node Pulsing */
+    .status-dot {{
+      animation: statusBlink 2.4s ease-in-out infinite;
+      transform-origin: 72px 42px;
+    }}
+    @keyframes statusBlink {{
+      0%, 100% {{ opacity: 0.6; transform: scale(0.9); }}
+      50% {{ opacity: 1; transform: scale(1.18); }}
+    }}
+
+    @media (prefers-reduced-motion: reduce) {{
+      *, .aura-pulse-core, .aura-pulse-outer, .ring-cyan, .ring-violet,
+      .energy-sweep, .p1, .p2, .p3, .p4, .p5, .p6, .trail-flow,
+      .trail-flow-slow, .scan-beam, .shimmer-text, .status-dot {{
+        animation: none !important;
+      }}
+    }}
+  </style>
+
+  <!-- === BASE CARD === -->
+  <rect width="900" height="320" rx="16" fill="url(#bgGradient)" stroke="#1E293B" stroke-width="1.5" />
+
+  <g clip-path="url(#cardClip)">
+    <!-- Fine Grid Backplane -->
+    <rect width="900" height="320" fill="url(#techGrid)" />
+
+    <!-- Ambient Drifting Scanline Beam -->
+    <line x1="0" y1="50" x2="900" y2="50" stroke="#00F0FF" stroke-opacity="0.08" stroke-width="1.5" class="scan-beam" />
+
+    <!-- Deep Ambient Glows -->
+    <ellipse cx="710" cy="160" rx="210" ry="140" fill="url(#auraGlowCyan)" filter="url(#softBlur)" class="aura-pulse-outer" />
+    <circle cx="710" cy="160" r="110" fill="url(#auraGlowViolet)" filter="url(#softBlur)" class="aura-pulse-core" />
+    <circle cx="120" cy="60" r="90" fill="#00F0FF" fill-opacity="0.02" filter="url(#softBlur)" />
+
+    <!-- === RIGHT SIDE: INTENSE AURA & ENERGY TRAILS === -->
+    <!-- Energy Orbit Rings -->
+    <g class="ring-cyan">
+      <ellipse cx="710" cy="160" rx="124" ry="112" fill="none" stroke="#00F0FF" stroke-opacity="0.28" stroke-width="1.2" stroke-dasharray="14 18 4 18" />
+    </g>
+    <g class="ring-violet">
+      <ellipse cx="710" cy="160" rx="138" ry="122" fill="none" stroke="#8B5CF6" stroke-opacity="0.24" stroke-width="1" stroke-dasharray="24 20 8 16" />
+    </g>
+
+    <!-- Energy Slipstream Trails (Moving behind the falcon) -->
+    <path d="M 570 180 C 620 140 680 90 780 95 C 840 98 870 140 850 190" fill="none" stroke="url(#trailCyan)" stroke-width="1.5" class="trail-flow" />
+    <path d="M 590 220 C 640 210 700 240 760 235 C 820 230 860 190 840 140" fill="none" stroke="url(#trailViolet)" stroke-width="1.2" class="trail-flow-slow" />
+    <path d="M 640 120 C 680 90 730 80 810 110" fill="none" stroke="#00F0FF" stroke-opacity="0.35" stroke-width="1" stroke-dasharray="8 12" class="trail-flow" />
+
+    <!-- === FALCON EMBLEM (RIGHT FOCAL POINT) === -->
+    <g id="falcon-emblem" filter="url(#coreGlow)">
+      <!-- Master Falcon Emblem Vector Paths -->
+      <g transform="translate({TX}, {TY}) scale({SCALE})">
+        <path d="{EMBLEM_PATHS['wing_primary']}" fill="url(#emblemGradient)" />
+        <path d="{EMBLEM_PATHS['wing_secondary']}" fill="url(#emblemGradient)" />
+        <path d="{EMBLEM_PATHS['wing_tertiary']}" fill="url(#emblemGradient)" />
+        <path d="{EMBLEM_PATHS['central_stroke_and_head']}" fill="url(#emblemGradient)" />
+        <path d="{EMBLEM_PATHS['tail_fin']}" fill="url(#emblemGradient)" />
+      </g>
+    </g>
+
+    <!-- Energy Sweep Over Falcon Silhouette -->
+    <g clip-path="url(#falconClip)">
+      <rect x="520" y="20" width="80" height="280" fill="url(#sweepGradient)" class="energy-sweep" />
+    </g>
+
+    <!-- Particle Field (Floating around emblem) -->
+    <g id="particle-field">
+      <circle cx="640" cy="110" r="1.8" fill="#FFFFFF" class="p1" filter="url(#subtleGlow)" />
+      <circle cx="790" cy="95" r="2.2" fill="#00F0FF" class="p2" filter="url(#subtleGlow)" />
+      <circle cx="815" cy="185" r="1.5" fill="#38BDF8" class="p3" filter="url(#subtleGlow)" />
+      <circle cx="630" cy="235" r="2.0" fill="#8B5CF6" class="p4" filter="url(#subtleGlow)" />
+      <circle cx="750" cy="265" r="1.6" fill="#00F0FF" class="p5" filter="url(#subtleGlow)" />
+      <circle cx="680" cy="70" r="2.4" fill="#FFFFFF" class="p6" filter="url(#subtleGlow)" />
+      <circle cx="770" cy="140" r="1.4" fill="#38BDF8" class="p1" />
+      <circle cx="605" cy="165" r="1.6" fill="#00F0FF" class="p3" />
+    </g>
+
+    <!-- === TOP STATUS TELEMETRY BAR === -->
+    <rect x="0" y="0" width="900" height="36" fill="#070A0F" opacity="0.88" />
+    <line x1="0" y1="36" x2="900" y2="36" stroke="url(#topLineGradient)" stroke-width="1.2" />
+
+    <!-- Status Node -->
+    <circle cx="60" cy="18" r="4" fill="#10B981" filter="url(#subtleGlow)" class="status-dot" />
+    <text x="74" y="22" fill="#64748B" font-family="'JetBrains Mono', 'SF Mono', Consolas, Menlo, monospace" font-size="10" font-weight="700" letter-spacing="2">SYSTEMS // OPTIMAL</text>
+    <text x="840" y="22" text-anchor="end" fill="#475569" font-family="'JetBrains Mono', 'SF Mono', Consolas, Menlo, monospace" font-size="9.5" letter-spacing="1.5">GITHUB.COM/TACE-X</text>
+
+    <!-- === LEFT SIDE: TYPOGRAPHY IDENTITY === -->
+    <!-- Eyebrow -->
+    <g transform="translate(60, 92)">
+      <rect x="0" y="-13" width="6" height="6" fill="#00F0FF" />
+      <text x="14" y="-8" fill="#38BDF8" font-family="'JetBrains Mono', 'SF Mono', Consolas, Menlo, monospace" font-size="11" font-weight="700" letter-spacing="2.8">TACE-X // SOFTWARE • SYSTEMS • AI</text>
+    </g>
+
+    <!-- Main Heading -->
+    <text x="60" y="152" fill="#F8FAFC" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, Roboto, Helvetica, sans-serif" font-size="44" font-weight="900" letter-spacing="0.5" class="shimmer-text">IMMANUEL MELBIN</text>
+
+    <!-- Handle with Cyber Glow -->
+    <g transform="translate(60, 186)">
+      <text x="0" y="0" fill="#00F0FF" font-family="'JetBrains Mono', 'SF Mono', Consolas, Menlo, monospace" font-size="15" font-weight="700" letter-spacing="1.2" filter="url(#subtleGlow)">@tace-x</text>
+      <circle cx="86" cy="-4" r="2" fill="#38BDF8" opacity="0.6" />
+      <text x="96" y="0" fill="#64748B" font-family="'JetBrains Mono', 'SF Mono', Consolas, Menlo, monospace" font-size="11" letter-spacing="1.5">NATIVE SYSTEMS &amp; AI ARCHITECT</text>
+    </g>
+
+    <!-- Short Description -->
+    <text x="60" y="226" fill="#94A3B8" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Inter, sans-serif" font-size="14.5" font-weight="400" letter-spacing="0.2">Building native systems, AI platforms, and high-performance software.</text>
+
+    <!-- Minimal Verified Tech Indicator Strip -->
+    <g transform="translate(60, 260)">
+      <!-- Rust -->
+      <rect x="0" y="0" width="72" height="22" rx="4" fill="#0B0F17" stroke="#1E293B" stroke-width="1" />
+      <circle cx="10" cy="11" r="2.5" fill="#F59E0B" />
+      <text x="18" y="15" fill="#CBD5E1" font-family="'JetBrains Mono', monospace" font-size="9.5" font-weight="600" letter-spacing="0.8">RUST</text>
+
+      <!-- Systems -->
+      <rect x="80" y="0" width="98" height="22" rx="4" fill="#0B0F17" stroke="#1E293B" stroke-width="1" />
+      <circle cx="90" cy="11" r="2.5" fill="#10B981" />
+      <text x="98" y="15" fill="#CBD5E1" font-family="'JetBrains Mono', monospace" font-size="9.5" font-weight="600" letter-spacing="0.8">UNIX PTY</text>
+
+      <!-- AI / NIM -->
+      <rect x="186" y="0" width="112" height="22" rx="4" fill="#0B0F17" stroke="#1E293B" stroke-width="1" />
+      <circle cx="196" cy="11" r="2.5" fill="#8B5CF6" />
+      <text x="204" y="15" fill="#CBD5E1" font-family="'JetBrains Mono', monospace" font-size="9.5" font-weight="600" letter-spacing="0.8">AI / NVIDIA</text>
+
+      <!-- WebRTC -->
+      <rect x="306" y="0" width="88" height="22" rx="4" fill="#0B0F17" stroke="#1E293B" stroke-width="1" />
+      <circle cx="316" cy="11" r="2.5" fill="#00F0FF" />
+      <text x="324" y="15" fill="#CBD5E1" font-family="'JetBrains Mono', monospace" font-size="9.5" font-weight="600" letter-spacing="0.8">WEBRTC</text>
+    </g>
+
+    <!-- Corner Decorative Technical Reticles -->
+    <path d="M 20 54 L 20 44 L 30 44" fill="none" stroke="#1E293B" stroke-width="1.2" />
+    <path d="M 880 54 L 880 44 L 870 44" fill="none" stroke="#1E293B" stroke-width="1.2" />
+    <path d="M 20 290 L 20 300 L 30 300" fill="none" stroke="#1E293B" stroke-width="1.2" />
+    <path d="M 880 290 L 880 300 L 870 300" fill="none" stroke="#1E293B" stroke-width="1.2" />
+  </g>
+</svg>
+"""
+    return svg
+
+
+def render_preview(svg_path, png_path):
+    """Renders the SVG banner to PNG using headless Chrome for visual validation."""
+    cmd = [
+        CHROME_BIN,
+        "--headless",
+        "--disable-gpu",
+        "--window-size=900,320",
+        "--default-background-color=090D14",
+        f"--screenshot={str(png_path)}",
+        str(svg_path)
+    ]
+    subprocess.run(cmd, check=True, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+
+
+def validate_svg(svg_content):
+    """Validates XML syntax, viewBox, and size budget."""
+    root = ET.fromstring(svg_content)
+    assert root.tag.endswith("svg"), f"Root tag is not svg: {root.tag}"
+    assert root.attrib.get("viewBox") == "0 0 900 320", f"Unexpected viewBox: {root.attrib.get('viewBox')}"
+    size_kb = len(svg_content.encode("utf-8")) / 1024
+    assert size_kb < 150, f"SVG exceeds 150 KB budget: {size_kb:.1f} KB"
+    print(f"  ✓ Valid XML, viewBox='0 0 900 320', size={size_kb:.1f} KB (< 150 KB budget)")
+
+
+def main():
+    print("[*] Generating animated TACE-X Signature Identity Banner...")
+    svg_code = build_banner_svg()
+
+    # Validate XML before writing
+    validate_svg(svg_code)
+
+    OUTPUT_PATH.write_text(svg_code, encoding="utf-8")
+    print(f"  ✓ Written to {OUTPUT_PATH.relative_to(REPO_ROOT)}")
+
+    # Render a high-resolution preview
+    preview_png = REPO_ROOT / "assets" / "tace-x-banner-preview.png"
+    render_preview(OUTPUT_PATH, preview_png)
+    print(f"  ✓ Rendered test preview to {preview_png.relative_to(REPO_ROOT)}")
+
+
+if __name__ == "__main__":
+    main()
